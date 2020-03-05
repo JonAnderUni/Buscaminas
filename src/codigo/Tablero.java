@@ -1,3 +1,5 @@
+package codigo;
+
 public class Tablero {
 
 	private static Tablero mTablero;

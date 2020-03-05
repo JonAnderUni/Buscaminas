@@ -1,3 +1,5 @@
+package codigo;
+
 public class ListaCasillas {
 
 	private Coleccion<Casilla> lista;

@@ -1,3 +1,5 @@
+package codigo;
+
 public abstract class Casilla {
 
 	private int fila;
