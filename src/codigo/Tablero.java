@@ -7,12 +7,15 @@ public class Tablero {
 
 	private Tablero() {
 		// TODO - implement Tablero.Tablero
-		throw new UnsupportedOperationException();
+		listaCasillas = new ListaCasillas();
 	}
 
 	public static Tablero getTablero() {
 		// TODO - implement Tablero.getTablero
-		throw new UnsupportedOperationException();
+		if(mTablero == null) {
+			mTablero = new Tablero();
+		}
+		return mTablero;
 	}
 
 	/**
