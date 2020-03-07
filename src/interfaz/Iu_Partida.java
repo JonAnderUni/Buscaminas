@@ -6,14 +6,19 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import java.awt.GridLayout;
-import java.awt.GridBagLayout;
+
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.border.LineBorder;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Iu_Partida extends JFrame {
 
@@ -32,7 +37,9 @@ public class Iu_Partida extends JFrame {
 	private JLabel lblBombas;
 	private JLabel lblCarita;
 	private JLabel lblTiempo;
-	private JPanel panel_8;
+	JMenuItem trespor3;
+	JMenuItem diezpor10;
+	JMenuItem quincepor15;
 	private JButton btnNewButton;
 
 
@@ -57,7 +64,7 @@ public class Iu_Partida extends JFrame {
 	 */
 	public Iu_Partida() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 453, 542);
+		setBounds(100, 100, 350, 436);
 		setJMenuBar(getMenuBar_1());
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -68,13 +75,82 @@ public class Iu_Partida extends JFrame {
 		contentPane.add(getPanel_2_1(), BorderLayout.WEST);
 		contentPane.add(getPanel_3_1(), BorderLayout.SOUTH);
 		contentPane.add(getPanel_4_1(), BorderLayout.CENTER);
+		this.setTitle("Buscaminas");
 	}
 	
 	private JMenuBar getMenuBar_1() {
 		if (menuBar == null) {
 			menuBar = new JMenuBar();
+			JMenu juego = new JMenu();
+			juego.setText("juego");
+			JMenu ayuda = new JMenu();
+			ayuda.setText("ayuda");
+			
+			// Para opciones de juego
+			ButtonGroup bg   = new ButtonGroup();
+			bg.add(getTres());
+			bg.add(getDiez());
+			bg.add(getQuince());
+			
+			//Si no ponemos nombres no aparecen en el menu
+			trespor3.setText("3x3");
+			diezpor10.setText("10x10");
+			quincepor15.setText("15x15");
+			
+			this.setJMenuBar(menuBar);
+			juego.add(trespor3);
+			juego.add(diezpor10);
+			juego.add(quincepor15);
+			menuBar.add(juego);
+			menuBar.add(ayuda);
 		}
 		return menuBar;
+	}
+	
+	private JMenuItem getTres() {
+		if(trespor3 == null) {
+			trespor3 = new JMenuItem();
+			trespor3.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					crearTablero(3, 3);
+					actualizarPanel(getPanel_4_1());
+					
+				}
+			});
+		}
+		return trespor3;
+	}
+	
+	
+	
+	private JMenuItem getDiez() {
+		if(diezpor10 == null) {
+			diezpor10 = new JMenuItem();
+			diezpor10.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					crearTablero(10, 10);
+					actualizarPanel(getPanel_4_1());
+				}
+			});
+		}
+		return diezpor10;
+	}
+	
+	private JMenuItem getQuince() {
+		if(quincepor15 == null) {
+			quincepor15 = new JMenuItem();
+			quincepor15.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					crearTablero(15, 15);
+					actualizarPanel(getPanel_4_1());
+				}
+			});
+		}
+		return quincepor15;
+	}
+	
+	private void actualizarPanel(JPanel panel) {
+		SwingUtilities.updateComponentTreeUI(panel);
 	}
 	private JPanel getPanel_10() {
 		if (panel == null) {
@@ -102,24 +178,22 @@ public class Iu_Partida extends JFrame {
 		if (panel_3 == null) {
 			panel_3 = new JPanel();
 			panel_3.add(getBtnNewButton());
-			panel_3.add(getPanel_8());
 		}
 		return panel_3;
 	}
 	private JPanel getPanel_4_1() {
 		if (panel_4 == null) {
 			panel_4 = new JPanel();
-			panel_4.setLayout(new GridLayout(1, 0, 0, 0));
-			crearTablero(-1, -1);
 		}
 		return panel_4;
 	}
 	
 	public void crearTablero(int fila, int col) {
 		
+		getPanel_4_1().removeAll();
 		
-		int i = 6;
-		int j= 9;
+		int i = 12;
+		int j= 12;
 		if(fila<=0 || col<= 0) {			
 			//poner mensaje de tamaño incorrecto creando por defecto;
 		}else {
@@ -128,7 +202,6 @@ public class Iu_Partida extends JFrame {
 		}
 		
 		tablero = new JButton[i][j];
-		
 		getPanel_4_1().setLayout(new GridLayout(0, j, 0, 0));
 		
 		for(int a= 0; a<i;a++) {
@@ -162,6 +235,7 @@ public class Iu_Partida extends JFrame {
 			panel_7 = new JPanel();
 			panel_7.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
 			panel_7.add(getLblTiempo());
+			
 		}
 		return panel_7;
 	}
@@ -183,16 +257,11 @@ public class Iu_Partida extends JFrame {
 		}
 		return lblTiempo;
 	}
-	private JPanel getPanel_8() {
-		if (panel_8 == null) {
-			panel_8 = new JPanel();
-		}
-		return panel_8;
-	}
 	private JButton getBtnNewButton() {
 		if (btnNewButton == null) {
 			btnNewButton = new JButton("New button");
 		}
 		return btnNewButton;
 	}
+	
 }
