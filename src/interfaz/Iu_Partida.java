@@ -37,10 +37,14 @@ public class Iu_Partida extends JFrame {
 	private JLabel lblBombas;
 	private JLabel lblCarita;
 	private JLabel lblTiempo;
-	JMenuItem trespor3;
-	JMenuItem diezpor10;
-	JMenuItem quincepor15;
-	private JButton btnNewButton;
+	private JMenuItem trespor3;
+	private JMenuItem diezpor10;
+	private JMenuItem quincepor15;
+	private JMenuItem personal;
+	private JMenuItem volverAEmpezar;
+	
+	private int fila;
+	private int columna;
 
 
 	/**
@@ -82,25 +86,23 @@ public class Iu_Partida extends JFrame {
 		if (menuBar == null) {
 			menuBar = new JMenuBar();
 			JMenu juego = new JMenu();
-			juego.setText("juego");
+			juego.setText("Juego");
 			JMenu ayuda = new JMenu();
-			ayuda.setText("ayuda");
+			ayuda.setText("Ayuda");
 			
 			// Para opciones de juego
 			ButtonGroup bg   = new ButtonGroup();
 			bg.add(getTres());
 			bg.add(getDiez());
 			bg.add(getQuince());
-			
-			//Si no ponemos nombres no aparecen en el menu
-			trespor3.setText("3x3");
-			diezpor10.setText("10x10");
-			quincepor15.setText("15x15");
+			bg.add(getPersonalizada());
 			
 			this.setJMenuBar(menuBar);
-			juego.add(trespor3);
-			juego.add(diezpor10);
-			juego.add(quincepor15);
+			juego.add(getTres());
+			juego.add(getDiez());
+			juego.add(getQuince());
+			juego.add(getPersonalizada());
+			juego.add(getVolver());
 			menuBar.add(juego);
 			menuBar.add(ayuda);
 		}
@@ -110,11 +112,12 @@ public class Iu_Partida extends JFrame {
 	private JMenuItem getTres() {
 		if(trespor3 == null) {
 			trespor3 = new JMenuItem();
+			trespor3.setText("3x3");
 			trespor3.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					crearTablero(3, 3);
-					actualizarPanel(getPanel_4_1());
-					
+					fila = 3;
+					columna = 3;
+					actualizarTablero(getPanel_4_1());					
 				}
 			});
 		}
@@ -122,14 +125,15 @@ public class Iu_Partida extends JFrame {
 	}
 	
 	
-	
 	private JMenuItem getDiez() {
 		if(diezpor10 == null) {
 			diezpor10 = new JMenuItem();
+			diezpor10.setText("10x10");
 			diezpor10.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					crearTablero(10, 10);
-					actualizarPanel(getPanel_4_1());
+					fila = 10;
+					columna = 10;
+					actualizarTablero(getPanel_4_1());
 				}
 			});
 		}
@@ -139,19 +143,55 @@ public class Iu_Partida extends JFrame {
 	private JMenuItem getQuince() {
 		if(quincepor15 == null) {
 			quincepor15 = new JMenuItem();
+			quincepor15.setText("15x15");
 			quincepor15.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					crearTablero(15, 15);
-					actualizarPanel(getPanel_4_1());
+					fila = 15;
+					columna = 15;
+					actualizarTablero(getPanel_4_1());
 				}
 			});
 		}
 		return quincepor15;
 	}
 	
-	private void actualizarPanel(JPanel panel) {
+	
+	private JMenuItem getPersonalizada() {
+		if(personal == null) {
+			personal = new JMenuItem();
+			personal.setText("Personalizada");
+			personal.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					//LLamar a un nuevo jFrame para crear la partida personalizada
+				}
+			});
+			
+			
+		}
+		return personal;
+	}
+	
+	private JMenuItem getVolver() {
+		if(volverAEmpezar == null) {
+			volverAEmpezar = new JMenuItem();
+			volverAEmpezar.setText("Nueva Partida");
+			volverAEmpezar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					crearTablero(fila,columna);
+					actualizarTablero(getPanel_4_1());
+				}
+			});
+		}
+		return volverAEmpezar;
+	}
+	
+	
+	private void actualizarTablero(JPanel panel) {
+		crearTablero(fila, columna);
 		SwingUtilities.updateComponentTreeUI(panel);
 	}
+	
+	
 	private JPanel getPanel_10() {
 		if (panel == null) {
 			panel = new JPanel();
@@ -177,13 +217,13 @@ public class Iu_Partida extends JFrame {
 	private JPanel getPanel_3_1() {
 		if (panel_3 == null) {
 			panel_3 = new JPanel();
-			panel_3.add(getBtnNewButton());
 		}
 		return panel_3;
 	}
 	private JPanel getPanel_4_1() {
 		if (panel_4 == null) {
 			panel_4 = new JPanel();
+			crearTablero(-1, -1);
 		}
 		return panel_4;
 	}
@@ -256,12 +296,6 @@ public class Iu_Partida extends JFrame {
 			lblTiempo = new JLabel("tiempo");
 		}
 		return lblTiempo;
-	}
-	private JButton getBtnNewButton() {
-		if (btnNewButton == null) {
-			btnNewButton = new JButton("New button");
-		}
-		return btnNewButton;
 	}
 	
 }
