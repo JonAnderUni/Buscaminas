@@ -246,8 +246,6 @@ public class Iu_Personalizar extends JFrame {
 					}
 
 					Iu_Partida.getMiPartida().crearPartidaPersonalizada(filas, columnas, bombas);
-					setVisible(false);
-					dispose();
 				}
 			});
 		}
