@@ -2,6 +2,7 @@ package interfaz;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -21,6 +22,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
 
+import com.sun.javafx.tk.Toolkit;
 import com.sun.prism.Image;
 
 import java.awt.event.ActionListener;
@@ -66,6 +68,7 @@ public class Iu_Partida extends JFrame {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				
 			}
 		});
 	}
@@ -316,25 +319,22 @@ public class Iu_Partida extends JFrame {
 			}
 		}
 
-		//pintarTablero();
+		pintarTablero();
 		actualizarTablero(getPanel_4_1());
 	}
 
 	private void pintarTablero() {
+		
 		
 		// java.awt.Image.SCALE_SMOOTH
 		for (int i = 0; i < tablero.length; i++) {
 			for (int j = 0; j < tablero[0].length; j++) {
 				ImageIcon imagen = new ImageIcon("img/covered.png");
 				java.awt.Image conversion = imagen.getImage();
-				
-				int o = tablero[i][j].getWidth(); //Esto da 0 no se porque
-				
-				java.awt.Image tamano = conversion.getScaledInstance(tablero[i][j].getWidth(),
-						tablero[i][j].getHeight(), 0);
+				java.awt.Image tamano = conversion.getScaledInstance(getWidth()/tablero[0].length,
+						getHeight()/tablero.length, 0);
 				ImageIcon fin = new ImageIcon(tamano);
 				tablero[i][j].setIcon(fin);
-
 			}
 		}
 	}
