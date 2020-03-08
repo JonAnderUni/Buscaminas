@@ -13,12 +13,16 @@ import javax.swing.border.EmptyBorder;
 import java.awt.GridLayout;
 
 import javax.swing.ButtonGroup;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
+
+import com.sun.prism.Image;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -150,7 +154,7 @@ public class Iu_Partida extends JFrame {
 					fila = 15;
 					columna = 15;
 					crearTablero(15, 15);
-				
+
 				}
 			});
 		}
@@ -166,7 +170,7 @@ public class Iu_Partida extends JFrame {
 					// LLamar a un nuevo jFrame para crear la partida personalizada
 					dispose();
 					Iu_Personalizar.getMiPartidaPersonalizada().setVisible(true);
-					
+
 				}
 			});
 
@@ -267,7 +271,9 @@ public class Iu_Partida extends JFrame {
 
 	private JLabel getLblCarita() {
 		if (lblCarita == null) {
-			lblCarita = new JLabel("carita");
+			lblCarita = new JLabel("");
+			ImageIcon icon = new ImageIcon("img/smiley.png");
+			lblCarita.setIcon(icon);
 		}
 		return lblCarita;
 	}
@@ -278,7 +284,7 @@ public class Iu_Partida extends JFrame {
 		}
 		return lblTiempo;
 	}
-	
+
 	public void crearTablero(int fila, int col) {
 
 		getPanel_4_1().removeAll();
@@ -287,8 +293,8 @@ public class Iu_Partida extends JFrame {
 		int j = 12;
 		if (fila <= 0 || col <= 0) {
 			// poner mensaje de tamaño incorrecto creando por defecto;
-			JOptionPane.showMessageDialog(null, "Valores incorrectos, tablero creado por valores predeterminados", "Advertencia", 
-					JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Valores incorrectos, tablero creado por valores predeterminados",
+					"Advertencia", JOptionPane.WARNING_MESSAGE);
 		} else {
 			i = fila;
 			j = col;
@@ -309,10 +315,29 @@ public class Iu_Partida extends JFrame {
 				tablero[a][e] = jb;
 			}
 		}
-		
+
+		//pintarTablero();
 		actualizarTablero(getPanel_4_1());
 	}
 
+	private void pintarTablero() {
+		
+		// java.awt.Image.SCALE_SMOOTH
+		for (int i = 0; i < tablero.length; i++) {
+			for (int j = 0; j < tablero[0].length; j++) {
+				ImageIcon imagen = new ImageIcon("img/covered.png");
+				java.awt.Image conversion = imagen.getImage();
+				
+				int o = tablero[i][j].getWidth(); //Esto da 0 no se porque
+				
+				java.awt.Image tamano = conversion.getScaledInstance(tablero[i][j].getWidth(),
+						tablero[i][j].getHeight(), 0);
+				ImageIcon fin = new ImageIcon(tamano);
+				tablero[i][j].setIcon(fin);
+
+			}
+		}
+	}
 
 	public void crearPartidaPersonalizada(String i, String j, String b) {
 
@@ -323,16 +348,15 @@ public class Iu_Partida extends JFrame {
 			crearTablero(fila, columna);
 			actualizarTablero(getPanel_4_1());
 			Iu_Personalizar.getMiPartidaPersonalizada().setVisible(false);
-			//si no guarda informacion hace falta hacer un dispose
+			// si no guarda informacion hace falta hacer un dispose
 			setVisible(true);
 		} catch (NumberFormatException excepcion) {
-			//Para probar que lo hace bien, hay que ponerlo mejor
-			//System.out.println("Por favor introduce numeros");
-			JOptionPane.showMessageDialog(null, "Por favor Introduce solo números", "Error", 
-					JOptionPane.ERROR_MESSAGE);
+			// Para probar que lo hace bien, hay que ponerlo mejor
+			// System.out.println("Por favor introduce numeros");
+			JOptionPane.showMessageDialog(null, "Por favor Introduce solo números", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
-	
+
 	public int[] getDatosTablero() {
 		int[] datos = new int[2];
 		datos[0] = fila;
