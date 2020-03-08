@@ -9,10 +9,13 @@ import javax.swing.border.EmptyBorder;
 import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JRadioButton;
+import java.awt.FlowLayout;
 
 public class Iu_Personalizar extends JFrame {
 
@@ -35,8 +38,13 @@ public class Iu_Personalizar extends JFrame {
 	private JPanel panel_8;
 	private JPanel panel_9;
 	private JPanel panel_10;
-	
+
 	private static Iu_Personalizar miPartidaPersonalizada = new Iu_Personalizar();
+	private JRadioButton rdbtnPersonalizar;
+	private JRadioButton rdbtnx;
+	private JRadioButton rdbtnx_1;
+	private JRadioButton rdbtnx_2;
+	private JLabel lblInformacion;
 
 	/**
 	 * Launch the application.
@@ -69,8 +77,14 @@ public class Iu_Personalizar extends JFrame {
 		contentPane.add(getPanel_2(), BorderLayout.SOUTH);
 		contentPane.add(getPanel_3(), BorderLayout.WEST);
 		contentPane.add(getPanel_4(), BorderLayout.CENTER);
+		ButtonGroup bg = new ButtonGroup();
+		bg.add(rdbtnPersonalizar);
+		bg.add(rdbtnx);
+		bg.add(rdbtnx_1);
+		bg.add(rdbtnx_2);
+		this.setTitle("Partida Personalizable");
 	}
-	
+
 	public static Iu_Personalizar getMiPartidaPersonalizada() {
 		return miPartidaPersonalizada;
 	}
@@ -81,42 +95,52 @@ public class Iu_Personalizar extends JFrame {
 		}
 		return panel;
 	}
+
 	private JPanel getPanel_1() {
 		if (panel_1 == null) {
 			panel_1 = new JPanel();
 		}
 		return panel_1;
 	}
+
 	private JPanel getPanel_2() {
 		if (panel_2 == null) {
 			panel_2 = new JPanel();
 		}
 		return panel_2;
 	}
+
 	private JPanel getPanel_3() {
 		if (panel_3 == null) {
 			panel_3 = new JPanel();
 		}
 		return panel_3;
 	}
+
 	private JPanel getPanel_4() {
 		if (panel_4 == null) {
 			panel_4 = new JPanel();
 			panel_4.setLayout(new GridLayout(0, 1, 0, 0));
-			panel_4.add(getPanel_9());
+			panel_4.add(getPanel_7());
 			panel_4.add(getPanel_5());
 			panel_4.add(getPanel_6());
-			panel_4.add(getPanel_7());
+			panel_4.add(getPanel_9());
 			panel_4.add(getPanel_10());
 		}
 		return panel_4;
 	}
+
 	private JPanel getPanel_5() {
 		if (panel_5 == null) {
 			panel_5 = new JPanel();
+			panel_5.add(getRdbtnx());
+			panel_5.add(getRdbtnx_1());
+			panel_5.add(getRdbtnx_2());
+			panel_5.add(getRdbtnPersonalizar());
 		}
 		return panel_5;
 	}
+
 	private JPanel getPanel_6() {
 		if (panel_6 == null) {
 			panel_6 = new JPanel();
@@ -128,16 +152,21 @@ public class Iu_Personalizar extends JFrame {
 			panel_6.add(getLblBombas());
 			panel_6.add(getTextField_2());
 			panel_6.add(getPanel_8());
-			panel_6.add(getBtnOk());
+			setPersonalizable(false);
+
 		}
 		return panel_6;
 	}
+
 	private JPanel getPanel_7() {
 		if (panel_7 == null) {
 			panel_7 = new JPanel();
+			FlowLayout flowLayout = (FlowLayout) panel_7.getLayout();
+			flowLayout.setAlignment(FlowLayout.LEADING);
 		}
 		return panel_7;
 	}
+
 	private JLabel getLblFilas() {
 		if (lblFilas == null) {
 			lblFilas = new JLabel("Filas");
@@ -146,6 +175,7 @@ public class Iu_Personalizar extends JFrame {
 		}
 		return lblFilas;
 	}
+
 	private JTextField getTextField() {
 		if (textField == null) {
 			textField = new JTextField();
@@ -153,6 +183,7 @@ public class Iu_Personalizar extends JFrame {
 		}
 		return textField;
 	}
+
 	private JLabel getLblColumnas() {
 		if (lblColumnas == null) {
 			lblColumnas = new JLabel("Columnas");
@@ -160,6 +191,7 @@ public class Iu_Personalizar extends JFrame {
 		}
 		return lblColumnas;
 	}
+
 	private JTextField getTextField_1() {
 		if (textField_1 == null) {
 			textField_1 = new JTextField();
@@ -167,6 +199,7 @@ public class Iu_Personalizar extends JFrame {
 		}
 		return textField_1;
 	}
+
 	private JLabel getLblBombas() {
 		if (lblBombas == null) {
 			lblBombas = new JLabel("Bombas");
@@ -174,6 +207,7 @@ public class Iu_Personalizar extends JFrame {
 		}
 		return lblBombas;
 	}
+
 	private JTextField getTextField_2() {
 		if (textField_2 == null) {
 			textField_2 = new JTextField();
@@ -181,14 +215,36 @@ public class Iu_Personalizar extends JFrame {
 		}
 		return textField_2;
 	}
+
 	private JButton getBtnOk() {
 		if (btnOk == null) {
 			btnOk = new JButton("Ok");
 			btnOk.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					String filas = getTextField().getText();
-					String columnas = getTextField_1().getText();
-					String bombas = getTextField_2().getText();
+					String filas;
+					String columnas;
+					String bombas;
+
+					if (rdbtnPersonalizar.isSelected()) {
+						filas = getTextField().getText();
+						columnas = getTextField_1().getText();
+						bombas = getTextField_2().getText();
+					} else if (rdbtnx.isSelected()) {
+						filas = 3 + "";
+						columnas = 3 + "";
+						bombas = 2 + "";
+
+					} else if (rdbtnx_1.isSelected()) {
+						filas = 10 + "";
+						columnas = 10 + "";
+						bombas = 40 + "";
+
+					} else {
+						filas = 15 + "";
+						columnas = 15 + "";
+						bombas = 80 + "";
+					}
+
 					Iu_Partida.getMiPartida().crearPartidaPersonalizada(filas, columnas, bombas);
 					setVisible(false);
 					dispose();
@@ -197,22 +253,111 @@ public class Iu_Personalizar extends JFrame {
 		}
 		return btnOk;
 	}
+
 	private JPanel getPanel_8() {
 		if (panel_8 == null) {
 			panel_8 = new JPanel();
 		}
 		return panel_8;
 	}
+
 	private JPanel getPanel_9() {
 		if (panel_9 == null) {
 			panel_9 = new JPanel();
+			panel_9.add(getLblInformacion());
 		}
 		return panel_9;
 	}
+
 	private JPanel getPanel_10() {
 		if (panel_10 == null) {
 			panel_10 = new JPanel();
+			panel_10.add(getBtnOk());
 		}
 		return panel_10;
 	}
+
+	private JRadioButton getRdbtnPersonalizar() {
+		if (rdbtnPersonalizar == null) {
+			rdbtnPersonalizar = new JRadioButton("Personalizar");
+			rdbtnPersonalizar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					setPersonalizable(true);
+					setTxtDificultad("Tu eliges");
+
+				}
+			});
+			rdbtnPersonalizar.setHorizontalAlignment(SwingConstants.LEFT);
+		}
+		return rdbtnPersonalizar;
+	}
+
+	private JRadioButton getRdbtnx() {
+		if (rdbtnx == null) {
+			rdbtnx = new JRadioButton("3x3");
+			rdbtnx.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					setPersonalizable(false);
+					setTxtDificultad(null);
+
+				}
+			});
+		}
+		return rdbtnx;
+	}
+
+	private JRadioButton getRdbtnx_1() {
+		if (rdbtnx_1 == null) {
+			rdbtnx_1 = new JRadioButton("10x10");
+			rdbtnx_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					setPersonalizable(false);
+					setTxtDificultad("Facil");
+
+				}
+			});
+		}
+		return rdbtnx_1;
+	}
+
+	private JRadioButton getRdbtnx_2() {
+		if (rdbtnx_2 == null) {
+			rdbtnx_2 = new JRadioButton("15x15");
+			rdbtnx_2.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					setPersonalizable(false);
+					setTxtDificultad("Dificil");
+
+				}
+			});
+		}
+		return rdbtnx_2;
+	}
+	
+	private JLabel getLblInformacion() {
+		if (lblInformacion == null) {
+			lblInformacion = new JLabel("informacion");
+			lblInformacion.setVisible(false);
+		}
+		return lblInformacion;
+	}
+
+	private void setPersonalizable(boolean estado) {
+		getTextField().setEnabled(estado);
+		getTextField_1().setEnabled(estado);
+		getTextField_2().setEnabled(estado);
+		getLblFilas().setEnabled(estado);
+		getLblColumnas().setEnabled(estado);
+		getLblBombas().setEnabled(estado);
+	}
+	
+	private void setTxtDificultad(String txt) {
+
+		if (txt != null) {
+			getLblInformacion().setText("Dificultad : " + txt);
+		}else {
+			getLblInformacion().setText("Dificultad : Ninguna");
+		}
+		getLblInformacion().setVisible(true);
+	}	
 }

@@ -255,6 +255,7 @@ public class Iu_Partida extends JFrame {
 				tablero[a][e] = jb;
 			}
 		}
+		
 		actualizarTablero(getPanel_4_1());
 	}
 
