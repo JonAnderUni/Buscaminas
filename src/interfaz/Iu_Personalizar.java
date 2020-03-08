@@ -82,7 +82,7 @@ public class Iu_Personalizar extends JFrame {
 		bg.add(rdbtnx);
 		bg.add(rdbtnx_1);
 		bg.add(rdbtnx_2);
-		this.setTitle("Partida Personalizable");
+		this.setTitle("Ajustes de Partida");
 	}
 
 	public static Iu_Personalizar getMiPartidaPersonalizada() {

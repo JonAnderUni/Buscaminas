@@ -27,6 +27,7 @@ import com.sun.prism.Image;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.SwingConstants;
 
 public class Iu_Partida extends JFrame {
 
@@ -40,7 +41,6 @@ public class Iu_Partida extends JFrame {
 	private JPanel panel_5;
 	private JPanel panel_6;
 	private JPanel panel_7;
-	private JLabel lblBombas;
 	private JLabel lblCarita;
 	private JLabel lblTiempo;
 	private JMenuItem trespor3;
@@ -48,13 +48,13 @@ public class Iu_Partida extends JFrame {
 	private JMenuItem quincepor15;
 	private JMenuItem personal;
 	private JMenuItem volverAEmpezar;
-
 	private JButton[][] tablero;
 	private int fila;
 	private int columna;
 	private int bombas;
-
 	private static Iu_Partida miPartida = new Iu_Partida();
+	private JLabel lblDec;
+	private JLabel lblUd;
 
 	/**
 	 * Launch the application.
@@ -68,7 +68,7 @@ public class Iu_Partida extends JFrame {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				
+
 			}
 		});
 	}
@@ -201,6 +201,7 @@ public class Iu_Partida extends JFrame {
 	private JPanel getPanel_10() {
 		if (panel == null) {
 			panel = new JPanel();
+			panel.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 			panel.setLayout(new GridLayout(0, 3, 0, 0));
 			panel.add(getPanel_5());
 			panel.add(getPanel_6());
@@ -233,7 +234,10 @@ public class Iu_Partida extends JFrame {
 	private JPanel getPanel_4_1() {
 		if (panel_4 == null) {
 			panel_4 = new JPanel();
+			fila = 12;
+			columna = 12;
 			crearTablero(12, 12);
+			
 		}
 		return panel_4;
 	}
@@ -242,7 +246,9 @@ public class Iu_Partida extends JFrame {
 		if (panel_5 == null) {
 			panel_5 = new JPanel();
 			panel_5.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
-			panel_5.add(getLblBombas());
+			panel_5.setLayout(new GridLayout(0, 2, 0, 0));
+			panel_5.add(getLblDec());
+			panel_5.add(getLblUd());
 		}
 		return panel_5;
 	}
@@ -265,13 +271,6 @@ public class Iu_Partida extends JFrame {
 		return panel_7;
 	}
 
-	private JLabel getLblBombas() {
-		if (lblBombas == null) {
-			lblBombas = new JLabel("bombas");
-		}
-		return lblBombas;
-	}
-
 	private JLabel getLblCarita() {
 		if (lblCarita == null) {
 			lblCarita = new JLabel("");
@@ -288,7 +287,7 @@ public class Iu_Partida extends JFrame {
 		return lblTiempo;
 	}
 
-	public void crearTablero(int fila, int col) {
+	private void crearTablero(int fila, int col) {
 
 		getPanel_4_1().removeAll();
 
@@ -302,7 +301,6 @@ public class Iu_Partida extends JFrame {
 			i = fila;
 			j = col;
 		}
-
 		tablero = new JButton[i][j];
 		getPanel_4_1().setLayout(new GridLayout(0, j, 0, 0));
 
@@ -311,28 +309,25 @@ public class Iu_Partida extends JFrame {
 				JButton jb = new JButton();
 				jb.setBackground(Color.LIGHT_GRAY);
 				jb.setBorderPainted(true);
-				ImageIcon icon = new ImageIcon("img/covered.png");
-				jb.setIcon(icon);
 
 				getPanel_4_1().add(jb);
 				tablero[a][e] = jb;
 			}
 		}
 
+		contadorBombas();
 		pintarTablero();
 		actualizarTablero(getPanel_4_1());
 	}
 
 	private void pintarTablero() {
-		
-		
 		// java.awt.Image.SCALE_SMOOTH
 		for (int i = 0; i < tablero.length; i++) {
 			for (int j = 0; j < tablero[0].length; j++) {
 				ImageIcon imagen = new ImageIcon("img/covered.png");
 				java.awt.Image conversion = imagen.getImage();
-				java.awt.Image tamano = conversion.getScaledInstance(getWidth()/tablero[0].length,
-						getHeight()/tablero.length, 0);
+				java.awt.Image tamano = conversion.getScaledInstance(getWidth() / tablero[0].length,
+						getHeight() / tablero.length, 0);
 				ImageIcon fin = new ImageIcon(tamano);
 				tablero[i][j].setIcon(fin);
 			}
@@ -351,7 +346,6 @@ public class Iu_Partida extends JFrame {
 			// si no guarda informacion hace falta hacer un dispose
 			setVisible(true);
 		} catch (NumberFormatException excepcion) {
-			// Para probar que lo hace bien, hay que ponerlo mejor
 			// System.out.println("Por favor introduce numeros");
 			JOptionPane.showMessageDialog(null, "Por favor Introduce solo números", "Error", JOptionPane.ERROR_MESSAGE);
 		}
@@ -363,5 +357,35 @@ public class Iu_Partida extends JFrame {
 		datos[1] = columna;
 		datos[2] = bombas;
 		return datos;
+	}
+
+	private void contadorBombas() {
+		getPanel_5().removeAll();
+		
+		int numM = (int)Math.sqrt(fila * columna);
+
+		ImageIcon img1 = new ImageIcon("img/r" +numM/10 + ".png");
+		ImageIcon img2 = new ImageIcon("img/r" + numM%10  + ".png");
+		getLblDec().setIcon(img1);
+		getLblUd().setIcon(img2);
+
+		getPanel_5().add(getLblDec());
+		getPanel_5().add(getLblUd());
+	}
+
+	private JLabel getLblDec() {
+		if (lblDec == null) {
+			lblDec = new JLabel("");
+			lblDec.setHorizontalAlignment(SwingConstants.RIGHT);
+		}
+		return lblDec;
+	}
+
+	private JLabel getLblUd() {
+		if (lblUd == null) {
+			lblUd = new JLabel("");
+			lblUd.setHorizontalAlignment(SwingConstants.LEFT);
+		}
+		return lblUd;
 	}
 }
