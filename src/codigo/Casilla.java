@@ -1,6 +1,6 @@
 package codigo;
 
-public abstract class Casilla {
+public class Casilla {
 
 	private int fila;
 	private int columna;
@@ -15,9 +15,13 @@ public abstract class Casilla {
 	 */
 	public Casilla(int pFila, int pColumna, int parameter) {
 		// TODO - implement Casilla.Casilla
-		throw new UnsupportedOperationException();
+		
 	}
-
+	
+	//Constructora vacia
+	public Casilla() {
+		
+	}
 	public int minasAlrededor() {
 		// TODO - implement Casilla.minasAlrededor
 		throw new UnsupportedOperationException();
