@@ -6,14 +6,8 @@ package codigo;
 public class Abierto implements Estado {
 
 	@Override
-	public void clickIzq() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void clickIzq() {}
 
 	@Override
-	public void clickDer() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void clickDer() {}
 }

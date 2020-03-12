@@ -7,7 +7,6 @@ public class Tablero {
 
 	private Tablero() {
 		// TODO - implement Tablero.Tablero
-		listaCasillas = new ListaCasillas();
 	}
 
 	public static Tablero getTablero() {
@@ -22,9 +21,10 @@ public class Tablero {
 	 * 
 	 * @param pDificultad
 	 */
-	public void generarTablero(int pDificultad) {
+	public void generarTablero(int filas, int columnas, int bombas) {
 		// TODO - implement Tablero.generarTablero
 		throw new UnsupportedOperationException();
+		
 	}
 
 }

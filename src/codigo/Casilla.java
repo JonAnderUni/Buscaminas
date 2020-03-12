@@ -6,6 +6,7 @@ public class Casilla {
 	private int columna;
 	private int numMinas;
 	private Estado Estado;
+	private boolean esMina;
 
 	/**
 	 * 
@@ -13,9 +14,14 @@ public class Casilla {
 	 * @param pColumna
 	 * @param parameter
 	 */
-	public Casilla(int pFila, int pColumna, int parameter) {
+	public Casilla(int pFila, int pColumna) {
 		// TODO - implement Casilla.Casilla
-		
+		fila = pFila;
+		columna = pColumna;
+	}
+	
+	public void setMina() {
+		esMina = true;
 	}
 	
 	//Constructora vacia
@@ -28,8 +34,7 @@ public class Casilla {
 	}
 
 	public boolean esMina() {
-		// TODO - implement Casilla.esMina
-		throw new UnsupportedOperationException();
+		return esMina;
 	}
 
 	/**
