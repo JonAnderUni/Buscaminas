@@ -2,7 +2,7 @@ package interfaz;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -13,17 +13,12 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import java.awt.GridLayout;
 
-import javax.swing.ButtonGroup;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
-
-import com.sun.javafx.tk.Toolkit;
-import com.sun.prism.Image;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -55,6 +50,7 @@ public class Iu_Partida extends JFrame {
 	private static Iu_Partida miPartida = new Iu_Partida();
 	private JLabel lblDec;
 	private JLabel lblUd;
+	private JLabel lblNewLabel;
 
 	/**
 	 * Launch the application.
@@ -237,7 +233,7 @@ public class Iu_Partida extends JFrame {
 			fila = 12;
 			columna = 12;
 			crearTablero(12, 12);
-			
+
 		}
 		return panel_4;
 	}
@@ -265,7 +261,9 @@ public class Iu_Partida extends JFrame {
 		if (panel_7 == null) {
 			panel_7 = new JPanel();
 			panel_7.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+			panel_7.setLayout(new GridLayout(0, 2, 0, 0));
 			panel_7.add(getLblTiempo());
+			panel_7.add(getLblNewLabel());
 
 		}
 		return panel_7;
@@ -282,9 +280,26 @@ public class Iu_Partida extends JFrame {
 
 	private JLabel getLblTiempo() {
 		if (lblTiempo == null) {
-			lblTiempo = new JLabel("tiempo");
+			lblTiempo = new JLabel("m");
+			lblTiempo.setHorizontalAlignment(SwingConstants.RIGHT);
 		}
 		return lblTiempo;
+	}
+
+	private JLabel getLblDec() {
+		if (lblDec == null) {
+			lblDec = new JLabel("");
+			lblDec.setHorizontalAlignment(SwingConstants.RIGHT);
+		}
+		return lblDec;
+	}
+
+	private JLabel getLblUd() {
+		if (lblUd == null) {
+			lblUd = new JLabel("");
+			lblUd.setHorizontalAlignment(SwingConstants.LEFT);
+		}
+		return lblUd;
 	}
 
 	private void crearTablero(int fila, int col) {
@@ -347,7 +362,7 @@ public class Iu_Partida extends JFrame {
 			setVisible(true);
 		} catch (NumberFormatException excepcion) {
 			// System.out.println("Por favor introduce numeros");
-			JOptionPane.showMessageDialog(null, "Por favor Introduce solo números", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Por favor introduce números", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -361,11 +376,11 @@ public class Iu_Partida extends JFrame {
 
 	private void contadorBombas() {
 		getPanel_5().removeAll();
-		
-		int numM = (int)Math.sqrt(fila * columna);
 
-		ImageIcon img1 = new ImageIcon("img/r" +numM/10 + ".png");
-		ImageIcon img2 = new ImageIcon("img/r" + numM%10  + ".png");
+		int numM = (int) Math.sqrt(fila * columna);
+
+		ImageIcon img1 = new ImageIcon("img/r" + numM / 10 + ".png");
+		ImageIcon img2 = new ImageIcon("img/r" + numM % 10 + ".png");
 		getLblDec().setIcon(img1);
 		getLblUd().setIcon(img2);
 
@@ -373,19 +388,10 @@ public class Iu_Partida extends JFrame {
 		getPanel_5().add(getLblUd());
 	}
 
-	private JLabel getLblDec() {
-		if (lblDec == null) {
-			lblDec = new JLabel("");
-			lblDec.setHorizontalAlignment(SwingConstants.RIGHT);
+	private JLabel getLblNewLabel() {
+		if (lblNewLabel == null) {
+			lblNewLabel = new JLabel("s");
 		}
-		return lblDec;
-	}
-
-	private JLabel getLblUd() {
-		if (lblUd == null) {
-			lblUd = new JLabel("");
-			lblUd.setHorizontalAlignment(SwingConstants.LEFT);
-		}
-		return lblUd;
+		return lblNewLabel;
 	}
 }

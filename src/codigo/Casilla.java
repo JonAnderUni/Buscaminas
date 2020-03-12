@@ -5,8 +5,8 @@ public class Casilla {
 	private int fila;
 	private int columna;
 	private int numMinas;
+	private String codigo;
 	private Estado Estado;
-	private boolean esMina;
 
 	/**
 	 * 
@@ -18,23 +18,21 @@ public class Casilla {
 		// TODO - implement Casilla.Casilla
 		fila = pFila;
 		columna = pColumna;
-	}
-	
-	public void setMina() {
-		esMina = true;
+		codigo = "";
+		numMinas = 0;
 	}
 	
 	//Constructora vacia
 	public Casilla() {
+		codigo = "";
 		
 	}
-	public int minasAlrededor() {
-		// TODO - implement Casilla.minasAlrededor
-		throw new UnsupportedOperationException();
-	}
-
-	public boolean esMina() {
-		return esMina;
+	
+	public Casilla(int cod,int i , int j) {
+		codigo = cod + "";
+		fila = i;
+		columna = j;
+		
 	}
 
 	/**
@@ -45,5 +43,24 @@ public class Casilla {
 		// TODO - implement Casilla.cambiarEstado
 		throw new UnsupportedOperationException();
 	}
+	
+	public boolean esBomba() {return numMinas == -1;}
+	
+	public String getCodigo() {
+		return codigo;
+	}
+	
+	public int getNumMinas() {
+		return numMinas;
+	}
+	
+	public void incrementarNumMinas() {
+		if (numMinas != -1) numMinas++;
+		
+	}
+	
+	public int getFila() {return fila;}
+	public int getcolumna() {return columna;}
 
+	
 }
