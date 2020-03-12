@@ -1,6 +1,4 @@
 package codigo;
-
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Tablero {
@@ -41,15 +39,9 @@ public class Tablero {
 			int fila =  ThreadLocalRandom.current().nextInt(0,tablero.length-1);
 			int columna =  ThreadLocalRandom.current().nextInt(0,tablero[0].length-1); 
 			tablero[fila][columna] = new Casilla(f,fila,columna);
+			getMinasAlrededor(fila, columna);
 				
 		}	
-		
-		//incrementar contador bombas
-		for(int i = 0; i<bombas;i++) {
-			int fila = (listaCasillas.getCasilla(i+"")).getFila();
-			int columna = (listaCasillas.getCasilla(i+"")).getcolumna();
-			getMinasAlrededor(fila, columna);
-		}
 	}
 
 	private boolean posicionValida(int fila, int columna) {
