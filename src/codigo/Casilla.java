@@ -5,7 +5,6 @@ public class Casilla {
 	private int fila;
 	private int columna;
 	private int numMinas;
-	private String codigo;
 	private Estado Estado;
 
 	/**
@@ -14,27 +13,18 @@ public class Casilla {
 	 * @param pColumna
 	 * @param parameter
 	 */
-	public Casilla(int pFila, int pColumna) {
-		// TODO - implement Casilla.Casilla
-		fila = pFila;
-		columna = pColumna;
-		codigo = "";
-		numMinas = 0;
-	}
 	
 	//Constructora vacia
 	public Casilla() {
-		codigo = "";
 		
 	}
 	
-	public Casilla(int cod,int i , int j) {
-		codigo = cod + "";
-		fila = i;
-		columna = j;
+	public Casilla(int filas,int columnas , int bombas) {
+		numMinas = bombas;
+		fila = filas;
+		columna = columnas;
 		
 	}
-
 	/**
 	 * 
 	 * @param pEstado
@@ -45,10 +35,6 @@ public class Casilla {
 	}
 	
 	public boolean esBomba() {return numMinas == -1;}
-	
-	public String getCodigo() {
-		return codigo;
-	}
 	
 	public int getNumMinas() {
 		return numMinas;

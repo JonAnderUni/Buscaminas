@@ -117,7 +117,7 @@ public class Iu_Partida extends JFrame {
 	private JMenuItem getTres() {
 		if (trespor3 == null) {
 			trespor3 = new JMenuItem();
-			trespor3.setText("3x3");
+			trespor3.setText("Facil");
 			trespor3.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					fila = 3;
@@ -132,7 +132,7 @@ public class Iu_Partida extends JFrame {
 	private JMenuItem getDiez() {
 		if (diezpor10 == null) {
 			diezpor10 = new JMenuItem();
-			diezpor10.setText("10x10");
+			diezpor10.setText("Medio");
 			diezpor10.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					fila = 10;
@@ -147,7 +147,7 @@ public class Iu_Partida extends JFrame {
 	private JMenuItem getQuince() {
 		if (quincepor15 == null) {
 			quincepor15 = new JMenuItem();
-			quincepor15.setText("15x15");
+			quincepor15.setText("Dificil");
 			quincepor15.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					fila = 15;

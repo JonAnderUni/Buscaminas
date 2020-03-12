@@ -26,10 +26,11 @@ public class Tablero {
 	public void generarTablero(int filas, int columnas, int bombas) {
 		// TODO - implement Tablero.generarTablero
 		tablero = new Casilla[filas][columnas];
-		//meter bombas		
+		
+		//meter casillas normales	
 		for (int fila = 0; fila<tablero.length;fila++) {
 			for(int columna = 0; columna<tablero[0].length;columna++) {
-				Casilla casilla = new Casilla(fila,columna);
+				Casilla casilla = new Casilla(fila,columna,0);
 				tablero[fila][columna] = casilla;
 			}
 		}	
@@ -38,7 +39,9 @@ public class Tablero {
 		for (int f = 0; f<bombas;f++) {
 			int fila =  ThreadLocalRandom.current().nextInt(0,tablero.length-1);
 			int columna =  ThreadLocalRandom.current().nextInt(0,tablero[0].length-1); 
-			tablero[fila][columna] = new Casilla(f,fila,columna);
+			Casilla casilla = new Casilla(fila,columna,-1);
+			tablero[fila][columna] = casilla;
+			listaCasillas.anadirCasilla(casilla);
 			getMinasAlrededor(fila, columna);
 				
 		}	
@@ -52,8 +55,7 @@ public class Tablero {
 	}
 
 	private void getMinasAlrededor(int fila, int columna) {
-		// TODO Auto-generated method stub
-			
+		// TODO Auto-generated method stub		
 		if((tablero[fila +1][columna]).getNumMinas() != -1 && posicionValida(fila, columna)) (tablero[fila+1][columna]).incrementarNumMinas();
 		if((tablero[fila +1][columna-1]).getNumMinas() != -1 && posicionValida(fila, columna)) (tablero[fila+1][columna-1]).incrementarNumMinas();
 		if((tablero[fila +1][columna+1]).getNumMinas() != -1 && posicionValida(fila, columna))(tablero[fila+1][columna+1]).incrementarNumMinas();
@@ -61,7 +63,6 @@ public class Tablero {
 		if((tablero[fila-1][columna-1]).getNumMinas() != -1 && posicionValida(fila, columna)) (tablero[fila-1][columna-1]).incrementarNumMinas();
 		if((tablero[fila-1][columna+1]).getNumMinas() != -1 && posicionValida(fila, columna)) (tablero[fila-1][columna+1]).incrementarNumMinas();
 		if((tablero[fila][columna+1]).getNumMinas() != -1 && posicionValida(fila, columna)) (tablero[fila][columna+1]).incrementarNumMinas();
-		if((tablero[fila][columna-1]).getNumMinas() != -1 && posicionValida(fila, columna)) (tablero[fila][columna-1]).incrementarNumMinas();
-			
+		if((tablero[fila][columna-1]).getNumMinas() != -1 && posicionValida(fila, columna)) (tablero[fila][columna-1]).incrementarNumMinas();			
 	}
 }

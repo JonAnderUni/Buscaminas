@@ -1,31 +1,22 @@
 package codigo;
 
-import java.util.HashMap;
-
 public class ListaCasillas {
 
-	private HashMap<String, Casilla> lista;
+	private Casilla[] lista;
 
-	public ListaCasillas() {
-		lista = new HashMap<String, Casilla>();
+	public ListaCasillas(int i) {
+		lista = new Casilla[i];
 	}
 
-	public Casilla getCasilla(String codigo) {
-		return lista.get(codigo);
+	public Casilla getCasilla(int  pos) {
+		return lista[pos];
 	}
 
 	public void anadirCasilla(Casilla casilla) {
-
-		String codigo;
-		if (!lista.isEmpty()) {
-			if (!lista.containsKey(casilla.getCodigo())) {
-				codigo = lista.size() + "";
-				lista.put(codigo, casilla);
-			}
-		}
+		//Hacer metodo
 	}
 
 	public void eliminarCasillla(Casilla casilla) {
-		lista.remove(casilla.getCodigo());
+		//Hacer codigo
 	}
 }
