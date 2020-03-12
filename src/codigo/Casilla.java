@@ -5,7 +5,7 @@ public class Casilla {
 	private int fila;
 	private int columna;
 	private int numMinas;
-	private Estado Estado;
+	private Estado estado;
 
 	/**
 	 * 
@@ -23,7 +23,7 @@ public class Casilla {
 		numMinas = bombas;
 		fila = filas;
 		columna = columnas;
-		
+		estado = new Cerrada();
 	}
 	/**
 	 * 
