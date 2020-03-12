@@ -7,46 +7,51 @@ public class Casilla {
 	private int numMinas;
 	private Estado estado;
 
-	/**
-	 * 
-	 * @param pFila
-	 * @param pColumna
-	 * @param parameter
-	 */
-	
-	//Constructora vacia
+	// Constructora vacia
 	public Casilla() {
-		
+
 	}
-	
-	public Casilla(int filas,int columnas , int bombas) {
+
+	public Casilla(int filas, int columnas, int bombas) {
+		// Inicializamos las variables con el estado inicial como cerrado
 		numMinas = bombas;
 		fila = filas;
 		columna = columnas;
 		estado = new Cerrada();
 	}
+
 	/**
 	 * 
 	 * @param pEstado
 	 */
 	public void cambiarEstado(Estado pEstado) {
-		// TODO - implement Casilla.cambiarEstado
-		throw new UnsupportedOperationException();
+		//Cambia el estado de la casilla por el estado actual
+		estado = pEstado;
 	}
-	
-	public boolean esBomba() {return numMinas == -1;}
-	
+
+	public boolean esBomba() {
+		// Comprueba si la casilla es una bomba
+		return numMinas == -1;
+	}
+
 	public int getNumMinas() {
+		// Devuelve el numero de minas que haya en la partid
 		return numMinas;
 	}
-	
-	public void incrementarNumMinas() {
-		if (numMinas != -1) numMinas++;
-		
-	}
-	
-	public int getFila() {return fila;}
-	public int getcolumna() {return columna;}
 
-	
+	public void incrementarNumMinas() {
+		// Aumenta el numero de minas total
+		if (numMinas != -1)
+			numMinas++;
+
+	}
+
+	public int getFila() {
+		return fila;
+	}
+
+	public int getcolumna() {
+		return columna;
+	}
+
 }
