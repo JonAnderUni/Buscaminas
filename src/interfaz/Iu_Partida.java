@@ -38,9 +38,9 @@ public class Iu_Partida extends JFrame {
 	private JPanel panel_7;
 	private JLabel lblCarita;
 	private JLabel lblTiempo;
-	private JMenuItem trespor3;
-	private JMenuItem diezpor10;
-	private JMenuItem quincepor15;
+	private JMenuItem facil;
+	private JMenuItem medio;
+	private JMenuItem dificil;
 	private JMenuItem personal;
 	private JMenuItem volverAEmpezar;
 	private JButton[][] tablero;
@@ -103,9 +103,9 @@ public class Iu_Partida extends JFrame {
 			ayuda.setText("Ayuda");
 
 			this.setJMenuBar(menuBar);
-			juego.add(getTres());
-			juego.add(getDiez());
-			juego.add(getQuince());
+			juego.add(getFacil());
+			juego.add(getMedio());
+			juego.add(getDificil());
 			juego.add(getPersonalizada());
 			juego.add(getVolver());
 			menuBar.add(juego);
@@ -114,50 +114,50 @@ public class Iu_Partida extends JFrame {
 		return menuBar;
 	}
 
-	private JMenuItem getTres() {
-		if (trespor3 == null) {
-			trespor3 = new JMenuItem();
-			trespor3.setText("Facil");
-			trespor3.addActionListener(new ActionListener() {
+	private JMenuItem getFacil() {
+		if (facil == null) {
+			facil = new JMenuItem();
+			facil.setText("Facil");
+			facil.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					fila = 3;
-					columna = 3;
-					crearTablero(3, 3);
+					fila = 7;
+					columna = 10;
+					crearTablero();
 				}
 			});
 		}
-		return trespor3;
+		return facil;
 	}
 
-	private JMenuItem getDiez() {
-		if (diezpor10 == null) {
-			diezpor10 = new JMenuItem();
-			diezpor10.setText("Medio");
-			diezpor10.addActionListener(new ActionListener() {
+	private JMenuItem getMedio() {
+		if (medio == null) {
+			medio = new JMenuItem();
+			medio.setText("Medio");
+			medio.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					fila = 10;
-					columna = 10;
-					crearTablero(10, 10);
+					columna = 15;
+					crearTablero();
 				}
 			});
 		}
-		return diezpor10;
+		return medio;
 	}
 
-	private JMenuItem getQuince() {
-		if (quincepor15 == null) {
-			quincepor15 = new JMenuItem();
-			quincepor15.setText("Dificil");
-			quincepor15.addActionListener(new ActionListener() {
+	private JMenuItem getDificil() {
+		if (dificil == null) {
+			dificil = new JMenuItem();
+			dificil.setText("Dificil");
+			dificil.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					fila = 15;
-					columna = 15;
-					crearTablero(15, 15);
+					fila = 12;
+					columna = 25;
+					crearTablero();
 
 				}
 			});
 		}
-		return quincepor15;
+		return dificil;
 	}
 
 	private JMenuItem getPersonalizada() {
@@ -183,7 +183,7 @@ public class Iu_Partida extends JFrame {
 			volverAEmpezar.setText("Nueva Partida");
 			volverAEmpezar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					crearTablero(fila, columna);
+					crearTablero();
 				}
 			});
 		}
@@ -232,7 +232,7 @@ public class Iu_Partida extends JFrame {
 			panel_4 = new JPanel();
 			fila = 12;
 			columna = 12;
-			crearTablero(12, 12);
+			crearTablero();
 
 		}
 		return panel_4;
@@ -302,19 +302,19 @@ public class Iu_Partida extends JFrame {
 		return lblUd;
 	}
 
-	private void crearTablero(int fila, int col) {
+	private void crearTablero() {
 
 		getPanel_4_1().removeAll();
 
 		int i = 12;
 		int j = 12;
-		if (fila <= 0 || col <= 0) {
+		if (fila <= 0 || columna <= 0) {
 			// poner mensaje de tamaño incorrecto creando por defecto;
 			JOptionPane.showMessageDialog(null, "Valores incorrectos, tablero creado por valores predeterminados",
 					"Advertencia", JOptionPane.WARNING_MESSAGE);
 		} else {
 			i = fila;
-			j = col;
+			j = columna;
 		}
 		tablero = new JButton[i][j];
 		getPanel_4_1().setLayout(new GridLayout(0, j, 0, 0));
@@ -355,7 +355,7 @@ public class Iu_Partida extends JFrame {
 			fila = Integer.parseInt(i);
 			columna = Integer.parseInt(j);
 			bombas = Integer.parseInt(b);
-			crearTablero(fila, columna);
+			crearTablero();
 			actualizarTablero(getPanel_4_1());
 			Iu_Personalizar.getMiPartidaPersonalizada().setVisible(false);
 			// si no guarda informacion hace falta hacer un dispose
