@@ -21,10 +21,12 @@ import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
 
 import java.awt.event.ActionListener;
+import java.util.Observable;
+import java.util.Observer;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 
-public class Iu_Partida extends JFrame {
+public class Iu_Partida extends JFrame implements Observer {
 
 	private JPanel contentPane;
 	private JMenuBar menuBar;
@@ -393,5 +395,11 @@ public class Iu_Partida extends JFrame {
 			lblNewLabel = new JLabel("s");
 		}
 		return lblNewLabel;
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
+		
 	}
 }
