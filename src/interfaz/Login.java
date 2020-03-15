@@ -84,7 +84,7 @@ public class Login extends JFrame {
 		JButton btnNewButton = new JButton("Aceptar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Iu_Personalizar.getMiPartidaPersonalizada().setVisible(true);;
+				Iu_Personalizar.getMiPartidaPersonalizada().setVisible(true);
 				
 			}
 		});
@@ -94,6 +94,11 @@ public class Login extends JFrame {
 		panel_4.add(panel_5);
 		
 		JButton btnNewButton_1 = new JButton("Ver Highscores");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Puntuacion.getMiPuntuacion().setVisible(true);
+			}
+		});
 		panel_5.add(btnNewButton_1);
 	}
 
