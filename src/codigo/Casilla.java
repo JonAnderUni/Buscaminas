@@ -53,5 +53,7 @@ public class Casilla {
 	public int getcolumna() {
 		return columna;
 	}
+	
+	
 
 }

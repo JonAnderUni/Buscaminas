@@ -6,10 +6,19 @@ public class Tablero {
 
 	private static Tablero mTablero;
 	private ListaCasillas listaCasillas;
+	private ListaCasillas listaBombas;
 	private Casilla[][] tablero;
+
+	private String cod;
+	/*
+	 * Para las casillas normales utilizaremos como clave cod = c + fila + columna
+	 * para las bombas utilizaremos como clave cod = b + fila + columna;
+	 */
 
 	private Tablero() {
 		// TODO - implement Tablero.Tablero
+		listaCasillas = new ListaCasillas();
+		listaBombas = new ListaCasillas();
 	}
 
 	public static Tablero getTablero() {
@@ -27,29 +36,43 @@ public class Tablero {
 	public void generarTablero(int filas, int columnas, int bombas) {
 		// TODO - implement Tablero.generarTablero
 		tablero = new Casilla[filas][columnas];
-
 		// meter casillas normales
 		for (int fila = 0; fila < tablero.length; fila++) {
 			for (int columna = 0; columna < tablero[0].length; columna++) {
-				Casilla casilla = new Casilla(fila, columna, 0);
-				tablero[fila][columna] = casilla;
+				try {
+					Casilla casilla = new Casilla(fila, columna, 0);
+					String aa = "c" + fila + columna + "";
+
+					tablero[fila][columna] = casilla;
+					listaCasillas.anadirCasilla(aa, casilla);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 
 		// anadimos las bombas
+		
+		/*Al añadir las bombas hay q tener en cuenta que no se añada una encima de la otra
+		 * a la hora de incrementar el contador se incrementaria x2
+		 * 
+		 * */
 		for (int f = 0; f < bombas; f++) {
-			boolean exit = false;
-
 			int fila = ThreadLocalRandom.current().nextInt(0, tablero.length - 1);
 			int columna = ThreadLocalRandom.current().nextInt(0, tablero[0].length - 1);
 			if ((tablero[fila][columna]).getNumMinas() == -1) {
-
+				Casilla casilla = listaCasillas.getCasillaAleatoria();
+				fila = casilla.getFila();
+				columna = casilla.getcolumna();
+				listaCasillas.eliminarCasillla("c" + fila + columna + "");
+				tablero[fila][columna] = new Casilla(fila, columna, -1);
+				listaBombas.anadirCasilla("b" + fila + columna + "", casilla);
+				getMinasAlrededor(fila, columna);
 			} else {
 				Casilla casilla = new Casilla(fila, columna, -1);
 				tablero[fila][columna] = casilla;
-				// listaCasillas.anadirCasilla(casilla);
+				listaBombas.anadirCasilla("b" + fila + columna + "", casilla);
 				getMinasAlrededor(fila, columna);
-				exit = true;
 			}
 
 		}
@@ -102,5 +125,9 @@ public class Tablero {
 			}
 		}
 
+	}
+
+	public int getNumBombas() {
+		return listaBombas.size();
 	}
 }
