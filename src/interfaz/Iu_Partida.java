@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import java.awt.GridLayout;
+import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -25,6 +26,9 @@ import java.util.Observable;
 import java.util.Observer;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
+import java.awt.GridBagLayout;
+import java.awt.FlowLayout;
+import java.awt.CardLayout;
 
 public class Iu_Partida extends JFrame implements Observer {
 
@@ -88,6 +92,7 @@ public class Iu_Partida extends JFrame implements Observer {
 		contentPane.add(getPanel_3_1(), BorderLayout.SOUTH);
 		contentPane.add(getPanel_4_1(), BorderLayout.CENTER);
 		this.setTitle("Buscaminas");
+		
 	}
 
 	public static Iu_Partida getMiPartida() {
@@ -199,6 +204,7 @@ public class Iu_Partida extends JFrame implements Observer {
 	private JPanel getPanel_10() {
 		if (panel == null) {
 			panel = new JPanel();
+			panel.setBackground(Color.LIGHT_GRAY);
 			panel.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 			panel.setLayout(new GridLayout(0, 3, 0, 0));
 			panel.add(getPanel_5());
@@ -218,6 +224,7 @@ public class Iu_Partida extends JFrame implements Observer {
 	private JPanel getPanel_2_1() {
 		if (panel_2 == null) {
 			panel_2 = new JPanel();
+			panel_2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		}
 		return panel_2;
 	}
@@ -254,6 +261,7 @@ public class Iu_Partida extends JFrame implements Observer {
 	private JPanel getPanel_6() {
 		if (panel_6 == null) {
 			panel_6 = new JPanel();
+			panel_6.setBackground(Color.LIGHT_GRAY);
 			panel_6.add(getLblCarita());
 		}
 		return panel_6;
@@ -307,26 +315,22 @@ public class Iu_Partida extends JFrame implements Observer {
 	private void crearTablero() {
 
 		getPanel_4_1().removeAll();
-		setBounds(0, 0, columna*35, fila*41);
 
-		int i = 12;
-		int j = 12;
 		if (fila <= 0 || columna <= 0) {
-			// poner mensaje de tamaño incorrecto creando por defecto;
+			// poner mensaje de tamaï¿½o incorrecto creando por defecto;
 			JOptionPane.showMessageDialog(null, "Valores incorrectos, tablero creado por valores predeterminados",
 					"Advertencia", JOptionPane.WARNING_MESSAGE);
-		} else {
-			i = fila;
-			j = columna;
+			fila = 12;
+			columna=12;
 		}
-		tablero = new JButton[i][j];
-		getPanel_4_1().setLayout(new GridLayout(0, j, 0, 0));
+		tablero = new JButton[fila][columna];
+		getPanel_4_1().setLayout(new GridLayout(columna,fila,0, 0));
+		setBounds(0,0,fila*35,columna*30);
 
-		for (int a = 0; a < i; a++) {
-			for (int e = 0; e < j; e++) {
+		for (int a = 0; a < fila; a++) {
+			for (int e = 0; e < columna; e++) {
 				JButton jb = new JButton();
 				jb.setBackground(Color.LIGHT_GRAY);
-				jb.setBounds(0, 0, 45, 45);
 				jb.setBorderPainted(true);
 
 				getPanel_4_1().add(jb);
@@ -335,17 +339,18 @@ public class Iu_Partida extends JFrame implements Observer {
 		}
 
 		contadorBombas();
-		pintarTablero(34,30);
+		pintarTablero();
 		actualizarTablero(getPanel_4_1());
+		setResizable(false);
 	}
 
-	private void pintarTablero(int weighth, int hwight) {
+	private void pintarTablero() {
 		// java.awt.Image.SCALE_SMOOTH
 		for (int i = 0; i < tablero.length; i++) {
 			for (int j = 0; j < tablero[0].length; j++) {
 				ImageIcon imagen = new ImageIcon("img/covered.png");
 				java.awt.Image conversion = imagen.getImage();
-				java.awt.Image tamano = conversion.getScaledInstance(weighth,hwight, 0);
+				java.awt.Image tamano = conversion.getScaledInstance(getHeight() / columna, getHeight() / fila,0);
 				ImageIcon fin = new ImageIcon(tamano);
 				tablero[i][j].setIcon(fin);
 			}
@@ -365,7 +370,7 @@ public class Iu_Partida extends JFrame implements Observer {
 			setVisible(true);
 		} catch (NumberFormatException excepcion) {
 			// System.out.println("Por favor introduce numeros");
-			JOptionPane.showMessageDialog(null, "Por favor introduce números", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Por favor introduce nï¿½meros", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
