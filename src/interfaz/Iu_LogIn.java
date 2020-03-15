@@ -17,11 +17,11 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class Login extends JFrame {
+public class Iu_LogIn extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
-	private static Login miLogin = new Login();
+	private static Iu_LogIn miLogin = new Iu_LogIn();
 
 	/**
 	 * Launch the application.
@@ -30,7 +30,7 @@ public class Login extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Login frame = new Login();
+					Iu_LogIn frame = new Iu_LogIn();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -38,13 +38,13 @@ public class Login extends JFrame {
 			}
 		});
 	}
-	public static Login getMiLogin() {
+	public static Iu_LogIn getMiLogin() {
 		return miLogin;
 	}
 	/**
 	 * Create the frame.
 	 */
-	private Login() {
+	private Iu_LogIn() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -96,7 +96,7 @@ public class Login extends JFrame {
 		JButton btnNewButton_1 = new JButton("Ver Highscores");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Puntuacion.getMiPuntuacion().setVisible(true);
+				//Puntuacion.getMiPuntuacion().setVisible(true);
 			}
 		});
 		panel_5.add(btnNewButton_1);
