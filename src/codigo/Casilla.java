@@ -41,8 +41,8 @@ public class Casilla {
 
 	public void incrementarNumMinas() {
 		// Aumenta el numero de minas total
-		if (numMinas != -1)
-			numMinas++;
+		if (numMinas != -1) {numMinas++;}
+		else {}
 
 	}
 
