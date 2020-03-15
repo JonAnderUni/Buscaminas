@@ -307,6 +307,7 @@ public class Iu_Partida extends JFrame implements Observer {
 	private void crearTablero() {
 
 		getPanel_4_1().removeAll();
+		setBounds(0, 0, columna*35, fila*41);
 
 		int i = 12;
 		int j = 12;
@@ -325,6 +326,7 @@ public class Iu_Partida extends JFrame implements Observer {
 			for (int e = 0; e < j; e++) {
 				JButton jb = new JButton();
 				jb.setBackground(Color.LIGHT_GRAY);
+				jb.setBounds(0, 0, 45, 45);
 				jb.setBorderPainted(true);
 
 				getPanel_4_1().add(jb);
@@ -333,18 +335,17 @@ public class Iu_Partida extends JFrame implements Observer {
 		}
 
 		contadorBombas();
-		pintarTablero();
+		pintarTablero(34,30);
 		actualizarTablero(getPanel_4_1());
 	}
 
-	private void pintarTablero() {
+	private void pintarTablero(int weighth, int hwight) {
 		// java.awt.Image.SCALE_SMOOTH
 		for (int i = 0; i < tablero.length; i++) {
 			for (int j = 0; j < tablero[0].length; j++) {
 				ImageIcon imagen = new ImageIcon("img/covered.png");
 				java.awt.Image conversion = imagen.getImage();
-				java.awt.Image tamano = conversion.getScaledInstance(getWidth() / tablero[0].length,
-						getHeight() / tablero.length, 0);
+				java.awt.Image tamano = conversion.getScaledInstance(weighth,hwight, 0);
 				ImageIcon fin = new ImageIcon(tamano);
 				tablero[i][j].setIcon(fin);
 			}
