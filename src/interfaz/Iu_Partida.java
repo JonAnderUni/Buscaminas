@@ -94,7 +94,7 @@ public class Iu_Partida extends JFrame implements Observer {
 		contentPane.add(getPanel_3_1(), BorderLayout.SOUTH);
 		contentPane.add(getPanel_4_1(), BorderLayout.CENTER);
 		this.setTitle("Buscaminas");
-		
+
 	}
 
 	public static Iu_Partida getMiPartida() {
@@ -147,7 +147,7 @@ public class Iu_Partida extends JFrame implements Observer {
 				public void actionPerformed(ActionEvent e) {
 					fila = 10;
 					columna = 15;
-					bombas = 15*3;
+					bombas = 15 * 3;
 					crearTablero();
 				}
 			});
@@ -163,7 +163,7 @@ public class Iu_Partida extends JFrame implements Observer {
 				public void actionPerformed(ActionEvent e) {
 					fila = 12;
 					columna = 25;
-					bombas = 25*3;
+					bombas = 25 * 3;
 					crearTablero();
 
 				}
@@ -244,6 +244,7 @@ public class Iu_Partida extends JFrame implements Observer {
 	private JPanel getPanel_4_1() {
 		if (panel_4 == null) {
 			panel_4 = new JPanel();
+			panel_4.setLayout(null);
 			fila = 12;
 			columna = 12;
 			crearTablero();
@@ -319,6 +320,8 @@ public class Iu_Partida extends JFrame implements Observer {
 
 	private void crearTablero() {
 
+		int tamanoX = 32;
+		int tamanoY= 32;
 		getPanel_4_1().removeAll();
 		tablero = new JButton[fila][columna];
 		if (fila <= 0 || columna <= 0) {
@@ -326,32 +329,41 @@ public class Iu_Partida extends JFrame implements Observer {
 			JOptionPane.showMessageDialog(null, "Valores incorrectos, tablero creado por valores predeterminados",
 					"Advertencia", JOptionPane.WARNING_MESSAGE);
 			fila = 12;
-			columna=12;
+			columna = 12;
 		}
-		getPanel_4_1().setLayout(new GridLayout(columna,fila,0, 0));
+		
 	
 
+		int x = 0;
+		int y = 0;
+		int c = 0;
 		for (int a = 0; a < fila; a++) {
 			for (int e = 0; e < columna; e++) {
 				JButton jb = new JButton();
 				jb.setBackground(Color.LIGHT_GRAY);
 				jb.setBorderPainted(true);
-				jb.setSize(30, 35);
-
-				getPanel_4_1().add(jb);
 				tablero[a][e] = jb;
+				tablero[a][e].setBounds(x,y,tamanoX, tamanoY);
+				getPanel_4_1().add(jb);
+				x = x+tamanoX;
+				c=x;
 			}
+			x=0;
+			y = y+tamanoY;
 		}
-		Tablero.getTablero().generarTablero(tablero.length, tablero[0].length,  tablero[0].length * 3);
-			
+		contentPane.setSize((columna)*(tamanoX) + panel_1.getWidth() , ((fila + 3)*tamanoY) + panel.getHeight());
+		setSize((columna)*(tamanoX) + panel_1.getWidth() , ((fila + 3)*tamanoY) + panel.getHeight());
+
+		
+		Tablero.getTablero().generarTablero(tablero.length, tablero[0].length, tablero[0].length * 3);
+		
 
 		contadorBombas();
-		pintarTablero();
+		pintarTablero(tamanoX, tamanoY);
 		actualizarTablero(getPanel_4_1());
-		setResizable(false);
 	}
 
-	private void pintarTablero() {
+	private void pintarTablero(int tamanoX, int tamanoY) {
 		// java.awt.Image.SCALE_SMOOTH
 		for (int i = 0; i < tablero.length; i++) {
 			for (int j = 0; j < tablero[0].length; j++) {
@@ -361,31 +373,31 @@ public class Iu_Partida extends JFrame implements Observer {
 //				ImageIcon fin = new ImageIcon(tamano);
 //				tablero[i][j].setIcon(fin);
 				ImageIcon imagen;
-				int num = Tablero.getTablero().getNumPos(i,j);
-				if(num == -1) {
+				int num = Tablero.getTablero().getNumPos(i, j);
+				if (num == -1) {
 					imagen = new ImageIcon("img/mine.png");
-				}else {
-					imagen = new ImageIcon("img/" + num  +".png");
+				} else {
+					imagen = new ImageIcon("img/" + num + ".png");
 				}
 				java.awt.Image conversion = imagen.getImage();
-				java.awt.Image tamano = conversion.getScaledInstance(getHeight() / columna, getHeight() / fila,0);
+				java.awt.Image tamano = conversion.getScaledInstance(tamanoX, tamanoY,0);
 				ImageIcon fin = new ImageIcon(tamano);
 				tablero[i][j].setIcon(fin);
-				
+
 			}
 		}
 	}
-	
+
 	public void pintarPosicion(int fila, int columna) {
 		ImageIcon imagen;
-		int num = Tablero.getTablero().getNumPos(fila,columna);
-		if(num == -1) {
+		int num = Tablero.getTablero().getNumPos(fila, columna);
+		if (num == -1) {
 			imagen = new ImageIcon("img/mine.png");
-		}else {
-			imagen = new ImageIcon("img/" + num  +".png");
+		} else {
+			imagen = new ImageIcon("img/" + num + ".png");
 		}
 		java.awt.Image conversion = imagen.getImage();
-		java.awt.Image tamano = conversion.getScaledInstance(getHeight() / columna, getHeight() / fila,0);
+		java.awt.Image tamano = conversion.getScaledInstance(getHeight() / columna, getHeight() / fila, 0);
 		ImageIcon fin = new ImageIcon(tamano);
 		tablero[fila][columna].setIcon(fin);
 	}
@@ -419,7 +431,7 @@ public class Iu_Partida extends JFrame implements Observer {
 	private void contadorBombas() {
 		getPanel_5().removeAll();
 		int numM = Tablero.getTablero().getNumBombas();
-		int aa = numM /10;
+		int aa = numM / 10;
 		int bb = numM % 10;
 		ImageIcon img1 = new ImageIcon("img/r" + aa + ".png");
 		ImageIcon img2 = new ImageIcon("img/r" + bb + ".png");
@@ -439,6 +451,6 @@ public class Iu_Partida extends JFrame implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
