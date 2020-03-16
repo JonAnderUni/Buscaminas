@@ -21,6 +21,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
 
+import codigo.Tablero;
+
 import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
@@ -80,7 +82,7 @@ public class Iu_Partida extends JFrame implements Observer {
 	 */
 	private Iu_Partida() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 350, 436);
+		setBounds(100, 100, 347, 435);
 		setJMenuBar(getMenuBar_1());
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -129,6 +131,7 @@ public class Iu_Partida extends JFrame implements Observer {
 				public void actionPerformed(ActionEvent arg0) {
 					fila = 7;
 					columna = 10;
+					bombas = 30;
 					crearTablero();
 				}
 			});
@@ -144,6 +147,7 @@ public class Iu_Partida extends JFrame implements Observer {
 				public void actionPerformed(ActionEvent e) {
 					fila = 10;
 					columna = 15;
+					bombas = 15*3;
 					crearTablero();
 				}
 			});
@@ -159,6 +163,7 @@ public class Iu_Partida extends JFrame implements Observer {
 				public void actionPerformed(ActionEvent e) {
 					fila = 12;
 					columna = 25;
+					bombas = 25*3;
 					crearTablero();
 
 				}
@@ -315,7 +320,7 @@ public class Iu_Partida extends JFrame implements Observer {
 	private void crearTablero() {
 
 		getPanel_4_1().removeAll();
-
+		tablero = new JButton[fila][columna];
 		if (fila <= 0 || columna <= 0) {
 			// poner mensaje de tama�o incorrecto creando por defecto;
 			JOptionPane.showMessageDialog(null, "Valores incorrectos, tablero creado por valores predeterminados",
@@ -323,20 +328,22 @@ public class Iu_Partida extends JFrame implements Observer {
 			fila = 12;
 			columna=12;
 		}
-		tablero = new JButton[fila][columna];
 		getPanel_4_1().setLayout(new GridLayout(columna,fila,0, 0));
-		setBounds(0,0,fila*35,columna*30);
+	
 
 		for (int a = 0; a < fila; a++) {
 			for (int e = 0; e < columna; e++) {
 				JButton jb = new JButton();
 				jb.setBackground(Color.LIGHT_GRAY);
 				jb.setBorderPainted(true);
+				jb.setSize(30, 35);
 
 				getPanel_4_1().add(jb);
 				tablero[a][e] = jb;
 			}
 		}
+		Tablero.getTablero().generarTablero(tablero.length, tablero[0].length,  tablero[0].length * 3);
+			
 
 		contadorBombas();
 		pintarTablero();
@@ -348,13 +355,39 @@ public class Iu_Partida extends JFrame implements Observer {
 		// java.awt.Image.SCALE_SMOOTH
 		for (int i = 0; i < tablero.length; i++) {
 			for (int j = 0; j < tablero[0].length; j++) {
-				ImageIcon imagen = new ImageIcon("img/covered.png");
+//				ImageIcon imagen = new ImageIcon("img/covered.png");
+//				java.awt.Image conversion = imagen.getImage();
+//				java.awt.Image tamano = conversion.getScaledInstance(getHeight() / columna, getHeight() / fila,0);
+//				ImageIcon fin = new ImageIcon(tamano);
+//				tablero[i][j].setIcon(fin);
+				ImageIcon imagen;
+				int num = Tablero.getTablero().getNumPos(i,j);
+				if(num == -1) {
+					imagen = new ImageIcon("img/mine.png");
+				}else {
+					imagen = new ImageIcon("img/" + num  +".png");
+				}
 				java.awt.Image conversion = imagen.getImage();
 				java.awt.Image tamano = conversion.getScaledInstance(getHeight() / columna, getHeight() / fila,0);
 				ImageIcon fin = new ImageIcon(tamano);
 				tablero[i][j].setIcon(fin);
+				
 			}
 		}
+	}
+	
+	public void pintarPosicion(int fila, int columna) {
+		ImageIcon imagen;
+		int num = Tablero.getTablero().getNumPos(fila,columna);
+		if(num == -1) {
+			imagen = new ImageIcon("img/mine.png");
+		}else {
+			imagen = new ImageIcon("img/" + num  +".png");
+		}
+		java.awt.Image conversion = imagen.getImage();
+		java.awt.Image tamano = conversion.getScaledInstance(getHeight() / columna, getHeight() / fila,0);
+		ImageIcon fin = new ImageIcon(tamano);
+		tablero[fila][columna].setIcon(fin);
 	}
 
 	public void crearPartidaPersonalizada(String i, String j, String b) {
@@ -364,6 +397,7 @@ public class Iu_Partida extends JFrame implements Observer {
 			columna = Integer.parseInt(j);
 			bombas = Integer.parseInt(b);
 			crearTablero();
+			Tablero.getTablero().generarTablero(fila, columna, bombas);
 			actualizarTablero(getPanel_4_1());
 			Iu_Personalizar.getMiPartidaPersonalizada().setVisible(false);
 			// si no guarda informacion hace falta hacer un dispose
@@ -384,14 +418,13 @@ public class Iu_Partida extends JFrame implements Observer {
 
 	private void contadorBombas() {
 		getPanel_5().removeAll();
-
-		int numM = (int) Math.sqrt(fila * columna);
-
-		ImageIcon img1 = new ImageIcon("img/r" + numM / 10 + ".png");
-		ImageIcon img2 = new ImageIcon("img/r" + numM % 10 + ".png");
+		int numM = Tablero.getTablero().getNumBombas();
+		int aa = numM /10;
+		int bb = numM % 10;
+		ImageIcon img1 = new ImageIcon("img/r" + aa + ".png");
+		ImageIcon img2 = new ImageIcon("img/r" + bb + ".png");
 		getLblDec().setIcon(img1);
 		getLblUd().setIcon(img2);
-
 		getPanel_5().add(getLblDec());
 		getPanel_5().add(getLblUd());
 	}

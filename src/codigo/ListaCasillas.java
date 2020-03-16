@@ -26,7 +26,7 @@ public class ListaCasillas {
 	public Casilla getCasillaAleatoria() {
 		Collection<Casilla> values = lista.values();
 		Casilla[] targetArray = values.toArray(new Casilla[values.size()]);
-		int columna = ThreadLocalRandom.current().nextInt(0, lista.size() - 1);
+		int columna = ThreadLocalRandom.current().nextInt(0,targetArray.length-1);
 		return targetArray[columna];
 	}
 

@@ -2,6 +2,8 @@ package codigo;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.print.attribute.HashAttributeSet;
+
 public class Tablero {
 
 	private static Tablero mTablero;
@@ -36,46 +38,36 @@ public class Tablero {
 	public void generarTablero(int filas, int columnas, int bombas) {
 		// TODO - implement Tablero.generarTablero
 		tablero = new Casilla[filas][columnas];
+		listaCasillas = new ListaCasillas();
+		listaBombas = new ListaCasillas();
 		// meter casillas normales
 		for (int fila = 0; fila < tablero.length; fila++) {
 			for (int columna = 0; columna < tablero[0].length; columna++) {
-				try {
-					Casilla casilla = new Casilla(fila, columna, 0);
-					String aa = "c" + fila + columna + "";
-
-					tablero[fila][columna] = casilla;
-					listaCasillas.anadirCasilla(aa, casilla);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				Casilla casilla = new Casilla(fila, columna, 0);
+				tablero[fila][columna] = casilla;
+				listaCasillas.anadirCasilla(fila + "" + columna + "", casilla);
 			}
 		}
 
 		// anadimos las bombas
-		
-		/*Al añadir las bombas hay q tener en cuenta que no se añada una encima de la otra
-		 * a la hora de incrementar el contador se incrementaria x2
+		// anadimos las bombas
+
+		/*
+		 * Al añadir las bombas hay q tener en cuenta que no se añada una encima de la
+		 * otra a la hora de incrementar el contador se incrementaria x2
 		 * 
-		 * */
+		 */
 		for (int f = 0; f < bombas; f++) {
-			int fila = ThreadLocalRandom.current().nextInt(0, tablero.length - 1);
-			int columna = ThreadLocalRandom.current().nextInt(0, tablero[0].length - 1);
-			if ((tablero[fila][columna]).getNumMinas() == -1) {
-				Casilla casilla = listaCasillas.getCasillaAleatoria();
-				fila = casilla.getFila();
-				columna = casilla.getcolumna();
-				listaCasillas.eliminarCasillla("c" + fila + columna + "");
-				tablero[fila][columna] = new Casilla(fila, columna, -1);
-				listaBombas.anadirCasilla("b" + fila + columna + "", casilla);
-				getMinasAlrededor(fila, columna);
-			} else {
-				Casilla casilla = new Casilla(fila, columna, -1);
-				tablero[fila][columna] = casilla;
-				listaBombas.anadirCasilla("b" + fila + columna + "", casilla);
-				getMinasAlrededor(fila, columna);
-			}
+
+			Casilla casilla = listaCasillas.getCasillaAleatoria();
+			Casilla bomba = new Casilla(casilla.getFila(), casilla.getcolumna(), -1);
+			tablero[casilla.getFila()][casilla.getcolumna()] = bomba;
+			listaBombas.anadirCasilla(casilla.getFila() + "" + casilla.getcolumna() + "", casilla);
+			listaCasillas.eliminarCasillla(casilla.getFila() + "" + casilla.getcolumna() + "");
+			getMinasAlrededor(casilla.getFila(), casilla.getcolumna());
 
 		}
+
 	}
 
 	private boolean posicionValida(int fila, int columna) {
@@ -116,6 +108,7 @@ public class Tablero {
 		}
 	}
 
+	// Para las pruebas del Main
 	public void imprimirTablero() {
 
 		for (int i = 0; i < tablero.length; i++) {
@@ -130,4 +123,9 @@ public class Tablero {
 	public int getNumBombas() {
 		return listaBombas.size();
 	}
+
+	public int getNumPos(int fila, int columna) {
+		return (tablero[fila][columna]).getNumMinas();
+	}
+
 }
