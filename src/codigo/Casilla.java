@@ -20,13 +20,21 @@ public class Casilla {
 		estado = new Cerrada();
 	}
 
-	/**
-	 * 
-	 * @param pEstado
-	 */
-	public void cambiarEstado(Estado pEstado) {
-		//Cambia el estado de la casilla por el estado actual
-		estado = pEstado;
+	
+	public void cambiarEstado(String s) {
+		/*Cambia el estado de la casilla por el estado actual
+		 * Se le tiene que pasar por parametro dcho o derecho, o izq o izquierda como paramentro
+		 */
+		if(s.equals("dcho") || s.equals("derecho")) {
+			if(estado instanceof Bandera)
+				estado = new Cerrada();
+			else if(estado instanceof Cerrada)
+				estado = new Bandera();
+		}
+		if(s.equals("izq") || s.equals("izquierda")) {
+			if(estado instanceof Cerrada)
+				estado = new Abierto();
+		}
 	}
 
 	public boolean esBomba() {
