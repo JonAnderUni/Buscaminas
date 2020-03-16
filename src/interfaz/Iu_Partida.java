@@ -320,8 +320,8 @@ public class Iu_Partida extends JFrame implements Observer {
 
 	private void crearTablero() {
 
-		int tamanoX = 32;
-		int tamanoY= 32;
+		int tamanoX = 25;
+		int tamanoY= 25;
 		getPanel_4_1().removeAll();
 		tablero = new JButton[fila][columna];
 		if (fila <= 0 || columna <= 0) {
@@ -332,10 +332,8 @@ public class Iu_Partida extends JFrame implements Observer {
 			columna = 12;
 		}
 		
-	
-
 		int x = 0;
-		int y = 0;
+		int y = 15;
 		int c = 0;
 		for (int a = 0; a < fila; a++) {
 			for (int e = 0; e < columna; e++) {
@@ -351,10 +349,8 @@ public class Iu_Partida extends JFrame implements Observer {
 			x=0;
 			y = y+tamanoY;
 		}
-		contentPane.setSize((columna)*(tamanoX) + panel_1.getWidth() , ((fila + 3)*tamanoY) + panel.getHeight());
-		setSize((columna)*(tamanoX) + panel_1.getWidth() , ((fila + 3)*tamanoY) + panel.getHeight());
-
-		
+		if(fila == columna) setSize(((columna)*(tamanoX )) + 46 , ((fila)*tamanoY) + panel.getHeight() + 140);
+		else setSize(((columna)*(tamanoX )) + 46 , ((fila)*tamanoY) + panel.getHeight() + 100);
 		Tablero.getTablero().generarTablero(tablero.length, tablero[0].length, tablero[0].length * 3);
 		
 
@@ -367,22 +363,12 @@ public class Iu_Partida extends JFrame implements Observer {
 		// java.awt.Image.SCALE_SMOOTH
 		for (int i = 0; i < tablero.length; i++) {
 			for (int j = 0; j < tablero[0].length; j++) {
-//				ImageIcon imagen = new ImageIcon("img/covered.png");
-//				java.awt.Image conversion = imagen.getImage();
-//				java.awt.Image tamano = conversion.getScaledInstance(getHeight() / columna, getHeight() / fila,0);
-//				ImageIcon fin = new ImageIcon(tamano);
-//				tablero[i][j].setIcon(fin);
-				ImageIcon imagen;
-				int num = Tablero.getTablero().getNumPos(i, j);
-				if (num == -1) {
-					imagen = new ImageIcon("img/mine.png");
-				} else {
-					imagen = new ImageIcon("img/" + num + ".png");
-				}
+				ImageIcon imagen = new ImageIcon("img/covered.png");
 				java.awt.Image conversion = imagen.getImage();
 				java.awt.Image tamano = conversion.getScaledInstance(tamanoX, tamanoY,0);
 				ImageIcon fin = new ImageIcon(tamano);
 				tablero[i][j].setIcon(fin);
+			
 
 			}
 		}
