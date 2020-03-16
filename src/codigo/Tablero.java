@@ -1,5 +1,7 @@
 package codigo;
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.concurrent.ThreadLocalRandom;
 
 import javax.print.attribute.HashAttributeSet;
@@ -109,6 +111,77 @@ public class Tablero {
 
 	}
 
+	public boolean destaparCasillas(int fila, int columna) {
+		
+		Queue<Casilla> porVisitar = new LinkedList<Casilla>();	// Creamos la lista de casillas por visitar, para ver si hay que abrirlas o no
+		Boolean fin = false;									// Booleano para saber, si la casilla clicada era una mina
+		Casilla act = tablero[fila][columna];					// Buscamos la casilla en el tablero
+		act.cambiarEstado("izq");								// Abrimos la casilla
+		
+		if (act.esBomba()){	// Si la casilla abierta es una bomba, se termina el juego
+			fin = true;
+		}
+		else {	// Sino es bomba comprobamos si al rededor:  1.La casilla esta en el tablero -- 2.Si es una bomba -- 3.Si la casilla actual no tiene bombas al rededor
+			if (posicionValida(fila + 1, columna) && !tablero[fila + 1][columna].esBomba() && tablero[fila][columna].getNumMinas()==0) {
+				porVisitar.add(tablero[fila + 1][columna]);
+			}
+			if (posicionValida(fila + 1, columna - 1) && !tablero[fila + 1][columna - 1].esBomba() && tablero[fila][columna].getNumMinas()==0) {
+				porVisitar.add(tablero[fila + 1][columna - 1]);
+			}
+			if (posicionValida(fila + 1, columna + 1) && !tablero[fila + 1][columna + 1].esBomba() && tablero[fila][columna].getNumMinas()==0) {
+				porVisitar.add(tablero[fila + 1][columna + 1]);
+			}
+			if (posicionValida(fila - 1, columna) && !tablero[fila - 1][columna].esBomba() && tablero[fila][columna].getNumMinas()==0) {
+				porVisitar.add(tablero[fila - 1][columna]);
+			}
+			if (posicionValida(fila - 1, columna - 1) && !tablero[fila - 1][columna - 1].esBomba() && tablero[fila][columna].getNumMinas()==0) {
+				porVisitar.add(tablero[fila - 1][columna - 1]);
+			}
+			if (posicionValida(fila - 1, columna + 1) && !tablero[fila - 1][columna + 1].esBomba() && tablero[fila][columna].getNumMinas()==0) {
+				porVisitar.add(tablero[fila - 1][columna + 1]);
+			}
+			if (posicionValida(fila, columna + 1) && !tablero[fila][columna + 1].esBomba() && tablero[fila][columna].getNumMinas()==0) {
+				porVisitar.add(tablero[fila][columna + 1]);
+			}
+			if (posicionValida(fila, columna - 1) && !tablero[fila][columna - 1].esBomba() && tablero[fila][columna].getNumMinas()==0) {
+				porVisitar.add(tablero[fila][columna - 1]);
+			}
+			// Una vez comprobadas las casillas de al rededor, buscaremos todas las casillas que no tengan minas al rededor, contiguas a la original
+			while (!porVisitar.isEmpty()) {
+				act = porVisitar.remove();		// Sacamos la casilla de la lista de pendientes
+				act.cambiarEstado("izq");		// La abrimos
+				fila = act.getFila();			// Cogemos su fila
+				columna = act.getcolumna();		// Cogemos su columna
+				
+				if (posicionValida(fila + 1, columna) && !tablero[fila +1 ][columna].esBomba() && tablero[fila][columna].getNumMinas()==0) {
+					porVisitar.add(tablero[fila + 1][columna]);
+				}
+				if (posicionValida(fila + 1, columna - 1) && !tablero[fila + 1][columna - 1].esBomba() && tablero[fila][columna].getNumMinas()==0) {
+					porVisitar.add(tablero[fila + 1][columna - 1]);
+				}
+				if (posicionValida(fila + 1, columna + 1) && !tablero[fila + 1][columna + 1].esBomba() && tablero[fila][columna].getNumMinas()==0) {
+					porVisitar.add(tablero[fila + 1][columna + 1]);
+				}
+				if (posicionValida(fila - 1, columna) && !tablero[fila - 1][columna].esBomba() && tablero[fila][columna].getNumMinas()==0) {
+					porVisitar.add(tablero[fila - 1][columna]);
+				}
+				if (posicionValida(fila - 1, columna - 1) && !tablero[fila - 1][columna - 1].esBomba() && tablero[fila][columna].getNumMinas()==0) {
+					porVisitar.add(tablero[fila - 1][columna - 1]);
+				}
+				if (posicionValida(fila - 1, columna + 1) && !tablero[fila - 1][columna + 1].esBomba() && tablero[fila][columna].getNumMinas()==0) {
+					porVisitar.add(tablero[fila - 1][columna + 1]);
+				}
+				if (posicionValida(fila, columna + 1) && !tablero[fila][columna + 1].esBomba() && tablero[fila][columna].getNumMinas()==0) {
+					porVisitar.add(tablero[fila][columna + 1]);
+				}
+				if (posicionValida(fila, columna - 1) && !tablero[fila][columna - 1].esBomba() && tablero[fila][columna].getNumMinas()==0) {
+					porVisitar.add(tablero[fila][columna - 1]);
+				}
+			}
+		}
+		return fin;
+	}
+	
 	public int getNumBombas() {
 		return listaBombas.size();
 	}
