@@ -4,7 +4,6 @@ public class Bandera implements Estado {
 
 	@Override
 	public void clickIzq() {
-		
 	}
 
 	@Override

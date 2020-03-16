@@ -116,5 +116,9 @@ public class Tablero {
 	public int getNumPos(int fila, int columna) {
 		return (tablero[fila][columna]).getNumMinas();
 	}
+	
+	public Casilla getCasilla(int fila, int columna) {
+		return tablero[fila][columna];
+	}
 
 }
