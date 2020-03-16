@@ -39,27 +39,27 @@ public class Casilla {
 
 	public boolean esBomba() {
 		// Comprueba si la casilla es una bomba
-		return numMinas == -1;
+		return this.numMinas == -1;
 	}
 
 	public int getNumMinas() {
 		// Devuelve el numero de minas que haya en la partid
-		return numMinas;
+		return this.numMinas;
 	}
 
 	public void incrementarNumMinas() {
 		// Aumenta el numero de minas total
-		if (numMinas != -1) {numMinas++;}
+		if (this.numMinas != -1) {this.numMinas++;}
 		else {}
 
 	}
 
 	public int getFila() {
-		return fila;
+		return this.fila;
 	}
 
 	public int getcolumna() {
-		return columna;
+		return this.columna;
 	}
 
 }

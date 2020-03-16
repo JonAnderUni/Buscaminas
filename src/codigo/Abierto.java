@@ -1,8 +1,5 @@
 package codigo;
 
-
-
-
 public class Abierto implements Estado {
 
 	@Override
