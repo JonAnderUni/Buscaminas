@@ -11,7 +11,6 @@ public class Tablero {
 	private ListaCasillas listaBombas;
 	private Casilla[][] tablero;
 
-	private String cod;
 	/*
 	 * Para las casillas normales utilizaremos como clave cod = c + fila + columna
 	 * para las bombas utilizaremos como clave cod = b + fila + columna;

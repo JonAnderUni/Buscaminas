@@ -59,6 +59,8 @@ public class Iu_Partida extends JFrame implements Observer {
 	private JLabel lblDec;
 	private JLabel lblUd;
 	private JLabel lblNewLabel;
+	private int tamanoX = 25;
+	private int tamanoY= 25;
 
 	/**
 	 * Launch the application.
@@ -320,8 +322,7 @@ public class Iu_Partida extends JFrame implements Observer {
 
 	private void crearTablero() {
 
-		int tamanoX = 25;
-		int tamanoY= 25;
+		
 		getPanel_4_1().removeAll();
 		tablero = new JButton[fila][columna];
 		if (fila <= 0 || columna <= 0) {
@@ -334,7 +335,6 @@ public class Iu_Partida extends JFrame implements Observer {
 		
 		int x = 0;
 		int y = 15;
-		int c = 0;
 		for (int a = 0; a < fila; a++) {
 			for (int e = 0; e < columna; e++) {
 				JButton jb = new JButton();
@@ -343,8 +343,8 @@ public class Iu_Partida extends JFrame implements Observer {
 				tablero[a][e] = jb;
 				tablero[a][e].setBounds(x,y,tamanoX, tamanoY);
 				getPanel_4_1().add(jb);
+				
 				x = x+tamanoX;
-				c=x;
 			}
 			x=0;
 			y = y+tamanoY;
@@ -353,6 +353,7 @@ public class Iu_Partida extends JFrame implements Observer {
 		else setSize(((columna)*(tamanoX )) + 46 , ((fila)*tamanoY) + panel.getHeight() + 100);
 		Tablero.getTablero().generarTablero(tablero.length, tablero[0].length, tablero[0].length * 3);
 		
+
 
 		contadorBombas();
 		pintarTablero(tamanoX, tamanoY);
@@ -368,24 +369,25 @@ public class Iu_Partida extends JFrame implements Observer {
 				java.awt.Image tamano = conversion.getScaledInstance(tamanoX, tamanoY,0);
 				ImageIcon fin = new ImageIcon(tamano);
 				tablero[i][j].setIcon(fin);
+				
 			
 
 			}
 		}
 	}
 
-	public void pintarPosicion(int fila, int columna) {
+	public void pintarPosicion(int x, int y) {
 		ImageIcon imagen;
-		int num = Tablero.getTablero().getNumPos(fila, columna);
+		int num = Tablero.getTablero().getNumPos(x, y);
 		if (num == -1) {
 			imagen = new ImageIcon("img/mine.png");
 		} else {
 			imagen = new ImageIcon("img/" + num + ".png");
 		}
 		java.awt.Image conversion = imagen.getImage();
-		java.awt.Image tamano = conversion.getScaledInstance(getHeight() / columna, getHeight() / fila, 0);
+		java.awt.Image tamano = conversion.getScaledInstance(tamanoX,tamanoY,0);
 		ImageIcon fin = new ImageIcon(tamano);
-		tablero[fila][columna].setIcon(fin);
+		tablero[x][y].setIcon(fin);
 	}
 
 	public void crearPartidaPersonalizada(String i, String j, String b) {
