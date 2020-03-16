@@ -11,29 +11,19 @@ public class Tablero {
 	private ListaCasillas listaBombas;
 	private Casilla[][] tablero;
 
-	/*
-	 * Para las casillas normales utilizaremos como clave cod = c + fila + columna
-	 * para las bombas utilizaremos como clave cod = b + fila + columna;
-	 */
-
 	private Tablero() {
-		// TODO - implement Tablero.Tablero
 		listaCasillas = new ListaCasillas();
 		listaBombas = new ListaCasillas();
 	}
 
 	public static Tablero getTablero() {
-		// TODO - implement Tablero.getTablero
-		if (mTablero == null) {
+			if (mTablero == null) {
 			mTablero = new Tablero();
 		}
 		return mTablero;
 	}
 
-	/**
-	 * 
-	 * @param pDificultad
-	 */
+
 	public void generarTablero(int filas, int columnas, int bombas) {
 		// TODO - implement Tablero.generarTablero
 		tablero = new Casilla[filas][columnas];
@@ -52,9 +42,9 @@ public class Tablero {
 		// anadimos las bombas
 
 		/*
-		 * Al añadir las bombas hay q tener en cuenta que no se añada una encima de la
+		 * Al aï¿½adir las bombas hay q tener en cuenta que no se aï¿½ada una encima de la
 		 * otra a la hora de incrementar el contador se incrementaria x2
-		 * 
+		 *
 		 */
 		for (int f = 0; f < bombas; f++) {
 
@@ -125,6 +115,10 @@ public class Tablero {
 
 	public int getNumPos(int fila, int columna) {
 		return (tablero[fila][columna]).getNumMinas();
+	}
+
+	public Casilla getCasilla(int fila, int columna) {
+		return tablero[fila][columna];
 	}
 
 }

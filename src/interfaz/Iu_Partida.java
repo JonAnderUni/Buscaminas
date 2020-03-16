@@ -24,6 +24,9 @@ import javax.swing.border.LineBorder;
 import codigo.Tablero;
 
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Observable;
 import java.util.Observer;
 import java.awt.event.ActionEvent;
@@ -342,6 +345,20 @@ public class Iu_Partida extends JFrame implements Observer {
 				jb.setBorderPainted(true);
 				tablero[a][e] = jb;
 				tablero[a][e].setBounds(x,y,tamanoX, tamanoY);
+				final int fila = a;
+                final int columna = e;
+				tablero[a][e].addMouseListener(new MouseAdapter() {
+
+                    @Override
+                    public void mouseClicked(MouseEvent arg0) {
+                        // TODO Auto-generated method stub
+                    	if(arg0.getButton() == 1) {
+                    		Tablero.getTablero().getCasilla(fila, columna).cambiarEstado("izquierdo");
+                    	}else if(arg0.getButton() == 3) {
+                    		Tablero.getTablero().getCasilla(fila, columna).cambiarEstado("derecho");
+                    	}else {}
+                    }
+                });
 				getPanel_4_1().add(jb);
 				
 				x = x+tamanoX;
