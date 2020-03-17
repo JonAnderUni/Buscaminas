@@ -2,13 +2,16 @@ package codigo;
 
 public class Cerrada implements Estado {
 
-	@Override
-	public void clickIzq() {
-		
-	}
 
 	@Override
-	public void clickDer() {
+	public void clickIzq(int fila, int columna) {
+		
+		(Tablero.getTablero().getCasilla(fila, columna)).cambiarEstado(new Abierto());
+		
+	}
+	@Override
+	public void clickDer(int fila, int columna) {
+		(Tablero.getTablero().getCasilla(fila, columna)).cambiarEstado(new Bandera());
 		
 	}
 }

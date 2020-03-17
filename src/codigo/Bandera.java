@@ -2,12 +2,16 @@ package codigo;
 
 public class Bandera implements Estado {
 
+
+
 	@Override
-	public void clickIzq() {
+	public void clickIzq(int fila, int columna) {
+		
 	}
 
 	@Override
-	public void clickDer() {
+	public void clickDer(int fila, int columna) {
+		(Tablero.getTablero().getCasilla(fila, columna)).cambiarEstado(new Cerrada());
 		
 	}
 }

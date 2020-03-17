@@ -21,20 +21,11 @@ public class Casilla {
 	}
 
 	
-	public void cambiarEstado(String s) {
+	public void cambiarEstado(Estado pEstado) {
 		/*Cambia el estado de la casilla por el estado actual
 		 * Se le tiene que pasar por parametro dcho o derecho, o izq o izquierda como paramentro
 		 */
-		if(s.equals("dcho") || s.equals("derecho")) {
-			if(estado instanceof Bandera)
-				estado = new Cerrada();
-			else if(estado instanceof Cerrada)
-				estado = new Bandera();
-		}
-		if(s.equals("izq") || s.equals("izquierda")) {
-			if(estado instanceof Cerrada)
-				estado = new Abierto();
-		}
+		estado = pEstado;
 	}
 
 	public boolean esBomba() {
@@ -60,6 +51,14 @@ public class Casilla {
 
 	public int getcolumna() {
 		return this.columna;
+	}
+	
+	public void clickDer() {
+		estado.clickDer(fila, columna);
+	}
+	
+	public void clickIzq() {
+		estado.clickIzq(fila, columna);
 	}
 
 }

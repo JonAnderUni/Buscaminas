@@ -242,6 +242,7 @@ public class Iu_Partida extends JFrame implements Observer {
 	private JPanel getPanel_3_1() {
 		if (panel_3 == null) {
 			panel_3 = new JPanel();
+			panel_3.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		}
 		return panel_3;
 	}
@@ -353,9 +354,9 @@ public class Iu_Partida extends JFrame implements Observer {
                     public void mouseClicked(MouseEvent arg0) {
                         // TODO Auto-generated method stub
                     	if(arg0.getButton() == 1) {
-                    		Tablero.getTablero().getCasilla(fila, columna).cambiarEstado("izquierdo");
+                    		Tablero.getTablero().getCasilla(fila, columna).clickIzq();
                     	}else if(arg0.getButton() == 3) {
-                    		Tablero.getTablero().getCasilla(fila, columna).cambiarEstado("derecho");
+                    		Tablero.getTablero().getCasilla(fila, columna).clickDer();
                     	}else {}
                     }
                 });
