@@ -27,6 +27,14 @@ public class Casilla {
 		 */
 		estado = pEstado;
 	}
+	
+	public void clickDer() {
+		estado.clickDer(fila, columna);
+	}
+	
+	public void clickIzq() {
+		estado.clickIzq(fila, columna);
+	}
 
 	public boolean esBomba() {
 		// Comprueba si la casilla es una bomba
@@ -53,12 +61,14 @@ public class Casilla {
 		return this.columna;
 	}
 	
-	public void clickDer() {
-		estado.clickDer(fila, columna);
+	
+	public int getEstado() {
+		//o abierta, 1 bandera, 2 cerrada;
+		
+		if(estado instanceof Cerrada) return 2;
+		else if(estado instanceof Bandera) return 1;
+		else return 0;
 	}
 	
-	public void clickIzq() {
-		estado.clickIzq(fila, columna);
-	}
 
 }

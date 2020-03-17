@@ -353,10 +353,16 @@ public class Iu_Partida extends JFrame implements Observer {
                     @Override
                     public void mouseClicked(MouseEvent arg0) {
                         // TODO Auto-generated method stub
+                    	
+                    	int j = (int) (jb.getY() -10)/tamanoX;
+                    	int j2 = (int) (jb.getX() /tamanoY);
                     	if(arg0.getButton() == 1) {
-                    		Tablero.getTablero().getCasilla(fila, columna).clickIzq();
+                    		Tablero.getTablero().getCasilla(j,j2).clickIzq(); ;
+                    		pintarPosicion(j,j2);
                     	}else if(arg0.getButton() == 3) {
-                    		Tablero.getTablero().getCasilla(fila, columna).clickDer();
+                    		Tablero.getTablero().getCasilla(j,j2).clickDer();
+                    		pintarPosicion(j, j2);
+
                     	}else {}
                     }
                 });
@@ -395,12 +401,21 @@ public class Iu_Partida extends JFrame implements Observer {
 	}
 
 	public void pintarPosicion(int x, int y) {
+		
+		int estado = Tablero.getTablero().getCasilla(x, y).getEstado();
 		ImageIcon imagen;
 		int num = Tablero.getTablero().getNumPos(x, y);
-		if (num == -1) {
-			imagen = new ImageIcon("img/mine.png");
-		} else {
-			imagen = new ImageIcon("img/" + num + ".png");
+		
+		if(estado == 0) {
+			if (num == -1) {
+				imagen = new ImageIcon("img/mine.png");
+			} else {
+				imagen = new ImageIcon("img/" + num + ".png");
+			}
+		}else if (estado == 1) {
+			imagen = new ImageIcon("img/flagged.png");
+		}else {
+			imagen = new ImageIcon("img/covered.png");
 		}
 		java.awt.Image conversion = imagen.getImage();
 		java.awt.Image tamano = conversion.getScaledInstance(tamanoX,tamanoY,0);

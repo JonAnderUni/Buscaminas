@@ -116,7 +116,7 @@ public class Tablero {
 		Queue<Casilla> porVisitar = new LinkedList<Casilla>();	// Creamos la lista de casillas por visitar, para ver si hay que abrirlas o no
 		Boolean fin = false;									// Booleano para saber, si la casilla clicada era una mina
 		Casilla act = tablero[fila][columna];					// Buscamos la casilla en el tablero
-		act.cambiarEstado("izq");								// Abrimos la casilla
+		act.cambiarEstado(new Abierto());								// Abrimos la casilla
 		
 		if (act.esBomba()){	// Si la casilla abierta es una bomba, se termina el juego
 			fin = true;
@@ -149,7 +149,8 @@ public class Tablero {
 			// Una vez comprobadas las casillas de al rededor, buscaremos todas las casillas que no tengan minas al rededor, contiguas a la original
 			while (!porVisitar.isEmpty()) {
 				act = porVisitar.remove();		// Sacamos la casilla de la lista de pendientes
-				act.cambiarEstado("izq");		// La abrimos
+				
+				//act.cambiarEstado("izq");		// La abrimos
 				fila = act.getFila();			// Cogemos su fila
 				columna = act.getcolumna();		// Cogemos su columna
 				
