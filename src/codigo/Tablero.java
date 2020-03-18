@@ -6,6 +6,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import javax.print.attribute.HashAttributeSet;
 
+import interfaz.Iu_Partida;
+
 public class Tablero {
 
 	private static Tablero mTablero;
@@ -150,7 +152,7 @@ public class Tablero {
 			while (!porVisitar.isEmpty()) {
 				act = porVisitar.remove();		// Sacamos la casilla de la lista de pendientes
 				
-				//act.cambiarEstado("izq");		// La abrimos
+				act.cambiarEstado(new Abierto());		// La abrimos
 				fila = act.getFila();			// Cogemos su fila
 				columna = act.getcolumna();		// Cogemos su columna
 				

@@ -14,4 +14,10 @@ public class Bandera implements Estado {
 		(Tablero.getTablero().getCasilla(fila, columna)).cambiarEstado(new Cerrada());
 		
 	}
+
+	@Override
+	public int getEstado() {
+		// TODO Auto-generated method stub
+		return 1;
+	}
 }

@@ -14,4 +14,9 @@ public class Cerrada implements Estado {
 		(Tablero.getTablero().getCasilla(fila, columna)).cambiarEstado(new Bandera());
 		
 	}
+	@Override
+	public int getEstado() {
+		// TODO Auto-generated method stub
+		return 2;
+	}
 }

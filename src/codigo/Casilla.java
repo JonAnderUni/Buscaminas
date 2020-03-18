@@ -1,6 +1,10 @@
 package codigo;
 
-public class Casilla {
+import java.util.Observable;
+
+import interfaz.Iu_Partida;
+
+public class Casilla extends Observable {
 
 	private int fila;
 	private int columna;
@@ -14,24 +18,31 @@ public class Casilla {
 
 	public Casilla(int filas, int columnas, int bombas) {
 		// Inicializamos las variables con el estado inicial como cerrado
+		super();
 		numMinas = bombas;
 		fila = filas;
 		columna = columnas;
 		estado = new Cerrada();
+		
 	}
 
-	
 	public void cambiarEstado(Estado pEstado) {
-		/*Cambia el estado de la casilla por el estado actual
-		 * Se le tiene que pasar por parametro dcho o derecho, o izq o izquierda como paramentro
+		/*
+		 * Cambia el estado de la casilla por el estado actual Se le tiene que pasar por
+		 * parametro dcho o derecho, o izq o izquierda como paramentro
 		 */
-		estado = pEstado;
+
+		if (estado.getEstado() != pEstado.getEstado()) {
+			estado = pEstado;
+			setChanged();
+			notifyObservers(new Casilla(fila,columna,numMinas));
+		}
 	}
-	
+
 	public void clickDer() {
 		estado.clickDer(fila, columna);
 	}
-	
+
 	public void clickIzq() {
 		estado.clickIzq(fila, columna);
 	}
@@ -48,8 +59,10 @@ public class Casilla {
 
 	public void incrementarNumMinas() {
 		// Aumenta el numero de minas total
-		if (this.numMinas != -1) {this.numMinas++;}
-		else {}
+		if (this.numMinas != -1) {
+			this.numMinas++;
+		} else {
+		}
 
 	}
 
@@ -60,15 +73,12 @@ public class Casilla {
 	public int getcolumna() {
 		return this.columna;
 	}
-	
-	
+
 	public int getEstado() {
-		//o abierta, 1 bandera, 2 cerrada;
-		
-		if(estado instanceof Cerrada) return 2;
-		else if(estado instanceof Bandera) return 1;
-		else return 0;
+		// 0 abierta, 1 bandera, 2 cerrada;
+		// La utilizamos en Iu_Partida para conocer el estado de la casilla.
+
+		return estado.getEstado();
 	}
-	
 
 }

@@ -21,6 +21,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
 
+import codigo.Casilla;
 import codigo.Tablero;
 
 import java.awt.event.ActionListener;
@@ -64,6 +65,7 @@ public class Iu_Partida extends JFrame implements Observer {
 	private JLabel lblNewLabel;
 	private int tamanoX = 25;
 	private int tamanoY= 25;
+	
 
 	/**
 	 * Launch the application.
@@ -87,7 +89,6 @@ public class Iu_Partida extends JFrame implements Observer {
 	 */
 	private Iu_Partida() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 347, 435);
 		setJMenuBar(getMenuBar_1());
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -99,6 +100,8 @@ public class Iu_Partida extends JFrame implements Observer {
 		contentPane.add(getPanel_3_1(), BorderLayout.SOUTH);
 		contentPane.add(getPanel_4_1(), BorderLayout.CENTER);
 		this.setTitle("Buscaminas");
+
+		
 
 	}
 
@@ -346,24 +349,21 @@ public class Iu_Partida extends JFrame implements Observer {
 				jb.setBorderPainted(true);
 				tablero[a][e] = jb;
 				tablero[a][e].setBounds(x,y,tamanoX, tamanoY);
-				final int fila = a;
-                final int columna = e;
 				tablero[a][e].addMouseListener(new MouseAdapter() {
 
                     @Override
                     public void mouseClicked(MouseEvent arg0) {
                         // TODO Auto-generated method stub
                     	
-                    	int j = (int) (jb.getY() -10)/tamanoX;
-                    	int j2 = (int) (jb.getX() /tamanoY);
+                    	int j = (int) (jb.getY())/tamanoY;
+                    	int j2 = (int) (jb.getX()) /tamanoX;
                     	if(arg0.getButton() == 1) {
                     		Tablero.getTablero().getCasilla(j,j2).clickIzq(); ;
-                    		pintarPosicion(j,j2);
                     	}else if(arg0.getButton() == 3) {
                     		Tablero.getTablero().getCasilla(j,j2).clickDer();
-                    		pintarPosicion(j, j2);
+                    		
 
-                    	}else {}
+                    	}
                     }
                 });
 				getPanel_4_1().add(jb);
@@ -373,8 +373,8 @@ public class Iu_Partida extends JFrame implements Observer {
 			x=0;
 			y = y+tamanoY;
 		}
-		if(fila == columna) setSize(((columna)*(tamanoX )) + 46 , ((fila)*tamanoY) + panel.getHeight() + 140);
-		else setSize(((columna)*(tamanoX )) + 46 , ((fila)*tamanoY) + panel.getHeight() + 100);
+	
+		setSize(((columna)*(tamanoX )) + 46 , ((fila)*tamanoY) + panel.getHeight() + 100);
 		Tablero.getTablero().generarTablero(tablero.length, tablero[0].length, tablero[0].length * 3);
 		
 
@@ -400,7 +400,7 @@ public class Iu_Partida extends JFrame implements Observer {
 		}
 	}
 
-	public void pintarPosicion(int x, int y) {
+	private void pintarPosicion(int x, int y) {
 		
 		int estado = Tablero.getTablero().getCasilla(x, y).getEstado();
 		ImageIcon imagen;
@@ -468,10 +468,19 @@ public class Iu_Partida extends JFrame implements Observer {
 		}
 		return lblNewLabel;
 	}
-
+	
+	private void ordenar() {
+		
+	}
+	
 	@Override
 	public void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
+		Casilla casilla = (Casilla) arg;
+		int x = casilla.getFila();
+		int y = casilla.getcolumna();
+		pintarPosicion(x, y);
 
 	}
+	
 }
