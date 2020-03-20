@@ -28,6 +28,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import java.awt.event.ActionEvent;
@@ -382,6 +384,8 @@ public class Iu_Partida extends JFrame implements Observer {
 		contadorBombas();
 		pintarTablero(tamanoX, tamanoY);
 		actualizarTablero(getPanel_4_1());
+		
+		
 	}
 
 	private void pintarTablero(int tamanoX, int tamanoY) {
@@ -470,6 +474,16 @@ public class Iu_Partida extends JFrame implements Observer {
 	}
 	
 	private void ordenar() {
+		
+	}
+	
+	private void anadirObservables(HashMap<String, Observable> o) {
+		//Metodo para añadir conectar el observer con los observables
+		
+		for(Map.Entry<String, Observable> obs : o.entrySet()) { 
+			//for-each del hashmap
+			obs.getValue().addObserver(this);
+		}
 		
 	}
 	
