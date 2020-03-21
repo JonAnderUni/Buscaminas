@@ -11,7 +11,6 @@ public class P_Tablero {
 		tablero.generarTablero(7,10,30);
 		tablero.imprimirTablero();
 		System.out.println("");
-		System.out.println(tablero.getTablero().getNumBombas());
 
 	}
 

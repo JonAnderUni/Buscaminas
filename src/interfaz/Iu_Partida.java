@@ -25,6 +25,8 @@ import codigo.Casilla;
 import codigo.Tablero;
 
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -38,7 +40,7 @@ import java.awt.GridBagLayout;
 import java.awt.FlowLayout;
 import java.awt.CardLayout;
 
-public class Iu_Partida extends JFrame implements Observer {
+public class Iu_Partida extends JFrame implements Observer,ComponentListener {
 
 	private JPanel contentPane;
 	private JMenuBar menuBar;
@@ -61,13 +63,15 @@ public class Iu_Partida extends JFrame implements Observer {
 	private int fila;
 	private int columna;
 	private int bombas;
-	private static Iu_Partida miPartida = new Iu_Partida();
 	private JLabel lblDec;
 	private JLabel lblUd;
 	private JLabel lblNewLabel;
+
+	private static Iu_Partida miPartida = new Iu_Partida();
 	private int tamanoX = 25;
-	private int tamanoY= 25;
-	
+	private int tamanoY = 25;
+	private JLabel lblAlain;
+
 
 	/**
 	 * Launch the application.
@@ -102,8 +106,12 @@ public class Iu_Partida extends JFrame implements Observer {
 		contentPane.add(getPanel_3_1(), BorderLayout.SOUTH);
 		contentPane.add(getPanel_4_1(), BorderLayout.CENTER);
 		this.setTitle("Buscaminas");
-
 		
+		setSize(((columna) * (tamanoX)), ((fila) * tamanoY));
+		
+		
+		//Para hacerlo redimensionable
+		addComponentListener(this);
 
 	}
 
@@ -248,6 +256,7 @@ public class Iu_Partida extends JFrame implements Observer {
 		if (panel_3 == null) {
 			panel_3 = new JPanel();
 			panel_3.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+			panel_3.add(getLblAlain());
 		}
 		return panel_3;
 	}
@@ -256,7 +265,7 @@ public class Iu_Partida extends JFrame implements Observer {
 		if (panel_4 == null) {
 			panel_4 = new JPanel();
 			panel_4.setLayout(null);
-			fila = 12;
+			fila = 10;
 			columna = 12;
 			crearTablero();
 
@@ -329,133 +338,188 @@ public class Iu_Partida extends JFrame implements Observer {
 		return lblUd;
 	}
 
+	private JLabel getLblNewLabel() {
+		if (lblNewLabel == null) {
+			lblNewLabel = new JLabel("s");
+		}
+		return lblNewLabel;
+	}
+
+	/*
+	 * Metodos que utilizamos en la clase Iu_Partida
+	 * -----------------------------------------------------------------------------
+	 * --------------------------------------------------------
+	 */
+
+	// Implementacion del patron Observer, una vez la interfaz cambia de estado,
+	// pintamos la posicion correspondiente
+	@Override
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
+
+		if (o instanceof Casilla) {
+			Casilla casilla = (Casilla) o;
+			int x = casilla.getFila();
+			int y = casilla.getcolumna();
+			pintarPosicion(x, y);
+		}
+
+	}
+
+	// Utilizamos este metodo para comunicar la interfaz con Tablero.
+	// Generamsos la matriz de botones
+	// Una vez generada la matriz creamos el tablero de casillas.
 	private void crearTablero() {
 
 		
+
 		getPanel_4_1().removeAll();
 		tablero = new JButton[fila][columna];
-		if (fila <= 0 || columna <= 0) {
-			// poner mensaje de tama�o incorrecto creando por defecto;
-			JOptionPane.showMessageDialog(null, "Valores incorrectos, tablero creado por valores predeterminados",
-					"Advertencia", JOptionPane.WARNING_MESSAGE);
-			fila = 12;
-			columna = 12;
-		}
 		
-		int x = 0;
-		int y = 15;
-		for (int a = 0; a < fila; a++) {
-			for (int e = 0; e < columna; e++) {
+		
+		for (int f = 0; f < fila; f++) {
+			for (int c = 0; c < columna; c++) {
 				JButton jb = new JButton();
 				jb.setBackground(Color.LIGHT_GRAY);
 				jb.setBorderPainted(true);
-				tablero[a][e] = jb;
-				tablero[a][e].setBounds(x,y,tamanoX, tamanoY);
-				tablero[a][e].addMouseListener(new MouseAdapter() {
+				tablero[f][c] = jb;
+				tablero[f][c].addMouseListener(new MouseAdapter() {
+					
+					//Para aplicar el patron estate state
+					@Override
+					public void mouseClicked(MouseEvent arg0) {
+						// TODO Auto-generated method stub
 
-                    @Override
-                    public void mouseClicked(MouseEvent arg0) {
-                        // TODO Auto-generated method stub
-                    	
-                    	int j = (int) (jb.getY())/tamanoY;
-                    	int j2 = (int) (jb.getX()) /tamanoX;
-                    	if(arg0.getButton() == 1) {
-                    		Tablero.getTablero().getCasilla(j,j2).clickIzq(); ;
-                    	}else if(arg0.getButton() == 3) {
-                    		Tablero.getTablero().getCasilla(j,j2).clickDer();
-                    		
-
-                    	}
-                    }
-                });
+						int j = (int) (jb.getX() / (getWidth() / columna));
+						int j2 = (int) (jb.getY() / (getHeight() / fila));
+						if (arg0.getButton() == 1) {
+							Tablero.getTablero().getCasilla(j2, j).clickIzq();
+							//pintarPosicion(j2, j);
+						} else if (arg0.getButton() == 3) {
+							Tablero.getTablero().getCasilla(j2, j).clickDer();
+							//pintarPosicion(j2, j);
+						}
+					}
+				});
 				getPanel_4_1().add(jb);
 				
-				x = x+tamanoX;
 			}
-			x=0;
-			y = y+tamanoY;
+			
 		}
-	
-		setSize(((columna)*(tamanoX )) + 46 , ((fila)*tamanoY) + panel.getHeight() + 100);
-		Tablero.getTablero().generarTablero(tablero.length, tablero[0].length, tablero[0].length * 3);
 		
-
-
+		
+		/*Establecemos un tamano a la ventana para que las casillas sean de 29x29
+		 * si modificamos el tamano de la ventana cambiamos el tamano predeterminado
+		 * esto ultimo lo hacemos con el metodo ordenar
+		 * */
+		setSize(((columna + 2)*tamanoX ) + 300,(fila + 3)*tamanoY);
+		getPanel_4_1().setSize(((columna+2) * (tamanoX)) + 300, ((fila+3) * tamanoY));
+		
+		ordenar();
+		Tablero.getTablero().generarTablero(tablero.length, tablero[0].length, tablero[0].length * 3);
 		contadorBombas();
 		pintarTablero(tamanoX, tamanoY);
 		actualizarTablero(getPanel_4_1());
-		
-		
 	}
+	
+	
+	// metodo para hacer la interfaz responsive
+		private void ordenar() {
+			//falta impelementar este metodo
+				
+			int anchoTotal = getWidth();
+			int altoTotal = getHeight();	
+			int tx = anchoTotal / columna;
+			int ty = altoTotal / fila;
+			
+			int x = 0;
+			int y = 15;
+			for(int f = 0; f<tablero.length;f++) {
+				for(int c = 0; c<tablero[0].length;c++) {
+					tablero[f][c].setBounds(x, y,tx, ty);
+					//pintarPosicion(f, c);
+					x = x + tx;
+				}
+				x = 0;
+				y = y + ty;
+			}
+			pintarTablero(tx, ty);
+			
+		}
+		
+		
 
-	private void pintarTablero(int tamanoX, int tamanoY) {
+	// hace los mismo que pintarposicion, pero inicializamos el tablero a casillas
+	// cerradas y las pintamos como tal
+	private void pintarTablero(int tX, int tY) {
 		// java.awt.Image.SCALE_SMOOTH
 		for (int i = 0; i < tablero.length; i++) {
 			for (int j = 0; j < tablero[0].length; j++) {
 				ImageIcon imagen = new ImageIcon("img/covered.png");
 				java.awt.Image conversion = imagen.getImage();
-				java.awt.Image tamano = conversion.getScaledInstance(tamanoX, tamanoY,0);
+				java.awt.Image tamano = conversion.getScaledInstance(tX, tY,0);
 				ImageIcon fin = new ImageIcon(tamano);
 				tablero[i][j].setIcon(fin);
-				
-			
+					
 
 			}
 		}
+		
 	}
 
-	private void pintarPosicion(int x, int y) {
-		
-		int estado = Tablero.getTablero().getCasilla(x, y).getEstado();
+	// lo utilizamos en el patron observer
+	// si una casilla ha sido cambiada de estado lo cambiamos de acorde a este
+	private void pintarPosicion(int f, int c) {
+
+		int estado = Tablero.getTablero().getCasilla(f, c).getEstado();
 		ImageIcon imagen;
-		int num = Tablero.getTablero().getNumPos(x, y);
-		
-		if(estado == 0) {
+		int num = Tablero.getTablero().getNumPos(f, c);
+
+		if (estado == 0) {
 			if (num == -1) {
 				imagen = new ImageIcon("img/mine.png");
+				// Mensaje de que ha pulsado una mina, pierde la partida
 			} else {
 				imagen = new ImageIcon("img/" + num + ".png");
 			}
-		}else if (estado == 1) {
+		} else if (estado == 1) {
 			imagen = new ImageIcon("img/flagged.png");
-		}else {
+		} else {
 			imagen = new ImageIcon("img/covered.png");
 		}
+
 		java.awt.Image conversion = imagen.getImage();
-		java.awt.Image tamano = conversion.getScaledInstance(tamanoX,tamanoY,0);
+		java.awt.Image tamano = conversion.getScaledInstance(tamanoX, tamanoY, 0);
 		ImageIcon fin = new ImageIcon(tamano);
-		tablero[x][y].setIcon(fin);
+		tablero[f][c].setIcon(fin);
+		actualizarTablero(getPanel_4_1());
 	}
 
-	public void crearPartidaPersonalizada(String i, String j, String b) {
+	// Metodo para comunicar la interfaz Iu_personalizada con la interfaz Iu_partida
+	public void crearPartidaPersonalizada(int f, int c, int b) {
 
-		try {
-			fila = Integer.parseInt(i);
-			columna = Integer.parseInt(j);
-			bombas = Integer.parseInt(b);
-			crearTablero();
-			Tablero.getTablero().generarTablero(fila, columna, bombas);
-			actualizarTablero(getPanel_4_1());
-			Iu_Personalizar.getMiPartidaPersonalizada().setVisible(false);
-			// si no guarda informacion hace falta hacer un dispose
-			setVisible(true);
-		} catch (NumberFormatException excepcion) {
-			// System.out.println("Por favor introduce numeros");
-			JOptionPane.showMessageDialog(null, "Por favor introduce n�meros", "Error", JOptionPane.ERROR_MESSAGE);
-		}
+		fila = f;
+		columna = c;
+		bombas = b;
+		crearTablero();
+
+		Iu_Personalizar.getMiPartidaPersonalizada().setVisible(false);
+		// Hemos decidido que guarde la informacion, por lo que no hay que hacer dispose
+		setVisible(true);
+
 	}
 
-	public int[] getDatosTablero() {
-		int[] datos = new int[2];
-		datos[0] = fila;
-		datos[1] = columna;
-		datos[2] = bombas;
-		return datos;
-	}
-
+	// Para poner el numero de bombas que hay en la interfaz
 	private void contadorBombas() {
 		getPanel_5().removeAll();
-		int numM = Tablero.getTablero().getNumBombas();
+		int numM = bombas;
+
+		// Si se ha introducido mal el numero de bombas
+		// bombas <= 0
+		if (bombas <= 0) {
+			numM = bombas * columna;
+			bombas = numM;
+		}
 		int aa = numM / 10;
 		int bb = numM % 10;
 		ImageIcon img1 = new ImageIcon("img/r" + aa + ".png");
@@ -466,35 +530,33 @@ public class Iu_Partida extends JFrame implements Observer {
 		getPanel_5().add(getLblUd());
 	}
 
-	private JLabel getLblNewLabel() {
-		if (lblNewLabel == null) {
-			lblNewLabel = new JLabel("s");
-		}
-		return lblNewLabel;
-	}
 	
-	private void ordenar() {
-		
-	}
-	
-	private void anadirObservables(HashMap<String, Observable> o) {
-		//Metodo para añadir conectar el observer con los observables
-		
-		for(Map.Entry<String, Observable> obs : o.entrySet()) { 
-			//for-each del hashmap
-			obs.getValue().addObserver(this);
-		}
-		
-	}
+
 	
 	@Override
-	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-		Casilla casilla = (Casilla) arg;
-		int x = casilla.getFila();
-		int y = casilla.getcolumna();
-		pintarPosicion(x, y);
-
+	public void componentResized(ComponentEvent e) {
+		ordenar();
 	}
-	
+	@Override
+	public void componentHidden(ComponentEvent e) {
+		// TODO Auto-generated method stub	
+	}
+
+	@Override
+	public void componentMoved(ComponentEvent e) {
+		// TODO Auto-generated method stub	
+	}
+
+
+	@Override
+	public void componentShown(ComponentEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	private JLabel getLblAlain() {
+		if (lblAlain == null) {
+			lblAlain = new JLabel("Alain");
+		}
+		return lblAlain;
+	}
 }

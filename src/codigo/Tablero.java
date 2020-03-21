@@ -184,11 +184,6 @@ public class Tablero {
 		}
 		return fin;
 	}
-	
-	public int getNumBombas() {
-		return listaBombas.size();
-	}
-
 	public int getNumPos(int fila, int columna) {
 		return (tablero[fila][columna]).getNumMinas();
 	}

@@ -4,7 +4,7 @@ import java.util.Observable;
 
 import interfaz.Iu_Partida;
 
-public class Casilla extends Observable {
+public class Casilla extends Observable{
 
 	private int fila;
 	private int columna;
@@ -13,6 +13,7 @@ public class Casilla extends Observable {
 
 	// Constructora vacia
 	public Casilla() {
+		super();
 
 	}
 
@@ -35,7 +36,7 @@ public class Casilla extends Observable {
 		if (estado.getEstado() != pEstado.getEstado()) {
 			estado = pEstado;
 			setChanged();
-			notifyObservers(new Casilla(fila,columna,numMinas));
+			notifyObservers(new int[] {fila,columna});
 		}
 	}
 

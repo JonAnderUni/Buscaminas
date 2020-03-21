@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.GridLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -216,40 +217,12 @@ public class Iu_Personalizar extends JFrame {
 		return textField_2;
 	}
 
-	private JButton getBtnOk() {
-		if (btnOk == null) {
-			btnOk = new JButton("Ok");
-			btnOk.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					String filas;
-					String columnas;
-					String bombas;
-
-					if (rdbtnPersonalizar.isSelected()) {
-						filas = getTextField().getText();
-						columnas = getTextField_1().getText();
-						bombas = getTextField_2().getText();
-					} else if (rdbtnx.isSelected()) {
-						filas = 3 + "";
-						columnas = 3 + "";
-						bombas = 2 + "";
-
-					} else if (rdbtnx_1.isSelected()) {
-						filas = 10 + "";
-						columnas = 10 + "";
-						bombas = 40 + "";
-
-					} else {
-						filas = 15 + "";
-						columnas = 15 + "";
-						bombas = 80 + "";
-					}
-
-					Iu_Partida.getMiPartida().crearPartidaPersonalizada(filas, columnas, bombas);
-				}
-			});
+	private JLabel getLblInformacion() {
+		if (lblInformacion == null) {
+			lblInformacion = new JLabel("informacion");
+			lblInformacion.setVisible(false);
 		}
-		return btnOk;
+		return lblInformacion;
 	}
 
 	private JPanel getPanel_8() {
@@ -331,13 +304,68 @@ public class Iu_Personalizar extends JFrame {
 		}
 		return rdbtnx_2;
 	}
-	
-	private JLabel getLblInformacion() {
-		if (lblInformacion == null) {
-			lblInformacion = new JLabel("informacion");
-			lblInformacion.setVisible(false);
+
+//la interfaz Iu_Personalizada solo se comunica con la interfaz Iu_partida para decir de cuanto crear el tablero de botones
+	/*Tamaño minimo del ablero 4X4
+	 * 
+	 * 
+	 * */
+
+	private JButton getBtnOk() {
+		if (btnOk == null) {
+			btnOk = new JButton("Ok");
+			btnOk.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					String filas;
+					String columnas;
+					String bombas;
+
+					if (rdbtnPersonalizar.isSelected()) {
+						
+						filas = getTextField().getText();
+						columnas = getTextField_1().getText();
+						bombas = getTextField_2().getText();
+						
+					} else if (rdbtnx.isSelected()) {
+						filas = 3 + "";
+						columnas = 3 + "";
+						bombas = 2 + "";
+
+					} else if (rdbtnx_1.isSelected()) {
+						filas = 10 + "";
+						columnas = 10 + "";
+						bombas = 40 + "";
+
+					} else {
+						filas = 15 + "";
+						columnas = 15 + "";
+						bombas = 80 + "";
+					}
+
+					try {
+						
+						int f = Integer.parseInt(filas);
+						int c = Integer.parseInt(columnas);
+						int b = Integer.parseInt(bombas);
+						
+						if(f>0 && c>0 && (b<f*c && b>0)){
+							Iu_Partida.getMiPartida().crearPartidaPersonalizada(f, c, b);
+						}else {
+							JOptionPane.showMessageDialog(null, "Valores erroneos, por favor comprueba los valores de nuevo", "Error",
+									JOptionPane.ERROR_MESSAGE);
+							restablecerValoresDefabrica();
+						}
+						
+					} catch (NumberFormatException excepcion) {
+						// System.out.println("Por favor introduce numeros");
+						JOptionPane.showMessageDialog(null, "Por favor introduce n�meros", "Error",
+								JOptionPane.ERROR_MESSAGE);
+					}
+
+				}
+			});
 		}
-		return lblInformacion;
+		return btnOk;
 	}
 
 	private void setPersonalizable(boolean estado) {
@@ -348,14 +376,21 @@ public class Iu_Personalizar extends JFrame {
 		getLblColumnas().setEnabled(estado);
 		getLblBombas().setEnabled(estado);
 	}
-	
+
 	private void setTxtDificultad(String txt) {
 
 		if (txt != null) {
 			getLblInformacion().setText("Dificultad : " + txt);
-		}else {
+		} else {
 			getLblInformacion().setText("Dificultad : Ninguna");
 		}
 		getLblInformacion().setVisible(true);
-	}	
+	}
+	
+	private void restablecerValoresDefabrica() {
+		getTextField().setText(null);
+		getTextField_1().setText(null);
+		getTextField_2().setText(null);
+	}
+
 }
