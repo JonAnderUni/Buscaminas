@@ -53,6 +53,10 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	private JPanel panel_8;
 	private int tamanoX;
 	private int tamanoY;
+	private JPanel panel_9;
+	private JPanel panel_10;
+	private JPanel panel_11;
+	private JPanel panel_12;
 
 	/**
 	 * Launch the application.
@@ -81,6 +85,10 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		contentPane.add(getPanel_4_1(), BorderLayout.CENTER);
+		contentPane.add(getPanel_9(), BorderLayout.NORTH);
+		contentPane.add(getPanel_10(), BorderLayout.SOUTH);
+		contentPane.add(getPanel_11(), BorderLayout.WEST);
+		contentPane.add(getPanel_12(), BorderLayout.EAST);
 		
 		
 		
@@ -88,7 +96,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		this.setTitle("Buscaminas");
 		tamanoX = 30;
 		tamanoY = 30;
-		crearTablero(50,50);
+		crearTablero(30,30);
 		addComponentListener(this);
 
 		
@@ -137,8 +145,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		 * ultimo lo hacemos con el metodo ordenar
 		 */
 		
-		setSize(((columnas + 1)*tamanoX), ((filas + 1)*tamanoY));
-		panel_4.setSize(columna * tamanoX, fila * tamanoY);
+		setSize(((columnas )*tamanoX), ((filas )*tamanoY));
 		ordenar();
 		//pintarTablero(29,29);
 	}
@@ -146,20 +153,20 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	private void ordenar() {
 		//falta impelementar este metodo
 			
-		int anchoTotal = panel_4.getWidth()-15;
-		int altoTotal = panel_4.getHeight()-15;	
+		int anchoTotal = panel_4.getWidth();
+		int altoTotal = panel_4.getHeight();	
 		int tx = anchoTotal / columna;
 		int ty = altoTotal / fila;
 		
-		int x = 15;
-		int y = 18;
+		int x = 0;
+		int y = 0;
 		for(int f = 0; f<tablero.length;f++) {
 			for(int c = 0; c<tablero[0].length;c++) {
 				tablero[f][c].setBounds(x, y,tx, ty);
 				//pintarPosicion(f, c);
 				x = x + tx;
 			}
-			x = 15;
+			x = 0;
 			y = y + ty;
 		}
 		//pintarTablero(tx, ty);
@@ -221,5 +228,33 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			panel_4.setLayout(null);
 		}
 		return panel_4;
+	}
+	private JPanel getPanel_9() {
+		if (panel_9 == null) {
+			panel_9 = new JPanel();
+			panel_9.setSize(getWidth(),10);
+		}
+		return panel_9;
+	}
+	private JPanel getPanel_10() {
+		if (panel_10 == null) {
+			panel_10 = new JPanel();
+			panel_10.setSize(getWidth(),10);
+		}
+		return panel_10;
+	}
+	private JPanel getPanel_11() {
+		if (panel_11 == null) {
+			panel_11 = new JPanel();
+			panel_11.setSize(10,getHeight());
+		}
+		return panel_11;
+	}
+	private JPanel getPanel_12() {
+		if (panel_12 == null) {
+			panel_12 = new JPanel();
+			panel_12.setSize(10,getHeight());
+		}
+		return panel_12;
 	}
 }
