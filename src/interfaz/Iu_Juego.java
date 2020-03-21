@@ -96,7 +96,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		this.setTitle("Buscaminas");
 		tamanoX = 30;
 		tamanoY = 30;
-		crearTablero(30,30);
+		crearTablero(30,15);
 		addComponentListener(this);
 
 		
@@ -145,7 +145,9 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		 * ultimo lo hacemos con el metodo ordenar
 		 */
 		
-		setSize(((columnas )*tamanoX), ((filas )*tamanoY));
+		setSize(((columnas )*tamanoX) + 20, ((filas )*tamanoY) + 20);
+		panel_4.setSize(((columnas )*tamanoX), ((filas )*tamanoY));
+
 		ordenar();
 		//pintarTablero(29,29);
 	}
@@ -159,7 +161,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		int ty = altoTotal / fila;
 		
 		int x = 0;
-		int y = 0;
+		int y = 6;
 		for(int f = 0; f<tablero.length;f++) {
 			for(int c = 0; c<tablero[0].length;c++) {
 				tablero[f][c].setBounds(x, y,tx, ty);
