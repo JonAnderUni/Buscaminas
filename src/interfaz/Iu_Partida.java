@@ -418,6 +418,7 @@ public class Iu_Partida extends JFrame implements Observer,ComponentListener {
 		ordenar();
 		Tablero.getTablero().generarTablero(tablero.length, tablero[0].length, tablero[0].length * 3);
 		contadorBombas();
+		anadirObservables(Tablero.getTablero().getMatriz());
 		pintarTablero(tamanoX, tamanoY);
 		actualizarTablero(getPanel_4_1());
 	}
@@ -530,7 +531,13 @@ public class Iu_Partida extends JFrame implements Observer,ComponentListener {
 		getPanel_5().add(getLblUd());
 	}
 
-	
+	private void anadirObservables(Observable[][] c) {
+		for (int i = 0; i < c.length; i++) {
+			for (int j = 0; j < c[0].length; j++) {
+				c[i][j].addObserver(this);
+			}
+		}
+	}
 
 	
 	@Override

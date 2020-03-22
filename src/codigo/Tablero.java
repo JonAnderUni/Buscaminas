@@ -191,5 +191,9 @@ public class Tablero {
 	public Casilla getCasilla(int fila, int columna) {
 		return tablero[fila][columna];
 	}
-
+	
+	public Casilla[][] getMatriz() {
+		return tablero;
+	}
+		
 }
