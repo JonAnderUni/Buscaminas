@@ -2,6 +2,7 @@ package interfaz;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -25,6 +26,8 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+
+import com.sun.javafx.tk.Toolkit;
 
 import codigo.Casilla;
 import codigo.Tablero;
@@ -92,18 +95,24 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		contentPane.add(getPanel_10(), BorderLayout.SOUTH);
 		contentPane.add(getPanel_11(), BorderLayout.WEST);
 		contentPane.add(getPanel_12(), BorderLayout.EAST);
+		
+		//Para centrar frame en la mitad de la pantalla
+		 setLocation(750, 200);;
+	     setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		// Partida
 		this.setTitle("Buscaminas");
 		tamanoX = 30;
 		tamanoY = 30;
-		crearTablero(30, 30);
+		crearTablero(15, 10);
 		setJMenuBar(getMenuBar_1()); // Menu
 
 		// Resized
 		addComponentListener(this);
 
 	}
+	
+	public static Iu_Juego getJuego() {return miPartida;}
 
 	// Metodo para ajustar botones a la dimension de la ventana
 	@Override
@@ -126,7 +135,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		} else {
 			fila = filas;
 			columna = columnas;
-			bombas = columnas * 3;
+			if(bombas <= 0) bombas = columnas * 3;
 			getPanel_4_1().removeAll();
 			tablero = new JButton[fila][columna];
 			
@@ -302,6 +311,17 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			int y = casilla.getcolumna();
 			pintarPosicion(x, y);
 		}
+	}
+	
+	public void crearPartidaPersonalizada(int f, int c, int b) {
+
+		bombas = b;
+		crearTablero(f,c);
+
+		Iu_Personalizar.getMiPartidaPersonalizada().setVisible(false);
+		// Hemos decidido que guarde la informacion, por lo que no hay que hacer dispose
+		setVisible(true);
+
 	}
 
 	@Override

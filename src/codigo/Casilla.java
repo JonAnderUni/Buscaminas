@@ -3,8 +3,6 @@ package codigo;
 import java.util.Observable;
 import java.util.Observer;
 
-import interfaz.Iu_Partida;
-
 public class Casilla extends Observable{
 
 	private int fila;

@@ -30,11 +30,8 @@ public class Iu_Personalizar extends JFrame {
 	private JPanel panel_6;
 	private JPanel panel_7;
 	private JLabel lblFilas;
-	private JTextField textField;
 	private JLabel lblColumnas;
-	private JTextField textField_1;
 	private JLabel lblBombas;
-	private JTextField textField_2;
 	private JButton btnOk;
 	private JPanel panel_8;
 	private JPanel panel_9;
@@ -46,6 +43,9 @@ public class Iu_Personalizar extends JFrame {
 	private JRadioButton rdbtnx_1;
 	private JRadioButton rdbtnx_2;
 	private JLabel lblInformacion;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
 
 	/**
 	 * Launch the application.
@@ -84,6 +84,9 @@ public class Iu_Personalizar extends JFrame {
 		bg.add(rdbtnx_1);
 		bg.add(rdbtnx_2);
 		this.setTitle("Ajustes de Partida");
+		
+		 setLocation(700, 350);
+
 	}
 
 	public static Iu_Personalizar getMiPartidaPersonalizada() {
@@ -177,14 +180,6 @@ public class Iu_Personalizar extends JFrame {
 		return lblFilas;
 	}
 
-	private JTextField getTextField() {
-		if (textField == null) {
-			textField = new JTextField();
-			textField.setColumns(10);
-		}
-		return textField;
-	}
-
 	private JLabel getLblColumnas() {
 		if (lblColumnas == null) {
 			lblColumnas = new JLabel("Columnas");
@@ -193,28 +188,12 @@ public class Iu_Personalizar extends JFrame {
 		return lblColumnas;
 	}
 
-	private JTextField getTextField_1() {
-		if (textField_1 == null) {
-			textField_1 = new JTextField();
-			textField_1.setColumns(10);
-		}
-		return textField_1;
-	}
-
 	private JLabel getLblBombas() {
 		if (lblBombas == null) {
 			lblBombas = new JLabel("Bombas");
 			lblBombas.setHorizontalAlignment(SwingConstants.CENTER);
 		}
 		return lblBombas;
-	}
-
-	private JTextField getTextField_2() {
-		if (textField_2 == null) {
-			textField_2 = new JTextField();
-			textField_2.setColumns(10);
-		}
-		return textField_2;
 	}
 
 	private JLabel getLblInformacion() {
@@ -349,7 +328,8 @@ public class Iu_Personalizar extends JFrame {
 						int b = Integer.parseInt(bombas);
 						
 						if(f>0 && c>0 && (b<f*c && b>0)){
-							Iu_Partida.getMiPartida().crearPartidaPersonalizada(f, c, b);
+							Iu_Juego.getJuego().crearPartidaPersonalizada(f, c, b);
+							setVisible(false);
 						}else {
 							JOptionPane.showMessageDialog(null, "Valores erroneos, por favor comprueba los valores de nuevo", "Error",
 									JOptionPane.ERROR_MESSAGE);
@@ -369,9 +349,6 @@ public class Iu_Personalizar extends JFrame {
 	}
 
 	private void setPersonalizable(boolean estado) {
-		getTextField().setEnabled(estado);
-		getTextField_1().setEnabled(estado);
-		getTextField_2().setEnabled(estado);
 		getLblFilas().setEnabled(estado);
 		getLblColumnas().setEnabled(estado);
 		getLblBombas().setEnabled(estado);
@@ -391,5 +368,26 @@ public class Iu_Personalizar extends JFrame {
 		getTextField().setText(null);
 		getTextField_1().setText(null);
 		getTextField_2().setText(null);
+	}
+	private JTextField getTextField() {
+		if (textField == null) {
+			textField = new JTextField();
+			textField.setColumns(10);
+		}
+		return textField;
+	}
+	private JTextField getTextField_1() {
+		if (textField_1 == null) {
+			textField_1 = new JTextField();
+			textField_1.setColumns(10);
+		}
+		return textField_1;
+	}
+	private JTextField getTextField_2() {
+		if (textField_2 == null) {
+			textField_2 = new JTextField();
+			textField_2.setColumns(10);
+		}
+		return textField_2;
 	}
 }

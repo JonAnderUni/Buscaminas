@@ -38,6 +38,8 @@ public class Iu_LogIn extends JFrame {
 			}
 		});
 	}
+	
+	
 	public static Iu_LogIn getMiLogin() {
 		return miLogin;
 	}
@@ -51,6 +53,7 @@ public class Iu_LogIn extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
+		setLocation(700, 350);
 		
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.NORTH);
@@ -85,6 +88,7 @@ public class Iu_LogIn extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Iu_Personalizar.getMiPartidaPersonalizada().setVisible(true);
+				setVisible(false);
 				
 			}
 		});
@@ -100,6 +104,9 @@ public class Iu_LogIn extends JFrame {
 			}
 		});
 		panel_5.add(btnNewButton_1);
+		
+		
+
 	}
 
 }

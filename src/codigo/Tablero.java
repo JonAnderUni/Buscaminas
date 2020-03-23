@@ -2,11 +2,7 @@ package codigo;
 
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.concurrent.ThreadLocalRandom;
 
-import javax.print.attribute.HashAttributeSet;
-
-import interfaz.Iu_Partida;
 
 public class Tablero {
 
