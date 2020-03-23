@@ -116,6 +116,11 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	// Metodo para crear la matriz de botones y guardarla
 	private void crearTablero(int filas, int columnas) {
 
+		
+		panel_4.setSize(((columnas) * tamanoX), ((filas) * tamanoY));
+		setSize(panel_11.getWidth() + panel_12.getWidth() + panel_4.getWidth() + 26,
+				panel_9.getHeight() + panel_10.getHeight() + panel_4.getHeight() + 80);
+		
 		if (filas == fila && columnas == columna) {
 
 		} else {
@@ -124,6 +129,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			bombas = columnas * 3;
 			getPanel_4_1().removeAll();
 			tablero = new JButton[fila][columna];
+			
 
 			for (int f = 0; f < fila; f++) {
 				for (int c = 0; c < columna; c++) {
@@ -151,9 +157,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 				} // for
 			} // for
 
-			panel_4.setSize(((columnas) * tamanoX), ((filas) * tamanoY));
-			setSize(panel_11.getWidth() + panel_12.getWidth() + panel_4.getWidth() + 26,
-					panel_9.getHeight() + panel_10.getHeight() + panel_4.getHeight() + 80);
+			
 		}
 		// creamos el tablero con la matriz de casillas
 		Tablero.getTablero().generarTablero(tablero.length, tablero[0].length, tablero[0].length * 3);
