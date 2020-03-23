@@ -86,6 +86,7 @@ public class Iu_Personalizar extends JFrame {
 		this.setTitle("Ajustes de Partida");
 		
 		 setLocation(700, 350);
+		 setResizable(false);
 
 	}
 
