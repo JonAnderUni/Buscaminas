@@ -33,14 +33,14 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 
 	private JPanel contentPane;
 	private JMenuBar menuBar;
-	private JPanel panel;
-	private JPanel panel_1;
-	private JPanel panel_2;
-	private JPanel panel_3;
 	private JPanel panel_4;
 	private JPanel panel_5;
 	private JPanel panel_6;
 	private JPanel panel_7;
+	private JPanel panel_9;
+	private JPanel panel_10;
+	private JPanel panel_11;
+	private JPanel panel_12;
 	private JLabel lblCarita;
 	private JLabel lblTiempo;
 	private JMenuItem facil;
@@ -48,22 +48,18 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	private JMenuItem dificil;
 	private JMenuItem personal;
 	private JMenuItem volverAEmpezar;
-	private JButton[][] tablero;
-	private int fila;
-	private int columna;
-	private int bombas;
 	private JLabel lblDec;
 	private JLabel lblUd;
 	private JLabel lblNewLabel;
 
-	private static Iu_Juego miPartida = new Iu_Juego();
-	private JPanel panel_8;
+	private JButton[][] tablero;
+	private int fila;
+	private int columna;
+	private int bombas;
 	private int tamanoX;
 	private int tamanoY;
-	private JPanel panel_9;
-	private JPanel panel_10;
-	private JPanel panel_11;
-	private JPanel panel_12;
+
+	private static Iu_Juego miPartida = new Iu_Juego();
 
 	/**
 	 * Launch the application.
@@ -102,10 +98,9 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		tamanoX = 30;
 		tamanoY = 30;
 		crearTablero(30, 30);
-		setJMenuBar(getMenuBar_1()); //Menu
+		setJMenuBar(getMenuBar_1()); // Menu
 
-		
-		//Resized
+		// Resized
 		addComponentListener(this);
 
 	}
@@ -121,55 +116,51 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	// Metodo para crear la matriz de botones y guardarla
 	private void crearTablero(int filas, int columnas) {
 
-		fila = filas;
-		columna = columnas;
-		getPanel_4_1().removeAll();
-		tablero = new JButton[fila][columna];
+		if (filas == fila && columnas == columna) {
 
-		for (int f = 0; f < fila; f++) {
-			for (int c = 0; c < columna; c++) {
-				JButton jb = new JButton();
-				jb.setBackground(Color.LIGHT_GRAY);
-				jb.setBorderPainted(true);
-				tablero[f][c] = jb;
-				tablero[f][c].addMouseListener(new MouseAdapter() {
+		} else {
+			fila = filas;
+			columna = columnas;
+			bombas = columnas * 3;
+			getPanel_4_1().removeAll();
+			tablero = new JButton[fila][columna];
 
-					// Para aplicar el patron estate state
-					@Override
-					public void mouseClicked(MouseEvent arg0) {
-						// TODO Auto-generated method stub
-						int j = (int) (jb.getX() / (tablero[0][1]).getX());
-						int j2 = (int) (jb.getY()/(tablero[1][1].getY()-6));
-						if (arg0.getButton() == 1) {
-							Tablero.getTablero().getCasilla(j2, j).clickIzq();
-							//pintarPosicion(j2, j);
-						} else if (arg0.getButton() == 3) {
-							Tablero.getTablero().getCasilla(j2, j).clickDer();
-							//pintarPosicion(j2, j);
+			for (int f = 0; f < fila; f++) {
+				for (int c = 0; c < columna; c++) {
+					JButton jb = new JButton();
+					jb.setBackground(Color.LIGHT_GRAY);
+					jb.setBorderPainted(true);
+					tablero[f][c] = jb;
+					tablero[f][c].addMouseListener(new MouseAdapter() {
+
+						// Para aplicar el patron estate state
+						@Override
+						public void mouseClicked(MouseEvent arg0) {
+							// TODO Auto-generated method stub
+							int j = (int) (jb.getX() / (tablero[0][1]).getX());
+							int j2 = (int) (jb.getY() / (tablero[1][1].getY() - 6));
+							if (arg0.getButton() == 1) {
+								Tablero.getTablero().getCasilla(j2, j).clickIzq();
+							} else if (arg0.getButton() == 3) {
+								Tablero.getTablero().getCasilla(j2, j).clickDer();
+							}
 						}
-					}
-				});
-				getPanel_4_1().add(jb);
+					});
+					getPanel_4_1().add(jb);
 
+				} // for
 			} // for
-		} // for
 
+			panel_4.setSize(((columnas) * tamanoX), ((filas) * tamanoY));
+			setSize(panel_11.getWidth() + panel_12.getWidth() + panel_4.getWidth() + 26,
+					panel_9.getHeight() + panel_10.getHeight() + panel_4.getHeight() + 80);
+		}
 		// creamos el tablero con la matriz de casillas
 		Tablero.getTablero().generarTablero(tablero.length, tablero[0].length, tablero[0].length * 3);
-		
+
 		contadorBombas();
-		//Anadimos los observables
+		// Anadimos los observables
 		anadirObservables(Tablero.getTablero().getMatriz());
-
-		/*
-		 * Establecemos un tamano a la ventana para que las casillas sean de 29x29 si
-		 * modificamos el tamano de la ventana cambiamos el tamano predeterminado esto
-		 * ultimo lo hacemos con el metodo ordenar
-		 */
-
-		panel_4.setSize(((columnas) * tamanoX), ((filas) * tamanoY));
-		setSize(panel_11.getWidth() + panel_12.getWidth() + panel_4.getWidth(), panel_9.getHeight() + panel_10.getHeight() + panel_4.getHeight() );
-		
 
 		// metodo Resized, al principio todos los botones misma dimension
 		ordenar();
@@ -177,7 +168,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 
 	// Metodo para ajustar los botones a la ventana
 	private void ordenar() {
-		
+
 		int anchoTotal = panel_4.getWidth();
 		int altoTotal = panel_4.getHeight();
 		int tx = anchoTotal / columna;
@@ -188,12 +179,12 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		for (int f = 0; f < tablero.length; f++) {
 			for (int c = 0; c < tablero[0].length; c++) {
 				tablero[f][c].setBounds(x, y, tx, ty);
-				// pintarPosicion(f, c);
 				x = x + tx;
 			} // for
 			x = 0;
 			y = y + ty;
 		} // for
+		
 		pintarTablero(tx, ty);
 
 	}
@@ -205,9 +196,25 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		java.awt.Image conversion = imagen.getImage();
 		java.awt.Image tamano = conversion.getScaledInstance(tablero[0][0].getWidth(), tablero[0][0].getWidth(), 0);
 		ImageIcon fin = new ImageIcon(tamano);
+		
 		for (int i = 0; i < tablero.length; i++) {
 			for (int j = 0; j < tablero[0].length; j++) {
-			
+				
+				int estado = Tablero.getTablero().getCasilla(i, j).getEstado();
+				int num = Tablero.getTablero().getNumPos(i, j);
+				
+				if (estado == 0) {
+					if (num == -1) {
+						imagen = new ImageIcon("img/mine.png");
+						// Mensaje de que ha pulsado una mina, pierde la partida
+					} else {
+						imagen = new ImageIcon("img/" + num + ".png");
+					}
+				} else if (estado == 1) {
+					imagen = new ImageIcon("img/flagged.png");
+				} else {
+					imagen = new ImageIcon("img/covered.png");
+				}
 				tablero[i][j].setIcon(fin);
 			}
 		}
@@ -310,7 +317,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		// TODO Auto-generated method stub
 
 	}
-	
+
 	private JMenuBar getMenuBar_1() {
 
 		if (menuBar == null) {
@@ -332,47 +339,47 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		}
 		return menuBar;
 	}
-	
+
 	private JMenuItem getFacil() {
 		if (facil == null) {
 			facil = new JMenuItem();
 			facil.setText("Facil");
 			facil.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					crearTablero(15,10);
+					crearTablero(15, 10);
 				}
 			});
 		}
 		return facil;
 	}
-	
+
 	private JMenuItem getMedio() {
 		if (medio == null) {
 			medio = new JMenuItem();
 			medio.setText("Medio");
 			medio.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					crearTablero(20,15);
+					crearTablero(20, 15);
 				}
 			});
 		}
 		return medio;
 	}
-	
+
 	private JMenuItem getDificil() {
 		if (dificil == null) {
 			dificil = new JMenuItem();
 			dificil.setText("Dificil");
 			dificil.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					crearTablero(25,25);
+					crearTablero(25, 25);
 
 				}
 			});
 		}
 		return dificil;
 	}
-	
+
 	private JMenuItem getPersonalizada() {
 		if (personal == null) {
 			personal = new JMenuItem();
@@ -389,20 +396,19 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		}
 		return personal;
 	}
-	
+
 	private JMenuItem getVolver() {
 		if (volverAEmpezar == null) {
 			volverAEmpezar = new JMenuItem();
 			volverAEmpezar.setText("Nueva Partida");
 			volverAEmpezar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					crearTablero(fila,columna);
+					crearTablero(fila, columna);
 				}
 			});
 		}
 		return volverAEmpezar;
 	}
-
 
 	private JPanel getPanel_4_1() {
 		if (panel_4 == null) {
@@ -425,6 +431,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		}
 		return panel_9;
 	}
+
 	private JPanel getPanel_5() {
 		if (panel_5 == null) {
 			panel_5 = new JPanel();
@@ -435,7 +442,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		}
 		return panel_5;
 	}
-	
+
 	private JLabel getLblDec() {
 		if (lblDec == null) {
 			lblDec = new JLabel("");
@@ -443,6 +450,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		}
 		return lblDec;
 	}
+
 	private JLabel getLblUd() {
 		if (lblUd == null) {
 			lblUd = new JLabel("");
@@ -450,6 +458,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		}
 		return lblUd;
 	}
+
 	private JPanel getPanel_6() {
 		if (panel_6 == null) {
 			panel_6 = new JPanel();
@@ -458,6 +467,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		}
 		return panel_6;
 	}
+
 	private JLabel getLblCarita() {
 		if (lblCarita == null) {
 			lblCarita = new JLabel("");
@@ -466,7 +476,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		}
 		return lblCarita;
 	}
-	
+
 	private JPanel getPanel_7() {
 		if (panel_7 == null) {
 			panel_7 = new JPanel();
@@ -478,6 +488,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		}
 		return panel_7;
 	}
+
 	private JLabel getLblTiempo() {
 		if (lblTiempo == null) {
 			lblTiempo = new JLabel("m");
@@ -485,7 +496,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		}
 		return lblTiempo;
 	}
-	
+
 	private JLabel getLblNewLabel() {
 		if (lblNewLabel == null) {
 			lblNewLabel = new JLabel("s");
