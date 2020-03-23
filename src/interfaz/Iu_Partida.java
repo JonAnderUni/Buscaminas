@@ -362,6 +362,7 @@ public class Iu_Partida extends JFrame implements Observer,ComponentListener {
 			int x = casilla.getFila();
 			int y = casilla.getcolumna();
 			pintarPosicion(x, y);
+			Tablero.getTablero().destaparCasillas(x, y);
 		}
 
 	}
@@ -448,7 +449,6 @@ public class Iu_Partida extends JFrame implements Observer,ComponentListener {
 			pintarTablero(tx, ty);
 			
 		}
-		
 		
 
 	// hace los mismo que pintarposicion, pero inicializamos el tablero a casillas

@@ -15,10 +15,7 @@ public class Tablero {
 	private ListaCasillas listaBombas;
 	private Casilla[][] tablero;
 
-	private Tablero() {
-		listaCasillas = new ListaCasillas();
-		listaBombas = new ListaCasillas();
-	}
+	private Tablero() {	}
 
 	public static Tablero getTablero() {
 			if (mTablero == null) {
@@ -118,7 +115,9 @@ public class Tablero {
 		Queue<Casilla> porVisitar = new LinkedList<Casilla>();	// Creamos la lista de casillas por visitar, para ver si hay que abrirlas o no
 		Boolean fin = false;									// Booleano para saber, si la casilla clicada era una mina
 		Casilla act = tablero[fila][columna];					// Buscamos la casilla en el tablero
-		act.cambiarEstado(new Abierto());								// Abrimos la casilla
+		listaCasillas = new ListaCasillas();
+		listaCasillas.anadirCasilla(act.getFila() + "" + act.getcolumna() + "", act);
+		//act.cambiarEstado(new Abierto());						// Abrimos la casilla
 		
 		if (act.esBomba()){	// Si la casilla abierta es una bomba, se termina el juego
 			fin = true;
@@ -151,33 +150,33 @@ public class Tablero {
 			// Una vez comprobadas las casillas de al rededor, buscaremos todas las casillas que no tengan minas al rededor, contiguas a la original
 			while (!porVisitar.isEmpty()) {
 				act = porVisitar.remove();		// Sacamos la casilla de la lista de pendientes
-				
+				listaCasillas.anadirCasilla(act.getFila() + "" + act.getcolumna() + "", act);
 				act.cambiarEstado(new Abierto());		// La abrimos
 				fila = act.getFila();			// Cogemos su fila
 				columna = act.getcolumna();		// Cogemos su columna
 				
-				if (posicionValida(fila + 1, columna) && !tablero[fila +1 ][columna].esBomba() && tablero[fila][columna].getNumMinas()==0) {
+				if (posicionValida(fila + 1, columna) && !tablero[fila +1 ][columna].esBomba() && tablero[fila][columna].getNumMinas()==0 && !listaCasillas.estaCasilla(act.getFila() + "" + act.getcolumna() + "")) {
 					porVisitar.add(tablero[fila + 1][columna]);
 				}
-				if (posicionValida(fila + 1, columna - 1) && !tablero[fila + 1][columna - 1].esBomba() && tablero[fila][columna].getNumMinas()==0) {
+				if (posicionValida(fila + 1, columna - 1) && !tablero[fila + 1][columna - 1].esBomba() && tablero[fila][columna].getNumMinas()==0 && !listaCasillas.estaCasilla(act.getFila() + "" + act.getcolumna() + "")) {
 					porVisitar.add(tablero[fila + 1][columna - 1]);
 				}
-				if (posicionValida(fila + 1, columna + 1) && !tablero[fila + 1][columna + 1].esBomba() && tablero[fila][columna].getNumMinas()==0) {
+				if (posicionValida(fila + 1, columna + 1) && !tablero[fila + 1][columna + 1].esBomba() && tablero[fila][columna].getNumMinas()==0 && !listaCasillas.estaCasilla(act.getFila() + "" + act.getcolumna() + "")) {
 					porVisitar.add(tablero[fila + 1][columna + 1]);
 				}
-				if (posicionValida(fila - 1, columna) && !tablero[fila - 1][columna].esBomba() && tablero[fila][columna].getNumMinas()==0) {
+				if (posicionValida(fila - 1, columna) && !tablero[fila - 1][columna].esBomba() && tablero[fila][columna].getNumMinas()==0 && !listaCasillas.estaCasilla(act.getFila() + "" + act.getcolumna() + "")) {
 					porVisitar.add(tablero[fila - 1][columna]);
 				}
-				if (posicionValida(fila - 1, columna - 1) && !tablero[fila - 1][columna - 1].esBomba() && tablero[fila][columna].getNumMinas()==0) {
+				if (posicionValida(fila - 1, columna - 1) && !tablero[fila - 1][columna - 1].esBomba() && tablero[fila][columna].getNumMinas()==0 && !listaCasillas.estaCasilla(act.getFila() + "" + act.getcolumna() + "")) {
 					porVisitar.add(tablero[fila - 1][columna - 1]);
 				}
-				if (posicionValida(fila - 1, columna + 1) && !tablero[fila - 1][columna + 1].esBomba() && tablero[fila][columna].getNumMinas()==0) {
+				if (posicionValida(fila - 1, columna + 1) && !tablero[fila - 1][columna + 1].esBomba() && tablero[fila][columna].getNumMinas()==0 && !listaCasillas.estaCasilla(act.getFila() + "" + act.getcolumna() + "")) {
 					porVisitar.add(tablero[fila - 1][columna + 1]);
 				}
-				if (posicionValida(fila, columna + 1) && !tablero[fila][columna + 1].esBomba() && tablero[fila][columna].getNumMinas()==0) {
+				if (posicionValida(fila, columna + 1) && !tablero[fila][columna + 1].esBomba() && tablero[fila][columna].getNumMinas()==0 && !listaCasillas.estaCasilla(act.getFila() + "" + act.getcolumna() + "")) {
 					porVisitar.add(tablero[fila][columna + 1]);
 				}
-				if (posicionValida(fila, columna - 1) && !tablero[fila][columna - 1].esBomba() && tablero[fila][columna].getNumMinas()==0) {
+				if (posicionValida(fila, columna - 1) && !tablero[fila][columna - 1].esBomba() && tablero[fila][columna].getNumMinas()==0 && !listaCasillas.estaCasilla(act.getFila() + "" + act.getcolumna() + "")) {
 					porVisitar.add(tablero[fila][columna - 1]);
 				}
 			}

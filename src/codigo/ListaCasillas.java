@@ -34,4 +34,10 @@ public class ListaCasillas {
 	public int size() {
 		return lista.size();
 	}
+	
+	public boolean estaCasilla(String cod) {
+		Boolean esta = false;
+		if (lista.containsKey(cod)) {esta = true;}
+		return esta;
+	}
 }

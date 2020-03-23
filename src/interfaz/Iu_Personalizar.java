@@ -392,5 +392,4 @@ public class Iu_Personalizar extends JFrame {
 		getTextField_1().setText(null);
 		getTextField_2().setText(null);
 	}
-
 }
