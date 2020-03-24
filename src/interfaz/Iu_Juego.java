@@ -29,6 +29,7 @@ import javax.swing.border.LineBorder;
 
 import com.sun.javafx.tk.Toolkit;
 
+import codigo.Abierto;
 import codigo.Casilla;
 import codigo.Tablero;
 
@@ -342,8 +343,8 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			Casilla casilla = (Casilla) o;
 			int x = casilla.getFila();
 			int y = casilla.getcolumna();
-			Tablero.getTablero().destaparCasillas(x, y);
 			pintarPosicion(x, y);
+			Tablero.getTablero().destaparCasillas(x, y);
 		}
 	}
 
