@@ -344,8 +344,12 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			int x = casilla.getFila();
 			int y = casilla.getcolumna();
 			pintarPosicion(x, y);
-			Tablero.getTablero().destaparCasillas(x, y);
+
+			if (((Casilla) o).getEstado() == 0) {
+				Tablero.getTablero().destaparCasillas(x, y);
+			}
 		}
+		
 	}
 
 	public void crearPartidaPersonalizada(int f, int c, int b) {
