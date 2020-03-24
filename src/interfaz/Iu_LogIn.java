@@ -6,10 +6,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import java.awt.FlowLayout;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -38,15 +35,16 @@ public class Iu_LogIn extends JFrame {
 			}
 		});
 	}
-	
-	
+
 	public static Iu_LogIn getMiLogin() {
 		return miLogin;
 	}
+
 	/**
 	 * Create the frame.
 	 */
 	private Iu_LogIn() {
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -54,59 +52,63 @@ public class Iu_LogIn extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setLocation(700, 350);
-		
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+		setResizable(false);
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.NORTH);
-		
+
 		JPanel panel_1 = new JPanel();
 		contentPane.add(panel_1, BorderLayout.EAST);
-		
+
 		JPanel panel_2 = new JPanel();
 		contentPane.add(panel_2, BorderLayout.SOUTH);
-		
+
 		JPanel panel_3 = new JPanel();
 		contentPane.add(panel_3, BorderLayout.WEST);
-		
+
 		JPanel panel_4 = new JPanel();
 		contentPane.add(panel_4, BorderLayout.CENTER);
 		panel_4.setLayout(new GridLayout(3, 0, 0, 0));
-		
+
 		JPanel panel_6 = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) panel_6.getLayout();
+		flowLayout.setHgap(34);
+		flowLayout.setVgap(56);
 		panel_4.add(panel_6);
-		
+
 		JLabel lblNewLabel = new JLabel("Nombre");
 		panel_6.add(lblNewLabel);
-		
+
 		textField = new JTextField();
 		panel_6.add(textField);
 		textField.setColumns(10);
-		
+
 		JPanel panel_7 = new JPanel();
+		FlowLayout flowLayout_1 = (FlowLayout) panel_7.getLayout();
+		flowLayout_1.setVgap(45);
 		panel_4.add(panel_7);
-		
+
 		JButton btnNewButton = new JButton("Aceptar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Iu_Personalizar.getMiPartidaPersonalizada().setVisible(true);
 				setVisible(false);
-				
+
 			}
 		});
 		panel_7.add(btnNewButton);
-		
+
 		JPanel panel_5 = new JPanel();
 		panel_4.add(panel_5);
-		
+
 		JButton btnNewButton_1 = new JButton("Ver Highscores");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//Puntuacion.getMiPuntuacion().setVisible(true);
+				// Puntuacion.getMiPuntuacion().setVisible(true);
 			}
 		});
 		panel_5.add(btnNewButton_1);
-		
-		
-
 	}
 
 }

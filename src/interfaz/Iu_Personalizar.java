@@ -245,11 +245,11 @@ public class Iu_Personalizar extends JFrame {
 
 	private JRadioButton getRdbtnx() {
 		if (rdbtnx == null) {
-			rdbtnx = new JRadioButton("3x3");
+			rdbtnx = new JRadioButton("10x15");
 			rdbtnx.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					setPersonalizable(false);
-					setTxtDificultad(null);
+					setTxtDificultad("Fácil");
 
 				}
 			});
@@ -259,11 +259,11 @@ public class Iu_Personalizar extends JFrame {
 
 	private JRadioButton getRdbtnx_1() {
 		if (rdbtnx_1 == null) {
-			rdbtnx_1 = new JRadioButton("10x10");
+			rdbtnx_1 = new JRadioButton("20x15");
 			rdbtnx_1.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					setPersonalizable(false);
-					setTxtDificultad("Facil");
+					setTxtDificultad("Medio");
 
 				}
 			});
@@ -273,7 +273,7 @@ public class Iu_Personalizar extends JFrame {
 
 	private JRadioButton getRdbtnx_2() {
 		if (rdbtnx_2 == null) {
-			rdbtnx_2 = new JRadioButton("15x15");
+			rdbtnx_2 = new JRadioButton("25x20");
 			rdbtnx_2.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					setPersonalizable(false);
@@ -307,19 +307,19 @@ public class Iu_Personalizar extends JFrame {
 						bombas = getTextField_2().getText();
 						
 					} else if (rdbtnx.isSelected()) {
-						filas = 3 + "";
-						columnas = 3 + "";
-						bombas = 2 + "";
+						filas = 15 + "";
+						columnas = 10 + "";
+						bombas = 20 + "";
 
 					} else if (rdbtnx_1.isSelected()) {
-						filas = 10 + "";
-						columnas = 10 + "";
-						bombas = 40 + "";
+						filas = 20 + "";
+						columnas = 15 + "";
+						bombas = 45 + "";
 
 					} else {
-						filas = 15 + "";
-						columnas = 15 + "";
-						bombas = 80 + "";
+						filas = 25 + "";
+						columnas = 25 + "";
+						bombas = 100 + "";
 					}
 
 					try {
