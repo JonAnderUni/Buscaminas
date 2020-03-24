@@ -404,8 +404,9 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			facil.setText("Facil");
 			facil.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					crearTablero(15, 10);
 					bombas = (15*10)/5;
+					crearTablero(15, 10);
+					
 				}
 			});
 		}
@@ -418,8 +419,9 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			medio.setText("Medio");
 			medio.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					crearTablero(20, 15);
 					bombas = (20*15)/5;
+					crearTablero(20, 15);
+					
 
 				}
 			});
@@ -433,8 +435,9 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			dificil.setText("Dificil");
 			dificil.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					crearTablero(25, 25);
 					bombas = (25*25)/5;
+					crearTablero(25, 25);
+					
 
 
 				}
