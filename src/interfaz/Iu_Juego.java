@@ -2,7 +2,6 @@ package interfaz;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -25,13 +24,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-
-import com.sun.javafx.tk.Toolkit;
-
-import codigo.Abierto;
 import codigo.Casilla;
 import codigo.Tablero;
+
 
 public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 
@@ -53,6 +48,9 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	private JMenuItem personal;
 	private JMenuItem volverAEmpezar;
 	private JLabel lblNewLabel;
+	private JButton btnNewButton;
+	private JButton btnNewButton_1;
+	private JButton btnNewButton_2;
 
 	private JButton[][] tablero;
 	private int fila;
@@ -62,9 +60,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	private int tamanoY;
 
 	private static Iu_Juego miPartida = new Iu_Juego();
-	private JButton btnNewButton;
-	private JButton btnNewButton_1;
-	private JButton btnNewButton_2;
+
 
 	/**
 	 * Launch the application.
@@ -105,8 +101,11 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 
 		// Partida
 		this.setTitle("Buscaminas");
+		ImageIcon imagen = new ImageIcon("img/mine.png");
+		this.setIconImage(imagen.getImage());
 		tamanoX = 30;
 		tamanoY = 30;
+		bombas = (15*10)/5;
 		crearTablero(15, 10);
 		setJMenuBar(getMenuBar_1()); // Menu
 
@@ -131,18 +130,18 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	// Metodo para crear la matriz de botones y guardarla
 	private void crearTablero(int filas, int columnas) {
 
-		//Damos tamano al panel_4 donde van a estar los botones
+		// Damos tamano al panel_4 donde van a estar los botones
 		panel_4.setSize(((columnas) * tamanoX), ((filas) * tamanoY));
-		
-		//Damos tamano al panel principal
+
+		// Damos tamano al panel principal
 		setSize(panel_11.getWidth() + panel_12.getWidth() + panel_4.getWidth() + 26,
 				panel_9.getHeight() + panel_10.getHeight() + panel_4.getHeight() + 80);
 
 		contadorBombas();
 		fila = filas;
 		columna = columnas;
-		
-		
+		if (bombas <= 0) bombas = (fila * columna) / 5;
+
 		getPanel_4_1().removeAll();
 		tablero = new JButton[fila][columna];
 
@@ -208,10 +207,8 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	// Metodo para pintar todos los botones
 	private void pintarTablero(int tX, int tY) {
 		// java.awt.Image.SCALE_SMOOTH
-		ImageIcon imagen = new ImageIcon("img/covered.png");
-		java.awt.Image conversion = imagen.getImage();
-		java.awt.Image tamano = conversion.getScaledInstance(tablero[0][0].getWidth(), tablero[0][0].getWidth(), 0);
-		ImageIcon fin = new ImageIcon(tamano);
+		ImageIcon imagen;
+		
 
 		for (int i = 0; i < tablero.length; i++) {
 			for (int j = 0; j < tablero[0].length; j++) {
@@ -231,6 +228,10 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 				} else {
 					imagen = new ImageIcon("img/covered.png");
 				}
+				
+				java.awt.Image conversion = imagen.getImage();
+				java.awt.Image tamano = conversion.getScaledInstance(tablero[0][0].getWidth(), tablero[0][0].getWidth(), 0);
+				ImageIcon fin = new ImageIcon(tamano);
 				tablero[i][j].setIcon(fin);
 			}
 		}
@@ -254,11 +255,12 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 				// Mensaje de que ha pulsado una mina, pierde la partida
 			} else {
 				imagen = new ImageIcon("img/" + num + ".png");
+				tablero[f][c].setEnabled(true);
 			}
 		} else if (estado == 1) {
 			imagen = new ImageIcon("img/flagged.png");
 			bombas--;
-			contadorBombas();	
+			contadorBombas();
 		} else {
 			imagen = new ImageIcon("img/covered.png");
 			bombas++;
@@ -271,6 +273,39 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		tablero[f][c].setIcon(fin);
 		actualizarTablero(getPanel_4_1());
 	}
+	
+	private void prueba1(int f, int c) {
+		/*
+		 * Este metodo lo vamos a utilizar para el patron Observer Cada vez que una
+		 * casilla cambia de estado la pintaremos con el nuevo estado
+		 */
+
+		int estado = Tablero.getTablero().getCasilla(f, c).getEstado();
+		ImageIcon imagen;
+		int num = Tablero.getTablero().getNumPos(f, c);
+
+		if (estado == 0) {
+			if (num == -1) {
+				imagen = new ImageIcon("img/mine.png");
+				// Mensaje de que ha pulsado una mina, pierde la partida
+			} else {
+				imagen = new ImageIcon("img/" + num + ".png");
+				tablero[f][c].setEnabled(true);
+			}
+		} else if (estado == 1) {
+			imagen = new ImageIcon("img/flagged.png");
+			
+		} else {
+			imagen = new ImageIcon("img/covered.png");
+		}
+
+		java.awt.Image conversion = imagen.getImage();
+		java.awt.Image tamano = conversion.getScaledInstance(tamanoX, tamanoY, 0);
+		ImageIcon fin = new ImageIcon(tamano);
+		tablero[f][c].setIcon(fin);
+		actualizarTablero(getPanel_4_1());
+		
+	}
 
 	private void actualizarTablero(JPanel panel) {
 		SwingUtilities.updateComponentTreeUI(panel);
@@ -278,11 +313,8 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 
 //	// Para poner el numero de bombas que hay en la interfaz
 	private void contadorBombas() {
-		
-		//getPanel_5().removeAll();
-		
-		if (bombas <= 0)
-			bombas = (fila*columna) /5;
+
+		if (bombas < 0) bombas = 0;
 
 		int centenas = bombas / 100;
 		int decenas = (bombas - (centenas * 100)) / 10;
@@ -291,37 +323,35 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		ImageIcon img1 = new ImageIcon("img/r" + decenas + ".png");
 		ImageIcon img2 = new ImageIcon("img/r" + unidades + ".png");
 		ImageIcon img0 = new ImageIcon("img/r" + centenas + ".png");
-		
+
 		java.awt.Image conversion0 = img0.getImage();
 		java.awt.Image tamano0 = conversion0.getScaledInstance(20, 25, 0);
 		ImageIcon fin = new ImageIcon(tamano0);
-		
+
 		java.awt.Image conversion1 = img1.getImage();
 		java.awt.Image tamano1 = conversion1.getScaledInstance(20, 25, 0);
 		ImageIcon fin1 = new ImageIcon(tamano1);
-		
+
 		java.awt.Image conversion2 = img2.getImage();
 		java.awt.Image tamano2 = conversion2.getScaledInstance(20, 25, 0);
 		ImageIcon fin2 = new ImageIcon(tamano2);
-		
+
 		getBtnNewButton().setIcon(fin);
 		getBtnNewButton_1().setIcon(fin1);
 		getBtnNewButton_2().setIcon(fin2);
-		
+
 		redimensionarContadorBombas();
 
-		
 	}
-	
+
 	private void redimensionarContadorBombas() {
-		int width = (getPanel_9().getWidth())/3;
-		int inicio = (50*width)/100;
-		
-		
-		getBtnNewButton().setBounds(inicio-30, 1,20,panel_9.getHeight());
-		getBtnNewButton_1().setBounds(inicio-10,1,20,panel_9.getHeight());
-		getBtnNewButton_2().setBounds(inicio+10 ,1,20,panel_9.getHeight());
-		
+		int width = (getPanel_9().getWidth()) / 3;
+		int inicio = (50 * width) / 100;
+
+		getBtnNewButton().setBounds(inicio - 30, 1, 20, panel_9.getHeight());
+		getBtnNewButton_1().setBounds(inicio - 10, 1, 20, panel_9.getHeight());
+		getBtnNewButton_2().setBounds(inicio + 10, 1, 20, panel_9.getHeight());
+
 	}
 
 	// Metodo para añadir los observables del patron observer
@@ -409,9 +439,9 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			facil.setText("Facil");
 			facil.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					bombas = (15*10)/5;
+					bombas = (15 * 10) / 5;
 					crearTablero(15, 10);
-					
+
 				}
 			});
 		}
@@ -424,9 +454,8 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			medio.setText("Medio");
 			medio.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					bombas = (20*15)/5;
+					bombas = (20 * 15) / 5;
 					crearTablero(20, 15);
-					
 
 				}
 			});
@@ -440,10 +469,8 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			dificil.setText("Dificil");
 			dificil.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					bombas = (25*25)/5;
+					bombas = (25 * 25) / 5;
 					crearTablero(25, 25);
-					
-
 
 				}
 			});
@@ -475,7 +502,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			volverAEmpezar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					crearTablero(fila, columna);
-					bombas=(fila*columna)/5;
+					bombas = (fila * columna) / 5;
 				}
 			});
 		}
@@ -485,7 +512,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	private JPanel getPanel_4_1() {
 		if (panel_4 == null) {
 			panel_4 = new JPanel();
-			panel_4.setBackground(Color.GREEN);
+			panel_4.setBackground(Color.WHITE);
 			panel_4.setLayout(null);
 		}
 		return panel_4;
@@ -538,7 +565,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	private JPanel getPanel_7() {
 		if (panel_7 == null) {
 			panel_7 = new JPanel();
-			panel_7.setBackground(Color.MAGENTA);
+			panel_7.setBackground(Color.LIGHT_GRAY);
 			panel_7.setBorder(null);
 			panel_7.setLayout(new GridLayout(0, 2, 0, 0));
 			panel_7.add(getLblTiempo());
@@ -586,6 +613,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		}
 		return panel_12;
 	}
+
 	private JButton getBtnNewButton() {
 		if (btnNewButton == null) {
 			btnNewButton = new JButton("");
@@ -596,6 +624,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		}
 		return btnNewButton;
 	}
+
 	private JButton getBtnNewButton_1() {
 		if (btnNewButton_1 == null) {
 			btnNewButton_1 = new JButton("");
@@ -606,6 +635,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		}
 		return btnNewButton_1;
 	}
+
 	private JButton getBtnNewButton_2() {
 		if (btnNewButton_2 == null) {
 			btnNewButton_2 = new JButton("");
