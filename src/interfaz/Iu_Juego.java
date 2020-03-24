@@ -260,6 +260,8 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			contadorBombas();	
 		} else {
 			imagen = new ImageIcon("img/covered.png");
+			bombas++;
+			contadorBombas();
 		}
 
 		java.awt.Image conversion = imagen.getImage();
