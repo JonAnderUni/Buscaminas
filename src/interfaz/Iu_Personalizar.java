@@ -309,17 +309,17 @@ public class Iu_Personalizar extends JFrame {
 					} else if (rdbtnx.isSelected()) {
 						filas = 15 + "";
 						columnas = 10 + "";
-						bombas = 20 + "";
+						bombas = 30 + "";
 
 					} else if (rdbtnx_1.isSelected()) {
 						filas = 20 + "";
 						columnas = 15 + "";
-						bombas = 45 + "";
+						bombas = 60 + "";
 
 					} else {
 						filas = 25 + "";
 						columnas = 25 + "";
-						bombas = 100 + "";
+						bombas = 125 + "";
 					}
 
 					try {

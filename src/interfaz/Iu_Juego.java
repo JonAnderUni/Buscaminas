@@ -279,7 +279,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		//getPanel_5().removeAll();
 		
 		if (bombas <= 0)
-			bombas = columna * 2;
+			bombas = (fila*columna) /5;
 
 		int centenas = bombas / 100;
 		int decenas = (bombas - (centenas * 100)) / 10;
@@ -403,7 +403,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			facil.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					crearTablero(15, 10);
-					bombas = 20;
+					bombas = (15*10)/5;
 				}
 			});
 		}
@@ -417,7 +417,8 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			medio.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					crearTablero(20, 15);
-					bombas = 45;
+					bombas = (20*15)/5;
+
 				}
 			});
 		}
@@ -431,7 +432,8 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			dificil.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					crearTablero(25, 25);
-					bombas = 100;
+					bombas = (25*25)/5;
+
 
 				}
 			});
@@ -463,6 +465,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			volverAEmpezar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					crearTablero(fila, columna);
+					bombas=(fila*columna)/5;
 				}
 			});
 		}
