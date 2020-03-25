@@ -7,8 +7,6 @@ import java.util.Queue;
 public class Tablero {
 
 	private static Tablero mTablero;
-	private ListaCasillas listaCasillas;
-	private ListaCasillas listaBombas;
 	private Casilla[][] tablero;
 
 	private Tablero() {	}
@@ -24,8 +22,8 @@ public class Tablero {
 	public void generarTablero(int filas, int columnas, int bombas) {
 		// TODO - implement Tablero.generarTablero
 		tablero = new Casilla[filas][columnas];
-		listaCasillas = new ListaCasillas();
-		listaBombas = new ListaCasillas();
+		ListaCasillas listaCasillas = new ListaCasillas();
+		ListaCasillas listaBombas = new ListaCasillas();
 		// meter casillas normales
 		for (int fila = 0; fila < tablero.length; fila++) {
 			for (int columna = 0; columna < tablero[0].length; columna++) {
@@ -111,7 +109,7 @@ public class Tablero {
 		Queue<Casilla> porVisitar = new LinkedList<Casilla>();	// Creamos la lista de casillas por visitar, para ver si hay que abrirlas o no
 		Boolean fin = false;									// Booleano para saber, si la casilla clicada era una mina
 		Casilla act = tablero[fila][columna];					// Buscamos la casilla en el tablero
-		listaCasillas = new ListaCasillas();
+		ListaCasillas listaCasillas = new ListaCasillas();
 		listaCasillas.anadirCasilla(act.getFila() + "" + act.getcolumna() + "", act);
 		//act.cambiarEstado(new Abierto());						// Abrimos la casilla
 		
