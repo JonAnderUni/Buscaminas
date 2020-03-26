@@ -175,7 +175,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		Tablero.getTablero().generarTablero(tablero.length, tablero[0].length, tablero[0].length * 3);
 
 		// Anadimos los observables
-		anadirObservables(Tablero.getTablero().getMatriz());
+		anadirObserver(Tablero.getTablero().getMatriz());
 
 		// metodo Resized, al principio todos los botones misma dimension
 		ordenar();
@@ -283,7 +283,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		int estado = Tablero.getTablero().getCasilla(f, c).getEstado();
 		ImageIcon imagen;
 		int num = Tablero.getTablero().getNumPos(f, c);
-
+		
 		if (estado == 0) {
 			if (num == -1) {
 				imagen = new ImageIcon("img/mine.png");
@@ -355,7 +355,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	}
 
 	// Metodo para añadir los observables del patron observer
-	private void anadirObservables(Observable[][] c) {
+	private void anadirObserver(Observable[][] c) {
 		for (int i = 0; i < c.length; i++) {
 			for (int j = 0; j < c[0].length; j++) {
 				c[i][j].addObserver(this);

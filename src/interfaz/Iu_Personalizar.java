@@ -33,7 +33,6 @@ public class Iu_Personalizar extends JFrame {
 	private JLabel lblColumnas;
 	private JLabel lblBombas;
 	private JButton btnOk;
-	private JPanel panel_8;
 	private JPanel panel_9;
 	private JPanel panel_10;
 
@@ -43,9 +42,9 @@ public class Iu_Personalizar extends JFrame {
 	private JRadioButton rdbtnx_1;
 	private JRadioButton rdbtnx_2;
 	private JLabel lblInformacion;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField textFilas;
+	private JTextField textColumnas;
+	private JTextField textBombas;
 
 	/**
 	 * Launch the application.
@@ -138,9 +137,6 @@ public class Iu_Personalizar extends JFrame {
 	private JPanel getPanel_5() {
 		if (panel_5 == null) {
 			panel_5 = new JPanel();
-			panel_5.add(getRdbtnx());
-			panel_5.add(getRdbtnx_1());
-			panel_5.add(getRdbtnx_2());
 			panel_5.add(getRdbtnPersonalizar());
 		}
 		return panel_5;
@@ -151,12 +147,11 @@ public class Iu_Personalizar extends JFrame {
 			panel_6 = new JPanel();
 			panel_6.setLayout(new GridLayout(0, 4, 0, 0));
 			panel_6.add(getLblFilas());
-			panel_6.add(getTextField());
+			panel_6.add(getTextFilas());
 			panel_6.add(getLblColumnas());
-			panel_6.add(getTextField_1());
+			panel_6.add(getTextColumnas());
 			panel_6.add(getLblBombas());
-			panel_6.add(getTextField_2());
-			panel_6.add(getPanel_8());
+			panel_6.add(getTextBombas());
 			setPersonalizable(false);
 
 		}
@@ -167,7 +162,9 @@ public class Iu_Personalizar extends JFrame {
 		if (panel_7 == null) {
 			panel_7 = new JPanel();
 			FlowLayout flowLayout = (FlowLayout) panel_7.getLayout();
-			flowLayout.setAlignment(FlowLayout.LEADING);
+			panel_7.add(getRdbtnx());
+			panel_7.add(getRdbtnx_1());
+			panel_7.add(getRdbtnx_2());
 		}
 		return panel_7;
 	}
@@ -205,13 +202,6 @@ public class Iu_Personalizar extends JFrame {
 		return lblInformacion;
 	}
 
-	private JPanel getPanel_8() {
-		if (panel_8 == null) {
-			panel_8 = new JPanel();
-		}
-		return panel_8;
-	}
-
 	private JPanel getPanel_9() {
 		if (panel_9 == null) {
 			panel_9 = new JPanel();
@@ -230,7 +220,7 @@ public class Iu_Personalizar extends JFrame {
 
 	private JRadioButton getRdbtnPersonalizar() {
 		if (rdbtnPersonalizar == null) {
-			rdbtnPersonalizar = new JRadioButton("Personalizar");
+			rdbtnPersonalizar = new JRadioButton("Nivel Personalizado");
 			rdbtnPersonalizar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					setPersonalizable(true);
@@ -245,7 +235,7 @@ public class Iu_Personalizar extends JFrame {
 
 	private JRadioButton getRdbtnx() {
 		if (rdbtnx == null) {
-			rdbtnx = new JRadioButton("10x15");
+			rdbtnx = new JRadioButton("Nivel 1: 7x10");
 			rdbtnx.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					setPersonalizable(false);
@@ -259,7 +249,7 @@ public class Iu_Personalizar extends JFrame {
 
 	private JRadioButton getRdbtnx_1() {
 		if (rdbtnx_1 == null) {
-			rdbtnx_1 = new JRadioButton("20x15");
+			rdbtnx_1 = new JRadioButton("Nivel 2: 10x15");
 			rdbtnx_1.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					setPersonalizable(false);
@@ -273,7 +263,7 @@ public class Iu_Personalizar extends JFrame {
 
 	private JRadioButton getRdbtnx_2() {
 		if (rdbtnx_2 == null) {
-			rdbtnx_2 = new JRadioButton("25x20");
+			rdbtnx_2 = new JRadioButton("Nivel 3: 12x25");
 			rdbtnx_2.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					setPersonalizable(false);
@@ -302,24 +292,39 @@ public class Iu_Personalizar extends JFrame {
 
 					if (rdbtnPersonalizar.isSelected()) {
 						
-						filas = getTextField().getText();
-						columnas = getTextField_1().getText();
-						bombas = getTextField_2().getText();
+						Integer f,c,b,n;
+						f = Integer.parseInt(getTextFilas().getText());
+						c = Integer.parseInt(getTextColumnas().getText());
+						b = Integer.parseInt(getTextBombas().getText());
+						
+						//Filas
+						if (f < 7) { f = 7; }
+						else if (f > 30)  { f = 30; }
+						//Columnas
+						if (c < 8) { c = 8; }
+						else if (c > 30)  { c = 30; }
+						//Bombas
+						if (b < c/2) { b = c/2;}
+						else if(b > c * 3) { b = c * 3;}
+							
+						filas = String.valueOf(f);	
+						columnas = String.valueOf(c);	
+						bombas = String.valueOf(b);	
 						
 					} else if (rdbtnx.isSelected()) {
-						filas = 15 + "";
+						filas = 7 + "";
 						columnas = 10 + "";
-						bombas = 30 + "";
+						bombas = 10 + "";
 
 					} else if (rdbtnx_1.isSelected()) {
-						filas = 20 + "";
+						filas = 10 + "";
 						columnas = 15 + "";
-						bombas = 60 + "";
+						bombas = 30 + "";
 
 					} else {
-						filas = 25 + "";
+						filas = 12 + "";
 						columnas = 25 + "";
-						bombas = 125 + "";
+						bombas = 75 + "";
 					}
 
 					try {
@@ -366,29 +371,29 @@ public class Iu_Personalizar extends JFrame {
 	}
 	
 	private void restablecerValoresDefabrica() {
-		getTextField().setText(null);
-		getTextField_1().setText(null);
-		getTextField_2().setText(null);
+		getTextFilas().setText(null);
+		getTextColumnas().setText(null);
+		getTextBombas().setText(null);
 	}
-	private JTextField getTextField() {
-		if (textField == null) {
-			textField = new JTextField();
-			textField.setColumns(10);
+	private JTextField getTextFilas() {
+		if (textFilas == null) {
+			textFilas = new JTextField();
+			textFilas.setColumns(10);
 		}
-		return textField;
+		return textFilas;
 	}
-	private JTextField getTextField_1() {
-		if (textField_1 == null) {
-			textField_1 = new JTextField();
-			textField_1.setColumns(10);
+	private JTextField getTextColumnas() {
+		if (textColumnas == null) {
+			textColumnas = new JTextField();
+			textColumnas.setColumns(10);
 		}
-		return textField_1;
+		return textColumnas;
 	}
-	private JTextField getTextField_2() {
-		if (textField_2 == null) {
-			textField_2 = new JTextField();
-			textField_2.setColumns(10);
+	private JTextField getTextBombas() {
+		if (textBombas == null) {
+			textBombas = new JTextField();
+			textBombas.setColumns(10);
 		}
-		return textField_2;
+		return textBombas;
 	}
 }

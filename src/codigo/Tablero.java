@@ -7,8 +7,8 @@ import java.util.Queue;
 public class Tablero {
 
 	private static Tablero mTablero;
+	
 	private Casilla[][] tablero;
-
 	private Tablero() {	}
 
 	public static Tablero getTablero() {
