@@ -3,6 +3,8 @@ package codigo;
 import java.util.Observable;
 import java.util.Observer;
 
+import interfaz.Iu_Juego;
+
 public class Casilla extends Observable{
 
 	private int fila;
@@ -23,8 +25,7 @@ public class Casilla extends Observable{
 		numMinas = bombas;
 		fila = filas;
 		columna = columnas;
-		estado = new Cerrada();
-		
+		estado = new Cerrada();		
 	}
 
 	public void cambiarEstado(Estado pEstado) {

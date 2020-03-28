@@ -1,17 +1,24 @@
 package interfaz;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Image;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
+import java.net.URL;
 import java.awt.event.ActionEvent;
 
 public class Iu_LogIn extends JFrame {
@@ -19,6 +26,8 @@ public class Iu_LogIn extends JFrame {
 	private JPanel contentPane;
 	private JTextField textField;
 	private static Iu_LogIn miLogin = new Iu_LogIn();
+	private Image imagenFondo;
+	private URL fondo;
 
 	/**
 	 * Launch the application.
@@ -53,7 +62,9 @@ public class Iu_LogIn extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setLocation(700, 350);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-
+		
+	    
+	  
 		setResizable(false);
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.NORTH);
@@ -109,6 +120,8 @@ public class Iu_LogIn extends JFrame {
 			}
 		});
 		panel_5.add(btnNewButton_1);
+		paint(getGraphics());
+		
 	}
-
+	
 }

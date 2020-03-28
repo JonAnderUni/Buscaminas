@@ -172,7 +172,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		} // for
 
 		// creamos el tablero con la matriz de casillas
-		Tablero.getTablero().generarTablero(tablero.length, tablero[0].length, tablero[0].length * 3);
+		Tablero.getTablero().generarTablero(tablero.length, tablero[0].length, bombas);
 
 		// Anadimos los observables
 		anadirObserver(Tablero.getTablero().getMatriz());
