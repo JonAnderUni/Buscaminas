@@ -40,7 +40,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	private JPanel panel_10;
 	private JPanel panel_11;
 	private JPanel panel_12;
-	private JLabel lblCarita;
+	private JButton lblCarita;
 	private JLabel lblTiempo;
 	private JMenuItem facil;
 	private JMenuItem medio;
@@ -48,9 +48,9 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	private JMenuItem personal;
 	private JMenuItem volverAEmpezar;
 	private JLabel lblNewLabel;
-	private JButton btnNewButton;
-	private JButton btnNewButton_1;
-	private JButton btnNewButton_2;
+	private JLabel btnNewButton;
+	private JLabel btnNewButton_1;
+	private JLabel btnNewButton_2;
 
 	private JButton[][] tablero;
 	private int fila;
@@ -274,38 +274,6 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		actualizarTablero(getPanel_4_1());
 	}
 	
-	private void prueba1(int f, int c) {
-		/*
-		 * Este metodo lo vamos a utilizar para el patron Observer Cada vez que una
-		 * casilla cambia de estado la pintaremos con el nuevo estado
-		 */
-
-		int estado = Tablero.getTablero().getCasilla(f, c).getEstado();
-		ImageIcon imagen;
-		int num = Tablero.getTablero().getNumPos(f, c);
-		
-		if (estado == 0) {
-			if (num == -1) {
-				imagen = new ImageIcon("img/mine.png");
-				// Mensaje de que ha pulsado una mina, pierde la partida
-			} else {
-				imagen = new ImageIcon("img/" + num + ".png");
-				tablero[f][c].setEnabled(true);
-			}
-		} else if (estado == 1) {
-			imagen = new ImageIcon("img/flagged.png");
-			
-		} else {
-			imagen = new ImageIcon("img/covered.png");
-		}
-
-		java.awt.Image conversion = imagen.getImage();
-		java.awt.Image tamano = conversion.getScaledInstance(tamanoX, tamanoY, 0);
-		ImageIcon fin = new ImageIcon(tamano);
-		tablero[f][c].setIcon(fin);
-		actualizarTablero(getPanel_4_1());
-		
-	}
 
 	private void actualizarTablero(JPanel panel) {
 		SwingUtilities.updateComponentTreeUI(panel);
@@ -439,8 +407,8 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			facil.setText("Facil");
 			facil.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					bombas = (15 * 10) / 5;
-					crearTablero(15, 10);
+					bombas = 10;
+					crearTablero(7, 10);
 
 				}
 			});
@@ -454,8 +422,8 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			medio.setText("Medio");
 			medio.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					bombas = (20 * 15) / 5;
-					crearTablero(20, 15);
+					bombas = 30;
+					crearTablero(10, 15);
 
 				}
 			});
@@ -469,8 +437,8 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			dificil.setText("Dificil");
 			dificil.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					bombas = (25 * 25) / 5;
-					crearTablero(25, 25);
+					bombas = 75;
+					crearTablero(12, 25);
 
 				}
 			});
@@ -548,16 +516,26 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		if (panel_6 == null) {
 			panel_6 = new JPanel();
 			panel_6.setBackground(Color.LIGHT_GRAY);
+			
 			panel_6.add(getLblCarita());
+			
 		}
 		return panel_6;
 	}
 
-	private JLabel getLblCarita() {
+	private JButton getLblCarita() {
 		if (lblCarita == null) {
-			lblCarita = new JLabel("");
+			lblCarita = new JButton("");
+			lblCarita.setBackground(Color.LIGHT_GRAY);
 			ImageIcon icon = new ImageIcon("img/smiley.png");
 			lblCarita.setIcon(icon);
+			lblCarita.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					//creamos una nueva Partida
+					crearTablero(fila, columna);
+				}
+			});
+			
 		}
 		return lblCarita;
 	}
@@ -614,9 +592,9 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		return panel_12;
 	}
 
-	private JButton getBtnNewButton() {
+	private JLabel getBtnNewButton() {
 		if (btnNewButton == null) {
-			btnNewButton = new JButton("");
+			btnNewButton = new JLabel("");
 			btnNewButton.setBackground(Color.LIGHT_GRAY);
 			btnNewButton.setBounds(3, 1, 14, 23);
 			btnNewButton.setEnabled(true);
@@ -625,9 +603,9 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		return btnNewButton;
 	}
 
-	private JButton getBtnNewButton_1() {
+	private JLabel getBtnNewButton_1() {
 		if (btnNewButton_1 == null) {
-			btnNewButton_1 = new JButton("");
+			btnNewButton_1 = new JLabel("");
 			btnNewButton_1.setBackground(Color.LIGHT_GRAY);
 			btnNewButton_1.setBounds(17, 1, 14, 23);
 			btnNewButton_1.setEnabled(true);
@@ -636,9 +614,9 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		return btnNewButton_1;
 	}
 
-	private JButton getBtnNewButton_2() {
+	private JLabel getBtnNewButton_2() {
 		if (btnNewButton_2 == null) {
-			btnNewButton_2 = new JButton("");
+			btnNewButton_2 = new JLabel("");
 			btnNewButton_2.setBackground(Color.LIGHT_GRAY);
 			btnNewButton_2.setBounds(31, 1, 14, 23);
 			btnNewButton_2.setEnabled(true);

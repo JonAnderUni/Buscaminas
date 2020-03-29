@@ -7,6 +7,7 @@ public class Cerrada implements Estado {
 	public void clickIzq(int fila, int columna) {
 		
 		(Tablero.getTablero().getCasilla(fila, columna)).cambiarEstado(new Abierto());
+		//Paso 1 para haGanado()
 		
 	}
 	@Override
