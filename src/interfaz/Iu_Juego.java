@@ -121,7 +121,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	// Metodo para ajustar botones a la dimension de la ventana
 	@Override
 	public void componentResized(ComponentEvent arg0) {
-		// TODO Auto-generated method stub
+		
 		ordenar();
 		redimensionarContadorBombas();
 
@@ -156,7 +156,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 					// Para aplicar el patron estate state
 					@Override
 					public void mouseClicked(MouseEvent arg0) {
-						// TODO Auto-generated method stub
+						
 						int j = (int) (jb.getX() / (tablero[0][1]).getX());
 						int j2 = (int) (jb.getY() / (tablero[1][1].getY() - 6));
 						if (arg0.getButton() == 1) {
@@ -342,7 +342,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	// pintamos la posicion correspondiente
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
+		
 
 		if (o instanceof Casilla) {
 			Casilla casilla = (Casilla) o;
@@ -370,19 +370,19 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 
 	@Override
 	public void componentHidden(ComponentEvent arg0) {
-		// TODO Auto-generated method stub
+		
 
 	}
 
 	@Override
 	public void componentMoved(ComponentEvent arg0) {
-		// TODO Auto-generated method stub
+		
 
 	}
 
 	@Override
 	public void componentShown(ComponentEvent arg0) {
-		// TODO Auto-generated method stub
+		
 
 	}
 
