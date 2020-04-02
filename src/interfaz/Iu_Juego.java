@@ -58,7 +58,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	private int bombas;
 	private int tamanoX;
 	private int tamanoY;
-
+	
 	private static Iu_Juego miPartida = new Iu_Juego();
 
 
@@ -208,7 +208,6 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	private void pintarTablero(int tX, int tY) {
 		// java.awt.Image.SCALE_SMOOTH
 		ImageIcon imagen;
-		
 
 		for (int i = 0; i < tablero.length; i++) {
 			for (int j = 0; j < tablero[0].length; j++) {
@@ -223,7 +222,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 					} else {
 						imagen = new ImageIcon("img/" + num + ".png");
 					}
-				} else if (estado == 1) {
+				} else if (estado == 1 && this.bombas > 0) {
 					imagen = new ImageIcon("img/flagged.png");
 				} else {
 					imagen = new ImageIcon("img/covered.png");
@@ -246,27 +245,35 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		 */
 
 		int estado = Tablero.getTablero().getCasilla(f, c).getEstado();
-		ImageIcon imagen;
+		ImageIcon imagen = new ImageIcon("img/covered.png");;
 		int num = Tablero.getTablero().getNumPos(f, c);
 
-		if (estado == 0) {
+		if (estado == 2){
+			if (this.bombas > 0 ) {
+				imagen = new ImageIcon("img/covered.png");
+				bombas++;
+				contadorBombas();
+			}
+		}
+		else if (estado == 1) {
+			if (this.bombas > 0 ) {
+				imagen = new ImageIcon("img/flagged.png");
+				bombas--;
+				contadorBombas();
+			}
+		}
+		else if (estado == 0) {
 			if (num == -1) {
 				imagen = new ImageIcon("img/mine.png");
+				bombas--;
+				contadorBombas();
 				// Mensaje de que ha pulsado una mina, pierde la partida
 			} else {
 				imagen = new ImageIcon("img/" + num + ".png");
 				tablero[f][c].setEnabled(true);
 			}
-		} else if (estado == 1) {
-			imagen = new ImageIcon("img/flagged.png");
-			bombas--;
-			contadorBombas();
-		} else {
-			imagen = new ImageIcon("img/covered.png");
-			bombas++;
-			contadorBombas();
 		}
-
+		
 		java.awt.Image conversion = imagen.getImage();
 		java.awt.Image tamano = conversion.getScaledInstance(tamanoX, tamanoY, 0);
 		ImageIcon fin = new ImageIcon(tamano);
@@ -279,7 +286,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		SwingUtilities.updateComponentTreeUI(panel);
 	}
 
-//	// Para poner el numero de bombas que hay en la interfaz
+	// Para poner el numero de bombas que hay en la interfaz
 	private void contadorBombas() {
 
 		if (bombas < 0) bombas = 0;
