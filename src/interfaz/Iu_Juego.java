@@ -162,7 +162,9 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 						if (arg0.getButton() == 1) {
 							Tablero.getTablero().getCasilla(j2, j).clickIzq();
 						} else if (arg0.getButton() == 3) {
-							Tablero.getTablero().getCasilla(j2, j).clickDer();
+							if(Tablero.getTablero().getCasilla(j2, j).getEstado() != 2 || bombas > 0) {
+								Tablero.getTablero().getCasilla(j2, j).clickDer();
+							}
 						}
 					}
 				});
@@ -247,9 +249,9 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		int estado = Tablero.getTablero().getCasilla(f, c).getEstado();
 		ImageIcon imagen = new ImageIcon("img/covered.png");;
 		int num = Tablero.getTablero().getNumPos(f, c);
-
+		System.out.println(estado);
 		if (estado == 2){
-			if (this.bombas > 0 ) {
+			if (this.bombas >= 0 ) {
 				imagen = new ImageIcon("img/covered.png");
 				bombas++;
 				contadorBombas();
