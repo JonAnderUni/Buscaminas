@@ -23,6 +23,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 import codigo.Casilla;
 import codigo.Tablero;
@@ -41,17 +42,18 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	private JPanel panel_11;
 	private JPanel panel_12;
 	private JButton lblCarita;
-	private JLabel lblTiempo;
+	private JLabel lblTiempoC;
 	private JMenuItem facil;
 	private JMenuItem medio;
 	private JMenuItem dificil;
 	private JMenuItem personal;
 	private JMenuItem volverAEmpezar;
-	private JLabel lblNewLabel;
+	private JLabel lblTiempoD;
 	private JLabel btnNewButton;
 	private JLabel btnNewButton_1;
 	private JLabel btnNewButton_2;
-
+	private static int cont = 0;
+	private Timer timer;
 	private JButton[][] tablero;
 	private int fila;
 	private int columna;
@@ -60,6 +62,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	private int tamanoY;
 	
 	private static Iu_Juego miPartida = new Iu_Juego();
+	private JLabel lblTiempoU;
 
 
 	/**
@@ -124,6 +127,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		
 		ordenar();
 		redimensionarContadorBombas();
+		redimensionarContadorTimer();
 
 	}
 
@@ -138,6 +142,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 				panel_9.getHeight() + panel_10.getHeight() + panel_4.getHeight() + 80);
 
 		contadorBombas();
+		contadorTimer();
 		fila = filas;
 		columna = columnas;
 		if (bombas <= 0) bombas = (fila * columna) / 5;
@@ -161,9 +166,12 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 						int j2 = (int) (jb.getY() / (tablero[1][1].getY() - 6));
 						if (arg0.getButton() == 1) {
 							Tablero.getTablero().getCasilla(j2, j).clickIzq();
+							if(timer == null)
+								iniciarTimer();
 						} else if (arg0.getButton() == 3) {
 							if(Tablero.getTablero().getCasilla(j2, j).getEstado() != 2 || bombas > 0) {
 								Tablero.getTablero().getCasilla(j2, j).clickDer();
+								if(timer == null) iniciarTimer();
 							}
 						}
 					}
@@ -318,9 +326,10 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		getBtnNewButton_2().setIcon(fin2);
 
 		redimensionarContadorBombas();
+		redimensionarContadorTimer();
 
 	}
-
+	
 	private void redimensionarContadorBombas() {
 		int width = (getPanel_9().getWidth()) / 3;
 		int inicio = (50 * width) / 100;
@@ -329,6 +338,67 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		getBtnNewButton_1().setBounds(inicio - 10, 1, 20, panel_9.getHeight());
 		getBtnNewButton_2().setBounds(inicio + 10, 1, 20, panel_9.getHeight());
 
+	}
+	
+	private Timer iniciarTimer() {
+		//Inicia el contador del timer
+		
+		if(timer == null) {
+			timer = new Timer(1000, new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					cont +=1;
+					contadorTimer();
+				}
+			});
+			timer.start();
+		}
+		return timer;
+	}
+	
+	private void contadorTimer() {
+		
+		int centenas = cont / 100;
+		int decenas = (cont - (centenas * 100)) / 10;
+		int unidades = cont - (centenas * 100 + decenas * 10);
+		
+		ImageIcon imgD = new ImageIcon("img/r" + decenas + ".png");
+		ImageIcon imgU = new ImageIcon("img/r" + unidades + ".png");
+		ImageIcon imgC = new ImageIcon("img/r" + centenas + ".png");
+		
+		java.awt.Image timerC = imgC.getImage();
+		java.awt.Image sizeC= timerC.getScaledInstance(20, 25, 0);
+		ImageIcon centena= new ImageIcon(sizeC);
+		
+		java.awt.Image timerD = imgD.getImage();
+		java.awt.Image sizeD= timerD.getScaledInstance(20, 25, 0);
+		ImageIcon decena= new ImageIcon(sizeD);
+		
+		java.awt.Image timerU = imgU.getImage();
+		java.awt.Image sizeU= timerU.getScaledInstance(20, 25, 0);
+		ImageIcon unidad= new ImageIcon(sizeU);
+		
+		
+		
+		getLblTiempoC().setIcon(centena);
+		getLblTiempoD().setIcon(decena);
+		getLblTiempoU().setIcon(unidad);
+		
+		redimensionarContadorTimer();
+		
+	}
+	
+	private void redimensionarContadorTimer() {
+		
+			int width = (getPanel_9().getWidth()) / 3;
+			int inicio = (50 * width) / 100;
+
+			getLblTiempoC().setBounds(inicio - 30, 1, 20, panel_9.getHeight());
+			getLblTiempoD().setBounds(inicio - 10, 1, 20, panel_9.getHeight());
+			getLblTiempoU().setBounds(inicio + 10, 1, 20, panel_9.getHeight());
+
+		
 	}
 
 	// Metodo para añadir los observables del patron observer
@@ -555,26 +625,32 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			panel_7.setBackground(Color.LIGHT_GRAY);
 			panel_7.setBorder(null);
 			panel_7.setLayout(new GridLayout(0, 2, 0, 0));
-			panel_7.add(getLblTiempo());
-			panel_7.add(getLblNewLabel());
+			panel_7.add(getLblTiempoC());
+			panel_7.add(getLblTiempoD());
+			panel_7.add(getLblTiempoU());
 
 		}
 		return panel_7;
 	}
 
-	private JLabel getLblTiempo() {
-		if (lblTiempo == null) {
-			lblTiempo = new JLabel("m");
-			lblTiempo.setHorizontalAlignment(SwingConstants.RIGHT);
+	private JLabel getLblTiempoC() {
+		if (lblTiempoC == null) {
+			lblTiempoC = new JLabel("");
+			btnNewButton.setBackground(Color.LIGHT_GRAY);
+			btnNewButton.setBounds(3, 1, 14, 23);
+			btnNewButton.setEnabled(true);
 		}
-		return lblTiempo;
+		return lblTiempoC;
 	}
 
-	private JLabel getLblNewLabel() {
-		if (lblNewLabel == null) {
-			lblNewLabel = new JLabel("s");
+	private JLabel getLblTiempoD() {
+		if (lblTiempoD == null) {
+			lblTiempoD = new JLabel("");
+			btnNewButton_1.setBackground(Color.LIGHT_GRAY);
+			btnNewButton_1.setBounds(17, 1, 14, 23);
+			btnNewButton_1.setEnabled(true);
 		}
-		return lblNewLabel;
+		return lblTiempoD;
 	}
 
 	private JPanel getPanel_10() {
@@ -631,5 +707,14 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			btnNewButton_2.setEnabled(true);
 		}
 		return btnNewButton_2;
+	}
+	private JLabel getLblTiempoU() {
+		if (lblTiempoU == null) {
+			lblTiempoU = new JLabel("");
+			btnNewButton_2.setBackground(Color.LIGHT_GRAY);
+			btnNewButton_2.setBounds(31, 1, 14, 23);
+			btnNewButton_2.setEnabled(true);
+		}
+		return lblTiempoU;
 	}
 }
