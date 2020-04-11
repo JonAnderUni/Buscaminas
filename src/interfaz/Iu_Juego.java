@@ -184,12 +184,12 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 						int j = (int) (jb.getX() / (tablero[0][1]).getX());
 						int j2 = (int) (jb.getY() / (tablero[1][1].getY() - 6));
 						if (arg0.getButton() == 1) {
-							Tablero.getTablero().getCasilla(j2, j).clickIzq();
+							Tablero.getTablero().clickIzq(j2, j);
 							if(timer == null)
 								iniciarTimer();
 						} else if (arg0.getButton() == 3) {
 							if(Tablero.getTablero().getCasilla(j2, j).getEstado() != 2 || bombas > 0) {
-								Tablero.getTablero().getCasilla(j2, j).clickDer();
+								Tablero.getTablero().clickDer(j2,j);
 								if(timer == null) iniciarTimer();
 							}
 						}
@@ -415,15 +415,6 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			getLblTiempoD().setBounds(inicio - 10, 1, 20, panel_9.getHeight());
 			getLblTiempoU().setBounds(inicio + 10, 1, 20, panel_9.getHeight());
 		
-	}
-
-	// Metodo para añadir los observables del patron observer
-	private void anadirObserver(Observable[][] c) {
-		for (int i = 0; i < c.length; i++) {
-			for (int j = 0; j < c[0].length; j++) {
-				c[i][j].addObserver(this);
-			}
-		}
 	}
 
 	// Implementacion del patron Observer, una vez la interfaz cambia de estado,

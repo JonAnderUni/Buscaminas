@@ -25,7 +25,8 @@ public class Casilla extends Observable{
 		numMinas = bombas;
 		fila = filas;
 		columna = columnas;
-		estado = new Cerrada();		
+		estado = new Cerrada();	
+		addObserver();
 	}
 
 	public void cambiarEstado(Estado pEstado) {
