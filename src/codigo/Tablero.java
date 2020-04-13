@@ -185,8 +185,19 @@ public class Tablero {
 		return tablero[fila][columna];
 	}
 	
+	public Integer getCasillaEstado(int fila, int columna) {
+		return tablero[fila][columna].getEstado();
+	}
+	
 	public Casilla[][] getMatriz() {
 		return tablero;
 	}
-		
+	
+	public void getClickIzq(int Y, int X) {
+		this.tablero[Y][X].clickIzq();
+	}
+	
+	public void getClickDer(int Y, int X) {
+		this.tablero[Y][X].clickDer();
+	}
 }
