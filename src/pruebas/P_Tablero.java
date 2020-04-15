@@ -8,7 +8,7 @@ public class P_Tablero {
 		
 		System.out.println("Prueba para ver si se han generado bien las casillas con el mumero de bombas");
 		Tablero tablero = Tablero.getTablero();
-		tablero.generarTablero(7,10,30);
+		tablero.generarTablero(7,10,30,null);
 		tablero.imprimirTablero();
 		System.out.println("");
 

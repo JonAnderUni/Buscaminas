@@ -1,13 +1,16 @@
 package codigo;
 
 import interfaz.Iu_LogIn;
+import interfaz.SplashScreen;
 
 public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		Iu_LogIn.getMiLogin().setVisible(true);
+		SplashScreen primeraVentana = new SplashScreen();
+		primeraVentana.setVisible(true);
+		
 	}
 
 }
