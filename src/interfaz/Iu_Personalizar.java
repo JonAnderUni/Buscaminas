@@ -334,7 +334,7 @@ public class Iu_Personalizar extends JFrame {
 						int b = Integer.parseInt(bombas);
 						
 						if(f>0 && c>0 && (b<f*c && b>0)){
-							
+							(new Iu_Juego()).crearPartidaPersonalizada(f, c, b);
 							setVisible(false);
 						}else {
 							JOptionPane.showMessageDialog(null, "Valores erroneos, por favor comprueba los valores de nuevo", "Error",
