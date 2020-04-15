@@ -19,14 +19,14 @@ public class Casilla extends Observable{
 
 	}
 
-	public Casilla(int filas, int columnas, int bombas) {
+	public Casilla(int filas, int columnas, int bombas, Iu_Juego juego) {
 		// Inicializamos las variables con el estado inicial como cerrado
 		super();
 		numMinas = bombas;
 		fila = filas;
 		columna = columnas;
 		estado = new Cerrada();	
-		addObserver();
+		addObserver(juego);
 	}
 
 	public void cambiarEstado(Estado pEstado) {

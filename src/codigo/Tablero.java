@@ -3,6 +3,8 @@ package codigo;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import interfaz.Iu_Juego;
+
 
 public class Tablero {
 
@@ -19,7 +21,7 @@ public class Tablero {
 	}
 
 
-	public void generarTablero(int filas, int columnas, int bombas) {
+	public void generarTablero(int filas, int columnas, int bombas,Iu_Juego juego) {
 		// TODO - implement Tablero.generarTablero
 		tablero = new Casilla[filas][columnas];
 		ListaCasillas listaCasillas = new ListaCasillas();
@@ -27,7 +29,7 @@ public class Tablero {
 		// meter casillas normales
 		for (int fila = 0; fila < tablero.length; fila++) {
 			for (int columna = 0; columna < tablero[0].length; columna++) {
-				Casilla casilla = new Casilla(fila, columna, 0);
+				Casilla casilla = new Casilla(fila, columna, 0 , juego);
 				tablero[fila][columna] = casilla;
 				listaCasillas.anadirCasilla(fila + "" + columna + "", casilla);
 			}
@@ -44,7 +46,7 @@ public class Tablero {
 		for (int f = 0; f < bombas; f++) {
 
 			Casilla casilla = listaCasillas.getCasillaAleatoria();
-			Casilla bomba = new Casilla(casilla.getFila(), casilla.getcolumna(), -1);
+			Casilla bomba = new Casilla(casilla.getFila(), casilla.getcolumna(), -1,juego);
 			tablero[casilla.getFila()][casilla.getcolumna()] = bomba;
 			listaBombas.anadirCasilla(casilla.getFila() + "" + casilla.getcolumna() + "", casilla);
 			listaCasillas.eliminarCasillla(casilla.getFila() + "" + casilla.getcolumna() + "");
@@ -145,7 +147,7 @@ public class Tablero {
 			while (!porVisitar.isEmpty()) {
 				act = porVisitar.remove();		// Sacamos la casilla de la lista de pendientes
 				listaCasillas.anadirCasilla(act.getFila() + "" + act.getcolumna() + "", act);
-				act.cambiarEstado(new Abierto());		// La abrimos
+				act.cambiarEstado(new Abierto());	// La abrimos
 				fila = act.getFila();			// Cogemos su fila
 				columna = act.getcolumna();		// Cogemos su columna
 				

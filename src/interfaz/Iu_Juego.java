@@ -21,7 +21,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
@@ -59,7 +58,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	private int tamanoX;
 	private int tamanoY;
 	
-	private static Iu_Juego miPartida = new Iu_Juego();
+
 	private JLabel lblTiempoC;
 	private JLabel lblTiempoD;
 	private JLabel lblTiempoU;
@@ -84,7 +83,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	/**
 	 * Create the frame.
 	 */
-	private Iu_Juego() {
+	public Iu_Juego() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 12 * 29, (12 * 29));
 		contentPane = new JPanel();
@@ -117,9 +116,9 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 
 	}
 
-	public static Iu_Juego getJuego() {
-		return miPartida;
-	}
+//	public static Iu_Juego getJuego() {
+//		return miPartida;
+//	}
 
 	// Metodo para ajustar botones a la dimension de la ventana
 	@Override
@@ -201,10 +200,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		} // for
 
 		// creamos el tablero con la matriz de casillas
-		Tablero.getTablero().generarTablero(tablero.length, tablero[0].length, bombas);
-
-		// Anadimos los observables
-		anadirObserver(Tablero.getTablero().getMatriz());
+		Tablero.getTablero().generarTablero(tablero.length, tablero[0].length, bombas,this);
 
 		// metodo Resized, al principio todos los botones misma dimension
 		ordenar();
