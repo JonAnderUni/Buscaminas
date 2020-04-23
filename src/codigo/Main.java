@@ -1,6 +1,5 @@
 package codigo;
 
-import interfaz.Iu_LogIn;
 import interfaz.SplashScreen;
 
 public class Main {

@@ -49,7 +49,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	private JLabel btnNewButton;
 	private JLabel btnNewButton_1;
 	private JLabel btnNewButton_2;
-	private static int cont = 0;
+	private int cont = 0;
 	private Timer timer;
 	private JButton[][] tablero;
 	private int fila;
@@ -182,6 +182,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 						
 						int j = (int) (jb.getX() / (tablero[0][1]).getX());
 						int j2 = (int) (jb.getY() / (tablero[1][1].getY() - 6));
+						
 						if (arg0.getButton() == 1) {
 							Tablero.getTablero().getClickIzq(j2, j);
 							if(timer == null)
@@ -358,12 +359,14 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	private Timer iniciarTimer() {
 		//Inicia el contador del timer
 		
+		cont = 0;
+		
 		if(timer == null) {
 			timer = new Timer(1000, new ActionListener() {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					cont +=1;
+					cont ++;
 					contadorTimer();
 				}
 			});
