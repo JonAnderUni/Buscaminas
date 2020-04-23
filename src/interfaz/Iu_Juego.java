@@ -83,6 +83,9 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	 * Create the frame.
 	 */
 	public Iu_Juego() {
+
+		//Constructora del Iu_Juego
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 12 * 29, (12 * 29));
 		contentPane = new JPanel();
@@ -96,42 +99,52 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		contentPane.add(getPanel_12(), BorderLayout.EAST);
 
 		// Para centrar frame en la mitad de la pantalla
-		setLocation(750, 200);
-		;
+		setLocation(750, 200;
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		// Partida
 		this.setTitle("Buscaminas");
 		ImageIcon imagen = new ImageIcon("img/mine.png");
 		this.setIconImage(imagen.getImage());
+
+		//Para el tama√±o de las casillas en la interfaz
 		tamanoX = 30;
 		tamanoY = 30;
-		bombas = (15 * 10) / 5;
+
+		//Para el menu
 		setJMenuBar(getMenuBar_1()); // Menu
 
-		// Resized
+		// Metodo para cada vez que se redimensiona la ventana se cambie el tama√±o
 		addComponentListener(this);
 		primerClick = true;
 
 	}
 
-//	public static Iu_Juego getJuego() {
-//		return miPartida;
-//	}
-
-	// Metodo para ajustar botones a la dimension de la ventana
+	/***********************************************************************
+	*											Patron Observer 																*
+	************************************************************************/
 	@Override
-	public void componentResized(ComponentEvent arg0) {
+	public void update(Observable o, Object arg) {
 
-		ordenar();
-		redimensionarContadorBombas();
-		redimensionarContadorTimer();
+		if (o instanceof Casilla) {
+			Casilla casilla = (Casilla) o;
+			int x = casilla.getFila();
+			int y = casilla.getcolumna();
+			pintarPosicion(x, y);
 
+			if (((Casilla) o).getEstado() == 0) {
+				Tablero.getTablero().destaparCasillas(x, y);
+			}
+		}
 	}
 
-	// Metodo para crear la matriz de botones y guardarla
+
+	/***********************************************************************
+	*											Creacion de tablero																*
+	************************************************************************/
+
 	private void crearTablero(int filas, int columnas) {
-		
+
 		//Borramos el tablero creado;
 		Tablero.getTablero().eliminarTablero();
 
@@ -163,15 +176,17 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 
 		contadorTimer();
 
+		//guardamos los datos por si tenemos que reiniciar
 		fila = filas;
 		columna = columnas;
+
+
 		if (bombas <= 0)
 			bombas = (fila * columna) / 5;
 
 		getPanel_4_1().removeAll();
 		tablero = new JButton[fila][columna];
 
-		
 		//Para poder pasar como parametro la interfaz cuando hacemos click (patron Observer)
 		Iu_Juego interfazJuego = this;
 
@@ -191,6 +206,8 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 						int j2 = (int) (jb.getY() / (tablero[1][1].getY() - 6));
 
 						if (primerClick) {
+							//Primera vez que hacemos getClick
+							//generamos el tablero de casillas, haciendo que la posicion que hemos hecho click no sea bomba
 							Tablero.getTablero().generarTablero(tablero.length, tablero[0].length, bombas,
 									interfazJuego, j2, j);
 							primerClick = false;
@@ -213,10 +230,23 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			} // for
 		} // for
 
-		// metodo Resized, al principio todos los botones misma dimension
+		//Metodo para redimensionar la interfaz
 		ordenar();
 	}
 
+
+
+	/***********************************************************************
+	*										Para redimensionar la interfaz
+	************************************************************************/
+		@Override
+		public void componentResized(ComponentEvent arg0) {
+
+			ordenar();
+			redimensionarContadorBombas();
+			redimensionarContadorTimer();
+
+		}
 	// Metodo para ajustar los botones a la ventana
 	private void ordenar() {
 
@@ -238,24 +268,31 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 
 			} // for
 			pintarTablero(tx, ty);
+
 		} catch (Exception e) {
-			// Si no podemos pintar no pasa nada, el tablero de casillas todavÌa no esta generado
+			// Si no podemos pintar no pasa nada
+			//El tablero no estara generado todavia
 		}
 
 	}
 
-	// Metodo para pintar todos los botones
-	private void pintarTablero(int tX, int tY) {
-		// java.awt.Image.SCALE_SMOOTH
 
-		// Pintamos el tablero, si el tablero no esta generado todavia lo pintamos de
-		// inicial
+
+	/***********************************************************************
+	*										Metodos para pintar el tablero
+	************************************************************************/
+
+
+	private void pintarTablero(int tX, int tY) {
+		//Metodo para pintar todo el tablero
+
 		ImageIcon imagen = null;
 
 		for (int i = 0; i < tablero.length; i++) {
 			for (int j = 0; j < tablero[0].length; j++) {
 
 				try {
+
 					int estado = Tablero.getTablero().getCasillaEstado(i, j);
 					int num = Tablero.getTablero().getNumPos(i, j);
 
@@ -271,8 +308,12 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 					} else {
 						imagen = new ImageIcon("img/covered.png");
 					}
+
+
 				} catch (Exception e) {
 
+					//Todavia no se ha generado el Tablero
+					//Lo pintamos todo como covered
 					imagen = new ImageIcon("img/covered.png");
 
 				}
@@ -286,9 +327,10 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		}
 	}
 
-	// metodo para pintar un boton
+
 	private void pintarPosicion(int f, int c) {
 
+		// metodo para pintar un boton
 		/*
 		 * Este metodo lo vamos a utilizar para el patron Observer Cada vez que una
 		 * casilla cambia de estado la pintaremos con el nuevo estado
@@ -330,10 +372,10 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		actualizarTablero(getPanel_4_1());
 	}
 
-	private void actualizarTablero(JPanel panel) {
-		SwingUtilities.updateComponentTreeUI(panel);
-	}
 
+	/***********************************************************************
+	*								Metodos Para el contador de bombas										*
+	************************************************************************/
 	// Para poner el numero de bombas que hay en la interfaz
 	private void contadorBombas() {
 
@@ -377,6 +419,11 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		getBtnNewButton_2().setBounds(inicio + 10, 1, 20, panel_9.getHeight());
 
 	}
+
+
+	/***********************************************************************
+	*										Metodos para el timer															*
+	************************************************************************/
 
 	private Timer iniciarTimer() {
 		// Inicia el contador del timer
@@ -438,30 +485,11 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 
 	}
 
-	/*
-	 * // Metodo para aÒadir los observables del patron observer private void
-	 * anadirObserver(Observable[][] c) { for (int i = 0; i < c.length; i++) { for
-	 * (int j = 0; j < c[0].length; j++) { c[i][j].addObserver(this); } } }
-	 */
 
-	// Implementacion del patron Observer, una vez la interfaz cambia de estado,
-	// pintamos la posicion correspondiente
-	@Override
-	public void update(Observable o, Object arg) {
 
-		if (o instanceof Casilla) {
-			Casilla casilla = (Casilla) o;
-			int x = casilla.getFila();
-			int y = casilla.getcolumna();
-			pintarPosicion(x, y);
-
-			if (((Casilla) o).getEstado() == 0) {
-				Tablero.getTablero().destaparCasillas(x, y);
-			}
-		}
-
-	}
-
+	/***********************************************************************
+	*										Metodos para la partida personalizada							*
+	************************************************************************/
 	public void crearPartidaPersonalizada(int f, int c, int b) {
 
 		bombas = b;
@@ -472,6 +500,43 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		setVisible(true);
 
 	}
+
+	/***********************************************************************
+	*						Para reiniciar la partida, mismos parametros							*
+	************************************************************************/
+
+	private JButton getLblCarita() {
+		if (lblCarita == null) {
+			lblCarita = new JButton("");
+			lblCarita.setBackground(Color.LIGHT_GRAY);
+			ImageIcon icon = new ImageIcon("img/smiley.png");
+			lblCarita.setIcon(icon);
+			lblCarita.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					// creamos una nueva Partida
+					crearTablero(fila, columna);
+
+					//Volvemos a activar el primer click
+					primerClick = true;
+					ordenar();
+					contadorBombas();
+
+					if (timer != null)
+						timer.stop();
+					timer = null;
+
+				}
+			});
+
+		}
+		return lblCarita;
+	}
+
+
+
+	/***********************************************************************
+	*										labels, JButton, jTxext .....											*
+	************************************************************************/
 
 	@Override
 	public void componentHidden(ComponentEvent arg0) {
@@ -633,36 +698,6 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		return panel_6;
 	}
 
-	private JButton getLblCarita() {
-		if (lblCarita == null) {
-			lblCarita = new JButton("");
-			lblCarita.setBackground(Color.LIGHT_GRAY);
-			ImageIcon icon = new ImageIcon("img/smiley.png");
-			lblCarita.setIcon(icon);
-			lblCarita.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					// creamos una nueva Partida
-					crearTablero(fila, columna);
-					
-					//Volvemos a activar el primer click
-					primerClick = true;
-					
-				
-					
-					ordenar();
-					contadorBombas();
-
-					if (timer != null)
-						timer.stop();
-					timer = null;
-
-				}
-			});
-
-		}
-		return lblCarita;
-	}
-
 	private JPanel getPanel_7() {
 		if (panel_7 == null) {
 			panel_7 = new JPanel();
@@ -761,5 +796,9 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			lblTiempoU.setEnabled(true);
 		}
 		return lblTiempoU;
+	}
+
+	private void actualizarTablero(JPanel panel) {
+		SwingUtilities.updateComponentTreeUI(panel);
 	}
 }
