@@ -112,6 +112,9 @@ public class Tablero {
 		}
 	}
 
+	/***********************************************************************
+	                        *Destapar Casillas *
+	 ************************************************************************/
 	public boolean destaparCasillas(int fila, int columna) {
 
 		Queue<Casilla> porVisitar = new LinkedList<Casilla>(); // Creamos la lista de casillas por visitar, para ver si
