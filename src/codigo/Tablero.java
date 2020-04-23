@@ -22,8 +22,9 @@ public class Tablero {
 	}
 
 	/***********************************************************************
-	 * Creacion de tablero Casillas *
+	                   *Creacion de tablero Casillas *
 	 ************************************************************************/
+
 	public void generarTablero(int filas, int columnas, int bombas, Iu_Juego juego, int primeraF, int primeraC) {
 		// TODO - implement Tablero.generarTablero
 		tablero = new Casilla[filas][columnas];
@@ -50,7 +51,7 @@ public class Tablero {
 					// No ponemos en la lista, así no podra ser bomba ni ella, ni las de alrededor
 
 				} else {
-					
+
 					listaCasillas.anadirCasilla(fila + "" + columna + "", casilla);
 				}
 			}
@@ -109,18 +110,6 @@ public class Tablero {
 		if (posicionValida(fila, columna - 1)) {
 			(tablero[fila][columna - 1]).incrementarNumMinas();
 		}
-	}
-
-	// Para las pruebas del Main
-	public void imprimirTablero() {
-
-		for (int i = 0; i < tablero.length; i++) {
-			System.out.println("");
-			for (int j = 0; j < tablero[0].length; j++) {
-				System.out.print((tablero[i][j]).getNumMinas() + "  ");
-			}
-		}
-
 	}
 
 	public boolean destaparCasillas(int fila, int columna) {
