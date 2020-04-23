@@ -27,7 +27,6 @@ import javax.swing.border.EmptyBorder;
 import codigo.Casilla;
 import codigo.Tablero;
 
-
 public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 
 	private JPanel contentPane;
@@ -57,12 +56,12 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	private int bombas;
 	private int tamanoX;
 	private int tamanoY;
-	
 
+	private boolean primerClick; // Este booleano lo utilizamos para gestionar el primer click, si es true
+									// generamos el tablero.
 	private JLabel lblTiempoC;
 	private JLabel lblTiempoD;
 	private JLabel lblTiempoU;
-
 
 	/**
 	 * Launch the application.
@@ -107,12 +106,12 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		this.setIconImage(imagen.getImage());
 		tamanoX = 30;
 		tamanoY = 30;
-		bombas = (15*10)/5;
-		crearTablero(15, 10);
+		bombas = (15 * 10) / 5;
 		setJMenuBar(getMenuBar_1()); // Menu
 
 		// Resized
 		addComponentListener(this);
+		primerClick = true;
 
 	}
 
@@ -123,7 +122,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	// Metodo para ajustar botones a la dimension de la ventana
 	@Override
 	public void componentResized(ComponentEvent arg0) {
-		
+
 		ordenar();
 		redimensionarContadorBombas();
 		redimensionarContadorTimer();
@@ -132,6 +131,9 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 
 	// Metodo para crear la matriz de botones y guardarla
 	private void crearTablero(int filas, int columnas) {
+		
+		//Borramos el tablero creado;
+		Tablero.getTablero().eliminarTablero();
 
 		// Damos tamano al panel_4 donde van a estar los botones
 		panel_4.setSize(((columnas) * tamanoX), ((filas) * tamanoY));
@@ -140,33 +142,38 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		setSize(panel_11.getWidth() + panel_12.getWidth() + panel_4.getWidth() + 26,
 				panel_9.getHeight() + panel_10.getHeight() + panel_4.getHeight() + 80);
 
-		//Iniciamos contador de las bombas
+		// Iniciamos contador de las bombas
 		contadorBombas();
-		
-		//Iniciamos contador de tiempo
-		if(timer != null) {
+
+		// Iniciamos contador de tiempo
+		if (timer != null) {
 			cont = 0;
 			ImageIcon imgD = new ImageIcon("img/r0.png");
 			java.awt.Image timerD = imgD.getImage();
-			java.awt.Image sizeD= timerD.getScaledInstance(20, 25, 0);
-			ImageIcon contador= new ImageIcon(sizeD);
+			java.awt.Image sizeD = timerD.getScaledInstance(20, 25, 0);
+			ImageIcon contador = new ImageIcon(sizeD);
 			getLblTiempoC().setIcon(contador);
 			getLblTiempoD().setIcon(contador);
 			getLblTiempoU().setIcon(contador);
-			
+
 			redimensionarContadorTimer();
 			timer.stop();
 			timer.restart();
 		}
-		
+
 		contadorTimer();
-		
+
 		fila = filas;
 		columna = columnas;
-		if (bombas <= 0) bombas = (fila * columna) / 5;
+		if (bombas <= 0)
+			bombas = (fila * columna) / 5;
 
 		getPanel_4_1().removeAll();
 		tablero = new JButton[fila][columna];
+
+		
+		//Para poder pasar como parametro la interfaz cuando hacemos click (patron Observer)
+		Iu_Juego interfazJuego = this;
 
 		for (int f = 0; f < fila; f++) {
 			for (int c = 0; c < columna; c++) {
@@ -179,18 +186,24 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 					// Para aplicar el patron estate state
 					@Override
 					public void mouseClicked(MouseEvent arg0) {
-						
+
 						int j = (int) (jb.getX() / (tablero[0][1]).getX());
 						int j2 = (int) (jb.getY() / (tablero[1][1].getY() - 6));
-						
+
+						if (primerClick) {
+							Tablero.getTablero().generarTablero(tablero.length, tablero[0].length, bombas,
+									interfazJuego, j2, j);
+							primerClick = false;
+						}
 						if (arg0.getButton() == 1) {
 							Tablero.getTablero().getClickIzq(j2, j);
-							if(timer == null)
+							if (timer == null)
 								iniciarTimer();
 						} else if (arg0.getButton() == 3) {
-							if(Tablero.getTablero().getCasillaEstado(j2, j) != 2 || bombas > 0) {
-								Tablero.getTablero().getClickDer(j2,j);
-								if(timer == null) iniciarTimer();
+							if (Tablero.getTablero().getCasillaEstado(j2, j) != 2 || bombas > 0) {
+								Tablero.getTablero().getClickDer(j2, j);
+								if (timer == null)
+									iniciarTimer();
 							}
 						}
 					}
@@ -200,9 +213,6 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			} // for
 		} // for
 
-		// creamos el tablero con la matriz de casillas
-		Tablero.getTablero().generarTablero(tablero.length, tablero[0].length, bombas,this);
-
 		// metodo Resized, al principio todos los botones misma dimension
 		ordenar();
 	}
@@ -210,52 +220,66 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	// Metodo para ajustar los botones a la ventana
 	private void ordenar() {
 
-		int anchoTotal = panel_4.getWidth();
-		int altoTotal = panel_4.getHeight();
-		int tx = anchoTotal / columna;
-		int ty = altoTotal / fila;
+		try {
+			int anchoTotal = panel_4.getWidth();
+			int altoTotal = panel_4.getHeight();
+			int tx = anchoTotal / columna;
+			int ty = altoTotal / fila;
 
-		int x = 0;
-		int y = 6;
-		for (int f = 0; f < tablero.length; f++) {
-			for (int c = 0; c < tablero[0].length; c++) {
-				tablero[f][c].setBounds(x, y, tx, ty);
-				x = x + tx;
+			int x = 0;
+			int y = 6;
+			for (int f = 0; f < tablero.length; f++) {
+				for (int c = 0; c < tablero[0].length; c++) {
+					tablero[f][c].setBounds(x, y, tx, ty);
+					x = x + tx;
+				} // for
+				x = 0;
+				y = y + ty;
+
 			} // for
-			x = 0;
-			y = y + ty;
-		} // for
-
-		pintarTablero(tx, ty);
+			pintarTablero(tx, ty);
+		} catch (Exception e) {
+			// Si no podemos pintar no pasa nada, el tablero de casillas todavía no esta generado
+		}
 
 	}
 
 	// Metodo para pintar todos los botones
 	private void pintarTablero(int tX, int tY) {
 		// java.awt.Image.SCALE_SMOOTH
-		ImageIcon imagen;
+
+		// Pintamos el tablero, si el tablero no esta generado todavia lo pintamos de
+		// inicial
+		ImageIcon imagen = null;
 
 		for (int i = 0; i < tablero.length; i++) {
 			for (int j = 0; j < tablero[0].length; j++) {
 
-				int estado = Tablero.getTablero().getCasillaEstado(i, j);
-				int num = Tablero.getTablero().getNumPos(i, j);
+				try {
+					int estado = Tablero.getTablero().getCasillaEstado(i, j);
+					int num = Tablero.getTablero().getNumPos(i, j);
 
-				if (estado == 0) {
-					if (num == -1) {
-						imagen = new ImageIcon("img/mine.png");
-						// Mensaje de que ha pulsado una mina, pierde la partida
+					if (estado == 0) {
+						if (num == -1) {
+							imagen = new ImageIcon("img/mine.png");
+							// Mensaje de que ha pulsado una mina, pierde la partida
+						} else {
+							imagen = new ImageIcon("img/" + num + ".png");
+						}
+					} else if (estado == 1 && this.bombas > 0) {
+						imagen = new ImageIcon("img/flagged.png");
 					} else {
-						imagen = new ImageIcon("img/" + num + ".png");
+						imagen = new ImageIcon("img/covered.png");
 					}
-				} else if (estado == 1 && this.bombas > 0) {
-					imagen = new ImageIcon("img/flagged.png");
-				} else {
+				} catch (Exception e) {
+
 					imagen = new ImageIcon("img/covered.png");
+
 				}
-				
+
 				java.awt.Image conversion = imagen.getImage();
-				java.awt.Image tamano = conversion.getScaledInstance(tablero[0][0].getWidth(), tablero[0][0].getWidth(), 0);
+				java.awt.Image tamano = conversion.getScaledInstance(tablero[0][0].getWidth(), tablero[0][0].getWidth(),
+						0);
 				ImageIcon fin = new ImageIcon(tamano);
 				tablero[i][j].setIcon(fin);
 			}
@@ -271,24 +295,23 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		 */
 
 		int estado = Tablero.getTablero().getCasillaEstado(f, c);
-		ImageIcon imagen = new ImageIcon("img/covered.png");;
+		ImageIcon imagen = new ImageIcon("img/covered.png");
+		;
 		int num = Tablero.getTablero().getNumPos(f, c);
 		System.out.println(estado);
-		if (estado == 2){
-			if (this.bombas >= 0 ) {
+		if (estado == 2) {
+			if (this.bombas >= 0) {
 				imagen = new ImageIcon("img/covered.png");
 				bombas++;
 				contadorBombas();
 			}
-		}
-		else if (estado == 1) {
-			if (this.bombas > 0 ) {
+		} else if (estado == 1) {
+			if (this.bombas > 0) {
 				imagen = new ImageIcon("img/flagged.png");
 				bombas--;
 				contadorBombas();
 			}
-		}
-		else if (estado == 0) {
+		} else if (estado == 0) {
 			if (num == -1) {
 				imagen = new ImageIcon("img/mine.png");
 				bombas--;
@@ -299,14 +322,13 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 				tablero[f][c].setEnabled(true);
 			}
 		}
-		
+
 		java.awt.Image conversion = imagen.getImage();
 		java.awt.Image tamano = conversion.getScaledInstance(tamanoX, tamanoY, 0);
 		ImageIcon fin = new ImageIcon(tamano);
 		tablero[f][c].setIcon(fin);
 		actualizarTablero(getPanel_4_1());
 	}
-	
 
 	private void actualizarTablero(JPanel panel) {
 		SwingUtilities.updateComponentTreeUI(panel);
@@ -315,7 +337,8 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	// Para poner el numero de bombas que hay en la interfaz
 	private void contadorBombas() {
 
-		if (bombas < 0) bombas = 0;
+		if (bombas < 0)
+			bombas = 0;
 
 		int centenas = bombas / 100;
 		int decenas = (bombas - (centenas * 100)) / 10;
@@ -342,10 +365,9 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		getBtnNewButton_2().setIcon(fin2);
 
 		redimensionarContadorBombas();
-		
 
 	}
-	
+
 	private void redimensionarContadorBombas() {
 		int width = (getPanel_9().getWidth()) / 3;
 		int inicio = (50 * width) / 100;
@@ -355,18 +377,18 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		getBtnNewButton_2().setBounds(inicio + 10, 1, 20, panel_9.getHeight());
 
 	}
-	
+
 	private Timer iniciarTimer() {
-		//Inicia el contador del timer
-		
+		// Inicia el contador del timer
+
 		cont = 0;
-		
-		if(timer == null) {
+
+		if (timer == null) {
 			timer = new Timer(1000, new ActionListener() {
-				
+
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					cont ++;
+					cont++;
 					contadorTimer();
 				}
 			});
@@ -374,64 +396,58 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		}
 		return timer;
 	}
-	
+
 	private void contadorTimer() {
-		
+
 		int centenas = cont / 100;
 		int decenas = (cont - (centenas * 100)) / 10;
 		int unidades = cont - (centenas * 100 + decenas * 10);
-		
+
 		ImageIcon imgD = new ImageIcon("img/r" + decenas + ".png");
 		ImageIcon imgU = new ImageIcon("img/r" + unidades + ".png");
 		ImageIcon imgC = new ImageIcon("img/r" + centenas + ".png");
-		
+
 		java.awt.Image timerC = imgC.getImage();
-		java.awt.Image sizeC= timerC.getScaledInstance(20, 25, 0);
-		ImageIcon centena= new ImageIcon(sizeC);
-		
+		java.awt.Image sizeC = timerC.getScaledInstance(20, 25, 0);
+		ImageIcon centena = new ImageIcon(sizeC);
+
 		java.awt.Image timerD = imgD.getImage();
-		java.awt.Image sizeD= timerD.getScaledInstance(20, 25, 0);
-		ImageIcon decena= new ImageIcon(sizeD);
-		
+		java.awt.Image sizeD = timerD.getScaledInstance(20, 25, 0);
+		ImageIcon decena = new ImageIcon(sizeD);
+
 		java.awt.Image timerU = imgU.getImage();
-		java.awt.Image sizeU= timerU.getScaledInstance(20, 25, 0);
-		ImageIcon unidad= new ImageIcon(sizeU);
-		
+		java.awt.Image sizeU = timerU.getScaledInstance(20, 25, 0);
+		ImageIcon unidad = new ImageIcon(sizeU);
+
 		getLblTiempoC().setIcon(centena);
 		getLblTiempoD().setIcon(decena);
 		getLblTiempoU().setIcon(unidad);
-		
+
 		redimensionarContadorTimer();
-		
+
 	}
-	
+
 	private void redimensionarContadorTimer() {
-		
-			int width = (getPanel_9().getWidth()) / 3;
-			int inicio = (50 * width) / 100;
-			
-			getLblTiempoC().setBounds(inicio - 30, 1, 20, panel_9.getHeight());
-			getLblTiempoD().setBounds(inicio - 10, 1, 20, panel_9.getHeight());
-			getLblTiempoU().setBounds(inicio + 10, 1, 20, panel_9.getHeight());
-		
+
+		int width = (getPanel_9().getWidth()) / 3;
+		int inicio = (50 * width) / 100;
+
+		getLblTiempoC().setBounds(inicio - 30, 1, 20, panel_9.getHeight());
+		getLblTiempoD().setBounds(inicio - 10, 1, 20, panel_9.getHeight());
+		getLblTiempoU().setBounds(inicio + 10, 1, 20, panel_9.getHeight());
+
 	}
 
 	/*
-	// Metodo para añadir los observables del patron observer
-	private void anadirObserver(Observable[][] c) {
-		for (int i = 0; i < c.length; i++) {
-			for (int j = 0; j < c[0].length; j++) {
-				c[i][j].addObserver(this);
-			}
-		}
-	}
-	*/
-	
+	 * // Metodo para añadir los observables del patron observer private void
+	 * anadirObserver(Observable[][] c) { for (int i = 0; i < c.length; i++) { for
+	 * (int j = 0; j < c[0].length; j++) { c[i][j].addObserver(this); } } }
+	 */
+
 	// Implementacion del patron Observer, una vez la interfaz cambia de estado,
 	// pintamos la posicion correspondiente
 	@Override
 	public void update(Observable o, Object arg) {
-		
 
 		if (o instanceof Casilla) {
 			Casilla casilla = (Casilla) o;
@@ -443,7 +459,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 				Tablero.getTablero().destaparCasillas(x, y);
 			}
 		}
-		
+
 	}
 
 	public void crearPartidaPersonalizada(int f, int c, int b) {
@@ -459,19 +475,16 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 
 	@Override
 	public void componentHidden(ComponentEvent arg0) {
-		
 
 	}
 
 	@Override
 	public void componentMoved(ComponentEvent arg0) {
-		
 
 	}
 
 	@Override
 	public void componentShown(ComponentEvent arg0) {
-		
 
 	}
 
@@ -613,9 +626,9 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		if (panel_6 == null) {
 			panel_6 = new JPanel();
 			panel_6.setBackground(Color.LIGHT_GRAY);
-			
+
 			panel_6.add(getLblCarita());
-			
+
 		}
 		return panel_6;
 	}
@@ -628,18 +641,24 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			lblCarita.setIcon(icon);
 			lblCarita.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					//creamos una nueva Partida
+					// creamos una nueva Partida
 					crearTablero(fila, columna);
-					bombas = (fila * columna) / 5;
+					
+					//Volvemos a activar el primer click
+					primerClick = true;
+					
+				
+					
+					ordenar();
 					contadorBombas();
-					
-					if(timer !=null) timer.stop();
+
+					if (timer != null)
+						timer.stop();
 					timer = null;
-					
-					
+
 				}
 			});
-			
+
 		}
 		return lblCarita;
 	}
@@ -713,6 +732,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		}
 		return btnNewButton_2;
 	}
+
 	private JLabel getLblTiempoC() {
 		if (lblTiempoC == null) {
 			lblTiempoC = new JLabel("");
@@ -722,6 +742,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		}
 		return lblTiempoC;
 	}
+
 	private JLabel getLblTiempoD() {
 		if (lblTiempoD == null) {
 			lblTiempoD = new JLabel("");
@@ -731,6 +752,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		}
 		return lblTiempoD;
 	}
+
 	private JLabel getLblTiempoU() {
 		if (lblTiempoU == null) {
 			lblTiempoU = new JLabel("");
