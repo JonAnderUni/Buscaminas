@@ -633,7 +633,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 					bombas = (fila * columna) / 5;
 					contadorBombas();
 					
-					timer.stop();
+					if(timer !=null) timer.stop();
 					timer = null;
 					
 					
