@@ -21,6 +21,9 @@ public class Tablero {
 		return mTablero;
 	}
 
+	/***********************************************************************
+	 * Creacion de tablero Casillas *
+	 ************************************************************************/
 	public void generarTablero(int filas, int columnas, int bombas, Iu_Juego juego, int primeraF, int primeraC) {
 		// TODO - implement Tablero.generarTablero
 		tablero = new Casilla[filas][columnas];
@@ -29,15 +32,31 @@ public class Tablero {
 		// meter casillas normales
 		for (int fila = 0; fila < tablero.length; fila++) {
 			for (int columna = 0; columna < tablero[0].length; columna++) {
+
 				Casilla casilla = new Casilla(fila, columna, 0, juego);
 				tablero[fila][columna] = casilla;
-				listaCasillas.anadirCasilla(fila + "" + columna + "", casilla);
+
+				if ((casilla.getFila() == primeraF && casilla.getcolumna() == primeraC)
+						|| (casilla.getFila() == primeraF - 1 && casilla.getcolumna() == primeraC)
+						|| (casilla.getFila() == primeraF + 1 && casilla.getcolumna() == primeraC)
+						|| (casilla.getFila() == primeraF && casilla.getcolumna() == primeraC + 1)
+						|| (casilla.getFila() == primeraF && casilla.getcolumna() == primeraC - 1)
+						|| (casilla.getFila() == primeraF + 1 && casilla.getcolumna() == primeraC + 1)
+						|| (casilla.getFila() == primeraF + 1 && casilla.getcolumna() == primeraC - 1)
+						|| (casilla.getFila() == primeraF - 1 && casilla.getcolumna() == primeraC + 1)
+						|| (casilla.getFila() == primeraF - 1 && casilla.getcolumna() == primeraC - 1)) {
+
+					// Cuando hacemos click la casilla sea vacia
+					// No ponemos en la lista, así no podra ser bomba ni ella, ni las de alrededor
+
+				} else {
+					
+					listaCasillas.anadirCasilla(fila + "" + columna + "", casilla);
+				}
 			}
 		}
 
 		// anadimos las bombas
-		// anadimos las bombas
-
 		/*
 		 * Al a�adir las bombas hay q tener en cuenta que no se a�ada una encima de
 		 * la otra a la hora de incrementar el contador se incrementaria x2
@@ -46,18 +65,12 @@ public class Tablero {
 		for (int f = 0; f < bombas; f++) {
 
 			Casilla casilla = listaCasillas.getCasillaAleatoria();
-			if (casilla.getFila() == primeraF && casilla.getcolumna() == primeraC) {
-				// No ponemos bomba, es en la primera que se ha hecho click
-			} else {
-				Casilla bomba = new Casilla(casilla.getFila(), casilla.getcolumna(), -1, juego);
-				tablero[casilla.getFila()][casilla.getcolumna()] = bomba;
-				listaBombas.anadirCasilla(casilla.getFila() + "" + casilla.getcolumna() + "", casilla);
-				listaCasillas.eliminarCasillla(casilla.getFila() + "" + casilla.getcolumna() + "");
-				getMinasAlrededor(casilla.getFila(), casilla.getcolumna());
-			}
-
+			Casilla bomba = new Casilla(casilla.getFila(), casilla.getcolumna(), -1, juego);
+			tablero[casilla.getFila()][casilla.getcolumna()] = bomba;
+			listaBombas.anadirCasilla(casilla.getFila() + "" + casilla.getcolumna() + "", casilla);
+			listaCasillas.eliminarCasillla(casilla.getFila() + "" + casilla.getcolumna() + "");
+			getMinasAlrededor(casilla.getFila(), casilla.getcolumna());
 		}
-
 	}
 
 	private boolean posicionValida(int fila, int columna) {
@@ -237,6 +250,6 @@ public class Tablero {
 	public void eliminarTablero() {
 		// TODO Auto-generated method stub
 		tablero = null;
-		
+
 	}
 }

@@ -99,7 +99,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		contentPane.add(getPanel_12(), BorderLayout.EAST);
 
 		// Para centrar frame en la mitad de la pantalla
-		setLocation(750, 200;
+		setLocation(750, 200);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		// Partida
