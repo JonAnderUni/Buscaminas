@@ -237,7 +237,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 
 
 	/***********************************************************************
-	*										Para redimensionar la interfaz
+	*				Para redimensionar la interfaz
 	************************************************************************/
 		@Override
 		public void componentResized(ComponentEvent arg0) {
