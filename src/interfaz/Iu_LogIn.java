@@ -60,7 +60,7 @@ public class Iu_LogIn extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
-		setLocation(700, 350);
+		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 	    
@@ -117,6 +117,8 @@ public class Iu_LogIn extends JFrame {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Puntuacion.getMiPuntuacion().setVisible(true);
+				(new Iu_HighScore()).setVisible(true);
+				setVisible(false);
 			}
 		});
 		panel_5.add(btnNewButton_1);

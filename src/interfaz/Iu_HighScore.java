@@ -18,7 +18,8 @@ import javax.swing.JTable;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Color;
-import java.awt.SystemColor;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Iu_HighScore extends JDialog {
 
@@ -47,6 +48,7 @@ public class Iu_HighScore extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new BorderLayout(0, 0));
+		setLocationRelativeTo(null);
 		{
 			JPanel panel = new JPanel();
 			contentPanel.add(panel);
@@ -57,8 +59,6 @@ public class Iu_HighScore extends JDialog {
 				table.setPreferredScrollableViewportSize(new Dimension(450, 300));
 				table.setGridColor(Color.BLACK);
 				table.setBackground(getContentPane().getBackground());
-//				JScrollPane JS = new JScrollPane(table);
-//				JS.setPreferredSize(new Dimension(400, 150));
 				panel.add(table);
 
 			}
@@ -89,6 +89,12 @@ public class Iu_HighScore extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("Salir");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						dispose();
+						Iu_LogIn.getMiLogin().setVisible(true);
+					}
+				});
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
@@ -108,7 +114,11 @@ public class Iu_HighScore extends JDialog {
 
 			if (cont < 10) {
 				String[] a = datos.split("\\s+--->\\s+");
-				String[] row = { a[0], a[1], a[2] };
+				String e;
+				if(a[0].toLowerCase().equals("m")) e = "Medio";
+				else if(a[0].toLowerCase().equals("d")) e = "Dificil";
+				else e = "Facil";
+				String[] row = { e, a[1], a[2] };
 				nm.addRow(row);
 			} else {
 				break;
