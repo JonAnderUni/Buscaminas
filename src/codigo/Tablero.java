@@ -215,6 +215,13 @@ public class Tablero {
 		return fin;
 	}
 
+	public boolean tableroEsBomba(int fila, int col) {
+		boolean bomba = false;
+		if(this.tablero[fila][col].esBomba()) {
+			bomba = true;
+		}
+		return bomba;
+	}
 	public int getNumPos(int fila, int columna) {
 		return (tablero[fila][columna]).getNumMinas();
 	}
