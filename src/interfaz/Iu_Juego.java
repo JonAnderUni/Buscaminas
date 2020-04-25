@@ -602,8 +602,17 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	private JButton getLblCarita() {
 		if (lblCarita == null) {
 			lblCarita = new JButton("");
+			lblCarita.setBackground(Color.LIGHT_GRAY);
+			ImageIcon icon = new ImageIcon("img/smiley.png");
+			lblCarita.setIcon(icon);
 			lblCarita.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
+					//Resetea la cara
+					lblCarita.setBackground(Color.LIGHT_GRAY);
+					ImageIcon icon = new ImageIcon("img/smiley.png");
+					lblCarita.setIcon(icon);
+					
+					
 					// creamos una nueva Partida
 					crearTablero(fila, columna);
 
@@ -620,9 +629,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			});
 
 		}
-		lblCarita.setBackground(Color.LIGHT_GRAY);
-		ImageIcon icon = new ImageIcon("img/smiley.png");
-		lblCarita.setIcon(icon);
+		
 		return lblCarita;
 	}
 
