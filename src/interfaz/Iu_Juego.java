@@ -54,8 +54,10 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	private int fila;
 	private int columna;
 	private int bombas;
+	private int casillasVacias;
 	private int tamanoX;
 	private int tamanoY;
+	private String dificultad;
 
 	private boolean primerClick; // Este booleano lo utilizamos para gestionar el primer click, si es true
 									// generamos el tablero.
@@ -136,7 +138,6 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 				Boolean fin = Tablero.getTablero().destaparCasillas(x, y);
 				if (fin) {
 					perderPartida();
-					timer.stop();
 				}
 			}
 		}
@@ -184,9 +185,19 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		fila = filas;
 		columna = columnas;
 
+		if (this.dificultad.equals("f")){
+			this.bombas = 10;
+		}
+		else if(this.dificultad.equals("m")){
+			this.bombas = 30;
+		}
+		else if(this.dificultad.equals("d")){
+			this.bombas = 75;
+		}
+		else {
+			this.bombas = (fila * columna) / 5;
+		}
 
-		if (bombas <= 0)
-			bombas = (fila * columna) / 5;
 
 		getPanel_4_1().removeAll();
 		tablero = new JButton[fila][columna];
@@ -214,6 +225,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 							//generamos el tablero de casillas, haciendo que la posicion que hemos hecho click no sea bomba
 							Tablero.getTablero().generarTablero(tablero.length, tablero[0].length, bombas,
 									interfazJuego, j2, j);
+							casillasVacias = ((tablero.length * tablero[0].length) - bombas);
 							primerClick = false;
 						}
 						if (arg0.getButton() == 1) {
@@ -272,7 +284,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 
 			} // for
 			pintarTablero(tx, ty);
-
+			
 		} catch (Exception e) {
 			// Si no podemos pintar no pasa nada
 			//El tablero no estara generado todavia
@@ -344,7 +356,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		ImageIcon imagen = new ImageIcon("img/covered.png");
 		;
 		int num = Tablero.getTablero().getNumPos(f, c);
-		System.out.println(estado);
+		
 		if (estado == 2) {
 			if (this.bombas >= 0) {
 				imagen = new ImageIcon("img/covered.png");
@@ -366,6 +378,11 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			} else {
 				imagen = new ImageIcon("img/" + num + ".png");
 				tablero[f][c].setEnabled(true);
+				this.casillasVacias--;			// restamos uno a las casillas vacias, para comprobar cuando se ha ganado el juego
+				
+				if (casillasVacias == 0) {		// si es 0, has ganado la partida
+					ganarPartida();
+				}
 			}
 		}
 
@@ -428,7 +445,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	*							Finalizar el Juego							*
 	************************************************************************/
 	private void perderPartida() {
-		
+		timer.stop();
 		for (int i = 0; i < tablero.length; i++) {
 			
 			for (int j = 0; j < tablero[0].length; j++) {
@@ -458,11 +475,15 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 				}
 			}
 		}
+		
+		ImageIcon caraPerder = new ImageIcon("img/deadsmiley.png");
+		lblCarita.setIcon(caraPerder);
+		actualizarTablero(getPanel_4_1());
 	}
 	
 	
 	private void ganarPartida() {
-		
+		timer.stop();
 		for (int i = 0; i < tablero.length; i++) {
 			
 			for (int j = 0; j < tablero[0].length; j++) {
@@ -474,24 +495,19 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 				if(Tablero.getTablero().tableroEsBomba(i, j)) {
 					
 					if (estado == 2) {
-						imagen = new ImageIcon("img/greymine.png");
+						imagen = new ImageIcon("img/flagged.png");
 						java.awt.Image conversion = imagen.getImage();
 						java.awt.Image tamano = conversion.getScaledInstance(tamanoX, tamanoY, 0);
 						ImageIcon fin = new ImageIcon(tamano);
 						tablero[i][j].setIcon(fin);
 						actualizarTablero(getPanel_4_1());
 					}
-					
-				}else if (estado == 1) {
-					imagen = new ImageIcon("img/nomine.png");
-					java.awt.Image conversion = imagen.getImage();
-					java.awt.Image tamano = conversion.getScaledInstance(tamanoX, tamanoY, 0);
-					ImageIcon fin = new ImageIcon(tamano);
-					tablero[i][j].setIcon(fin);
-					actualizarTablero(getPanel_4_1());
 				}
 			}
 		}
+		ImageIcon caraPerder = new ImageIcon("img/sunglasses.png");
+		lblCarita.setIcon(caraPerder);
+		actualizarTablero(getPanel_4_1());
 	}
 	
 	/***********************************************************************
@@ -566,6 +582,11 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	public void crearPartidaPersonalizada(int f, int c, int b) {
 
 		bombas = b;
+		
+		if(bombas == 10) dificultad = "f";
+		else if(bombas == 30) dificultad = "m";
+		else if(bombas == 75) dificultad = "d";
+		else dificultad = "p";
 		crearTablero(f, c);
 
 		Iu_Personalizar.getMiPartidaPersonalizada().setVisible(false);
@@ -581,9 +602,6 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	private JButton getLblCarita() {
 		if (lblCarita == null) {
 			lblCarita = new JButton("");
-			lblCarita.setBackground(Color.LIGHT_GRAY);
-			ImageIcon icon = new ImageIcon("img/smiley.png");
-			lblCarita.setIcon(icon);
 			lblCarita.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					// creamos una nueva Partida
@@ -602,13 +620,16 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			});
 
 		}
+		lblCarita.setBackground(Color.LIGHT_GRAY);
+		ImageIcon icon = new ImageIcon("img/smiley.png");
+		lblCarita.setIcon(icon);
 		return lblCarita;
 	}
 
 
 
 	/***********************************************************************
-	*										labels, JButton, jTxext .....											*
+	*										labels, JButton, jTxext .....*
 	************************************************************************/
 
 	@Override
@@ -649,6 +670,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	}
 
 	private JMenuItem getFacil() {
+		this.dificultad = "f";
 		if (facil == null) {
 			facil = new JMenuItem();
 			facil.setText("Facil");
@@ -664,6 +686,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	}
 
 	private JMenuItem getMedio() {
+		this.dificultad = "m";
 		if (medio == null) {
 			medio = new JMenuItem();
 			medio.setText("Medio");
@@ -679,6 +702,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	}
 
 	private JMenuItem getDificil() {
+		this.dificultad = "d";
 		if (dificil == null) {
 			dificil = new JMenuItem();
 			dificil.setText("Dificil");
@@ -694,6 +718,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	}
 
 	private JMenuItem getPersonalizada() {
+		this.dificultad = "p";
 		if (personal == null) {
 			personal = new JMenuItem();
 			personal.setText("Personalizada");
