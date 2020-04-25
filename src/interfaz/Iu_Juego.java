@@ -133,14 +133,18 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			pintarPosicion(x, y);
 
 			if (((Casilla) o).getEstado() == 0) {
-				Tablero.getTablero().destaparCasillas(x, y);
+				Boolean fin = Tablero.getTablero().destaparCasillas(x, y);
+				if (fin) {
+					perderPartida();
+					timer.stop();
+				}
 			}
 		}
 	}
 
 
 	/***********************************************************************
-	*											Creacion de tablero																*
+	*											Creacion de tablero			*
 	************************************************************************/
 
 	private void crearTablero(int filas, int columnas) {
@@ -374,7 +378,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 
 
 	/***********************************************************************
-	*								Metodos Para el contador de bombas										*
+	*								Metodos Para el contador de bombas		*
 	************************************************************************/
 	// Para poner el numero de bombas que hay en la interfaz
 	private void contadorBombas() {
@@ -419,10 +423,79 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		getBtnNewButton_2().setBounds(inicio + 10, 1, 20, panel_9.getHeight());
 
 	}
-
-
+	
 	/***********************************************************************
-	*										Metodos para el timer															*
+	*							Finalizar el Juego							*
+	************************************************************************/
+	private void perderPartida() {
+		
+		for (int i = 0; i < tablero.length; i++) {
+			
+			for (int j = 0; j < tablero[0].length; j++) {
+				
+				Integer estado;
+				ImageIcon imagen;
+				estado = Tablero.getTablero().getCasillaEstado(i, j);
+				
+				if(Tablero.getTablero().tableroEsBomba(i, j)) {
+					
+					if (estado == 2) {
+						imagen = new ImageIcon("img/greymine.png");
+						java.awt.Image conversion = imagen.getImage();
+						java.awt.Image tamano = conversion.getScaledInstance(tamanoX, tamanoY, 0);
+						ImageIcon fin = new ImageIcon(tamano);
+						tablero[i][j].setIcon(fin);
+						actualizarTablero(getPanel_4_1());
+					}
+					
+				}else if (estado == 1) {
+					imagen = new ImageIcon("img/nomine.png");
+					java.awt.Image conversion = imagen.getImage();
+					java.awt.Image tamano = conversion.getScaledInstance(tamanoX, tamanoY, 0);
+					ImageIcon fin = new ImageIcon(tamano);
+					tablero[i][j].setIcon(fin);
+					actualizarTablero(getPanel_4_1());
+				}
+			}
+		}
+	}
+	
+	
+	private void ganarPartida() {
+		
+		for (int i = 0; i < tablero.length; i++) {
+			
+			for (int j = 0; j < tablero[0].length; j++) {
+				
+				Integer estado;
+				ImageIcon imagen;
+				estado = Tablero.getTablero().getCasillaEstado(i, j);
+				
+				if(Tablero.getTablero().tableroEsBomba(i, j)) {
+					
+					if (estado == 2) {
+						imagen = new ImageIcon("img/greymine.png");
+						java.awt.Image conversion = imagen.getImage();
+						java.awt.Image tamano = conversion.getScaledInstance(tamanoX, tamanoY, 0);
+						ImageIcon fin = new ImageIcon(tamano);
+						tablero[i][j].setIcon(fin);
+						actualizarTablero(getPanel_4_1());
+					}
+					
+				}else if (estado == 1) {
+					imagen = new ImageIcon("img/nomine.png");
+					java.awt.Image conversion = imagen.getImage();
+					java.awt.Image tamano = conversion.getScaledInstance(tamanoX, tamanoY, 0);
+					ImageIcon fin = new ImageIcon(tamano);
+					tablero[i][j].setIcon(fin);
+					actualizarTablero(getPanel_4_1());
+				}
+			}
+		}
+	}
+	
+	/***********************************************************************
+	*										Metodos para el timer			*
 	************************************************************************/
 
 	private Timer iniciarTimer() {
