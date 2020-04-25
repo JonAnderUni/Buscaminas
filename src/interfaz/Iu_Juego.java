@@ -56,7 +56,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	private int bombas;
 	private int tamanoX;
 	private int tamanoY;
-
+	private String dificultad;
 	private boolean primerClick; // Este booleano lo utilizamos para gestionar el primer click, si es true
 									// generamos el tablero.
 	private JLabel lblTiempoC;
@@ -185,8 +185,18 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		columna = columnas;
 
 
-		if (bombas <= 0)
-			bombas = (fila * columna) / 5;
+		if (dificultad.equals("f")){
+			this.bombas = 10;
+		}
+		else if(this.dificultad.equals("m")){
+			this.bombas = 30;
+		}
+		else if(this.dificultad.equals("d")){
+			this.bombas = 75;
+		}
+		else {
+			this.bombas = (fila * columna) / 5;
+		}
 
 		getPanel_4_1().removeAll();
 		tablero = new JButton[fila][columna];
@@ -566,6 +576,10 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	public void crearPartidaPersonalizada(int f, int c, int b) {
 
 		bombas = b;
+		if(bombas == 10) dificultad = "f";
+		else if(bombas == 30) dificultad = "m";
+		else if(bombas == 75) dificultad = "d";
+		else dificultad = "p";
 		crearTablero(f, c);
 
 		Iu_Personalizar.getMiPartidaPersonalizada().setVisible(false);
