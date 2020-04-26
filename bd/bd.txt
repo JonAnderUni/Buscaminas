@@ -1,11 +1,1 @@
-m ---> fifty ---> 999998
-m ---> Riano ---> 6969
-m ---> alain ---> 6666
-m ---> gollum ---> 1334
-m ---> Larra ---> 999
-m ---> ibt ---> 300
-m ---> asier ---> 99
-m ---> albita ---> 88
-m ---> JonAnder ---> 65
-m ---> murillo ---> 20
-f ---> Nicolas ---> 0
+Alvaro ---> Facil ---> 28 ---> 250

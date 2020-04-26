@@ -19,7 +19,7 @@ public class Puntuacion {
 
 	}
 
-	public static Puntuacion miPuntuacion() {
+	public static Puntuacion getPuntuacion() {
 		return miPuntuacion;
 
 	}
@@ -47,7 +47,7 @@ public class Puntuacion {
 	}
 
 	// metodo para leer los datos del fichero
-	public void guardarFichero(String nivel, String jugador, int puntuacion) {
+	public void guardarFichero(String jugador, String nivel, int tiempo, int puntuacion) {
 
 		String[] array = leerdatosFichero();
 		boolean insertado = false;
@@ -65,26 +65,26 @@ public class Puntuacion {
 
 				if (o < puntuacion && !insertado) {
 
-					pw.print(nivel + " ---> " + jugador + " ---> " + puntuacion);
+					pw.print(jugador + " ---> " + nivel + " ---> " + tiempo + " ---> " + puntuacion);
 					pw.println();
 					insertado = true;
 					cont = i;
 					break;
 
 				} else {
-					pw.print(a[0] + " ---> " + a[1] + " ---> " + a[2]);
+					pw.print(a[0] + " ---> " + a[1] + " ---> " + a[2] + " ---> " + a[3]);
 					pw.println();
 				}
 
 			}
 
 			if (!insertado) {
-				pw.print(nivel + " ---> " + jugador + " ---> " + puntuacion);
+				pw.print(jugador + " ---> " + nivel + " ---> " + tiempo + " ---> " + puntuacion);
 				pw.println();
 			} else {
 				for (int i = cont; cont < array.length; i++) {
 					String[] a = array[i].split("\\s+--->\\s+");
-					pw.print(a[0] + " ---> " + a[1] + " ---> " + a[2]);
+					pw.print(a[0] + " ---> " + a[1] + " ---> " + a[2] + " ---> " + a[3]);
 					pw.println();
 
 				}
@@ -105,7 +105,6 @@ public class Puntuacion {
 
 	public static void main(String[] args) {
 
-		Puntuacion.miPuntuacion.guardarFichero("f", "Nicolas", 0);
-		Puntuacion.miPuntuacion.guardarFichero("f", "Nicolas", 30);
+		Puntuacion.miPuntuacion.guardarFichero("Alain", "m", 120, 2280);
 	}
 }

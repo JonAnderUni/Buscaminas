@@ -94,7 +94,7 @@ public class SplashScreen extends JFrame {
 						e.printStackTrace();
 					}
 					Iu_Juego juego = new Iu_Juego();
-					juego.crearPartidaPersonalizada(15, 10, 30);
+					juego.crearPartidaPersonalizada(15, 10, 30); 	//Da error porque ahora falta pasarle el usuario que se introduce en Iu_Login
 				}
 
 			}

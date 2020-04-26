@@ -104,6 +104,7 @@ public class Iu_LogIn extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Iu_Personalizar.getMiPartidaPersonalizada().setVisible(true);
+				Iu_Personalizar.getMiPartidaPersonalizada().setUsuario(textField.getText());
 				setVisible(false);
 
 			}

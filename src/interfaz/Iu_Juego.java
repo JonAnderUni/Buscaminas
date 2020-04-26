@@ -25,6 +25,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 import codigo.Casilla;
+import codigo.Puntuacion;
 import codigo.Tablero;
 
 public class Iu_Juego extends JFrame implements Observer, ComponentListener {
@@ -60,6 +61,8 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	private String dificultad;
 	private boolean primerClick; // Este booleano lo utilizamos para gestionar el primer click, si es true
 									// generamos el tablero.
+	private String usuario;
+	
 	private JLabel lblTiempoC;
 	private JLabel lblTiempoD;
 	private JLabel lblTiempoU;
@@ -450,10 +453,12 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			
 			for (int j = 0; j < tablero[0].length; j++) {
 				
+				//Recorremos todo el tablero
 				Integer estado;
 				ImageIcon imagen;
 				estado = Tablero.getTablero().getCasillaEstado(i, j);
 				
+				//Comprobamos las casillas que son bomba y no estan marcadas con bandera
 				if(Tablero.getTablero().tableroEsBomba(i, j)) {
 					
 					if (estado == 2) {
@@ -464,7 +469,8 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 						tablero[i][j].setIcon(fin);
 						actualizarTablero(getPanel_4_1());
 					}
-					
+				
+				//Comprobamos las casillas que no son bomba y estan marcadas con bandera
 				}else if (estado == 1) {
 					imagen = new ImageIcon("img/nomine.png");
 					java.awt.Image conversion = imagen.getImage();
@@ -475,7 +481,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 				}
 			}
 		}
-		
+		//Cambiamos el icono de la Carita
 		ImageIcon caraPerder = new ImageIcon("img/deadsmiley.png");
 		lblCarita.setIcon(caraPerder);
 		actualizarTablero(getPanel_4_1());
@@ -483,11 +489,13 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	
 	
 	private void ganarPartida() {
+		
 		timer.stop();
 		for (int i = 0; i < tablero.length; i++) {
 			
 			for (int j = 0; j < tablero[0].length; j++) {
 				
+				//Recorremos todo el tablero para comprobar, que casillas no estan marcadas con bandera, y son minas, para marcarlas
 				Integer estado;
 				ImageIcon imagen;
 				estado = Tablero.getTablero().getCasillaEstado(i, j);
@@ -505,9 +513,25 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 				}
 			}
 		}
+		//Cambiamos el icono de la Carita
 		ImageIcon caraPerder = new ImageIcon("img/sunglasses.png");
 		lblCarita.setIcon(caraPerder);
 		actualizarTablero(getPanel_4_1());
+		
+		//Calculamos la puntuacion del ganador, y la introducimos en la BD
+		String usu = usuario;	//Seteamos el usuario ganador
+		
+		Integer nivel = 0;		//Seteamos el nivel y dificultad
+		String dif = "n";
+		if (dificultad.equals("f")) {nivel = 1; dif = "Facil";}
+		else if (dificultad.equals("m")) {nivel = 2; dif = "Medio";}
+		else if (dificultad.equals("d")) {nivel = 3; dif = "Dificil";}
+		else if (dificultad.equals("p")) {nivel = 4; dif = "Personalizado";}
+		nivel = nivel * 100;
+		
+		Integer puntuacion = ((fila * columna) * nivel) / cont;	//Seteamos la puntuación ganadora
+		
+		Puntuacion.getPuntuacion().guardarFichero(usuario, dif, cont, puntuacion);
 	}
 	
 	/***********************************************************************
@@ -579,8 +603,9 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	/***********************************************************************
 	*										Metodos para la partida personalizada							*
 	************************************************************************/
-	public void crearPartidaPersonalizada(int f, int c, int b) {
-
+	public void crearPartidaPersonalizada(int f, int c, int b, String pUsuario) {
+		
+		this.usuario = pUsuario;
 		bombas = b;
 		if(bombas == 10) dificultad = "f";
 		else if(bombas == 30) dificultad = "m";

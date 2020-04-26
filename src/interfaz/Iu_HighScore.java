@@ -55,7 +55,7 @@ public class Iu_HighScore extends JDialog {
 			panel.setLayout(new GridLayout(0, 1, 0, 0));
 			{
 				
-				table = new JTable(this.obtenerTabla(Puntuacion.miPuntuacion().leerdatosFichero()));
+				table = new JTable(this.obtenerTabla(Puntuacion.getPuntuacion().leerdatosFichero()));
 				table.setPreferredScrollableViewportSize(new Dimension(450, 300));
 				table.setGridColor(Color.BLACK);
 				table.setBackground(getContentPane().getBackground());

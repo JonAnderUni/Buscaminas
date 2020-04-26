@@ -44,6 +44,8 @@ public class Iu_Personalizar extends JFrame {
 	private JTextField textFilas;
 	private JTextField textColumnas;
 
+	private String usuario;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -318,9 +320,10 @@ public class Iu_Personalizar extends JFrame {
 						int f = Integer.parseInt(filas);
 						int c = Integer.parseInt(columnas);
 						int b = Integer.parseInt(bombas);
-						
+						String usu = usuario;
 						if(f>0 && c>0 && (b<f*c && b>0)){
-							(new Iu_Juego()).crearPartidaPersonalizada(f, c, b);
+							(new Iu_Juego()).crearPartidaPersonalizada(f, c, b, usu);
+							
 							setVisible(false);
 						}else {
 							JOptionPane.showMessageDialog(null, "Valores erroneos, por favor comprueba los valores de nuevo", "Error",
@@ -372,5 +375,9 @@ public class Iu_Personalizar extends JFrame {
 			textColumnas.setColumns(10);
 		}
 		return textColumnas;
+	}
+	
+	public void setUsuario (String pUsuario){
+		usuario = pUsuario;
 	}
 }
