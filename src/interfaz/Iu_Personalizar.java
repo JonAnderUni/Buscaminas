@@ -31,7 +31,6 @@ public class Iu_Personalizar extends JFrame {
 	private JPanel panel_7;
 	private JLabel lblFilas;
 	private JLabel lblColumnas;
-	private JLabel lblBombas;
 	private JButton btnOk;
 	private JPanel panel_9;
 	private JPanel panel_10;
@@ -44,7 +43,6 @@ public class Iu_Personalizar extends JFrame {
 	private JLabel lblInformacion;
 	private JTextField textFilas;
 	private JTextField textColumnas;
-	private JTextField textBombas;
 
 	/**
 	 * Launch the application.
@@ -67,7 +65,7 @@ public class Iu_Personalizar extends JFrame {
 	 */
 	private Iu_Personalizar() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 450, 240);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -150,8 +148,6 @@ public class Iu_Personalizar extends JFrame {
 			panel_6.add(getTextFilas());
 			panel_6.add(getLblColumnas());
 			panel_6.add(getTextColumnas());
-			panel_6.add(getLblBombas());
-			panel_6.add(getTextBombas());
 			setPersonalizable(false);
 
 		}
@@ -184,14 +180,6 @@ public class Iu_Personalizar extends JFrame {
 			lblColumnas.setHorizontalAlignment(SwingConstants.CENTER);
 		}
 		return lblColumnas;
-	}
-
-	private JLabel getLblBombas() {
-		if (lblBombas == null) {
-			lblBombas = new JLabel("Bombas");
-			lblBombas.setHorizontalAlignment(SwingConstants.CENTER);
-		}
-		return lblBombas;
 	}
 
 	private JLabel getLblInformacion() {
@@ -295,7 +283,6 @@ public class Iu_Personalizar extends JFrame {
 						Integer f,c,b,n;
 						f = Integer.parseInt(getTextFilas().getText());
 						c = Integer.parseInt(getTextColumnas().getText());
-						b = Integer.parseInt(getTextBombas().getText());
 						
 						//Filas
 						if (f < 7) { f = 7; }
@@ -304,8 +291,7 @@ public class Iu_Personalizar extends JFrame {
 						if (c < 8) { c = 8; }
 						else if (c > 30)  { c = 30; }
 						//Bombas
-						if (b < c/2) { b = c/2;}
-						else if(b > c * 3) { b = c * 3;}
+						b = (f * c)  / 5;
 							
 						filas = String.valueOf(f);	
 						columnas = String.valueOf(c);	
@@ -357,7 +343,6 @@ public class Iu_Personalizar extends JFrame {
 	private void setPersonalizable(boolean estado) {
 		getLblFilas().setEnabled(estado);
 		getLblColumnas().setEnabled(estado);
-		getLblBombas().setEnabled(estado);
 	}
 
 	private void setTxtDificultad(String txt) {
@@ -373,7 +358,6 @@ public class Iu_Personalizar extends JFrame {
 	private void restablecerValoresDefabrica() {
 		getTextFilas().setText(null);
 		getTextColumnas().setText(null);
-		getTextBombas().setText(null);
 	}
 	private JTextField getTextFilas() {
 		if (textFilas == null) {
@@ -388,12 +372,5 @@ public class Iu_Personalizar extends JFrame {
 			textColumnas.setColumns(10);
 		}
 		return textColumnas;
-	}
-	private JTextField getTextBombas() {
-		if (textBombas == null) {
-			textBombas = new JTextField();
-			textBombas.setColumns(10);
-		}
-		return textBombas;
 	}
 }

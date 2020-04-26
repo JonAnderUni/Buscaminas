@@ -54,6 +54,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	private int fila;
 	private int columna;
 	private int bombas;
+	private int casillasVacias;
 	private int tamanoX;
 	private int tamanoY;
 	private String dificultad;
@@ -224,6 +225,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 							//generamos el tablero de casillas, haciendo que la posicion que hemos hecho click no sea bomba
 							Tablero.getTablero().generarTablero(tablero.length, tablero[0].length, bombas,
 									interfazJuego, j2, j);
+							casillasVacias = ((tablero.length * tablero[0].length) - bombas);
 							primerClick = false;
 						}
 						if (arg0.getButton() == 1) {
@@ -376,6 +378,11 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			} else {
 				imagen = new ImageIcon("img/" + num + ".png");
 				tablero[f][c].setEnabled(true);
+				this.casillasVacias--;			// restamos uno a las casillas vacias, para comprobar cuando se ha ganado el juego
+				System.out.println("Casillas vacias: " + casillasVacias);
+				if (casillasVacias == 0) {		// si es 0, has ganado la partida
+					ganarPartida();
+				}
 			}
 		}
 
@@ -438,7 +445,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	*							Finalizar el Juego							*
 	************************************************************************/
 	private void perderPartida() {
-		
+		timer.stop();
 		for (int i = 0; i < tablero.length; i++) {
 			
 			for (int j = 0; j < tablero[0].length; j++) {
@@ -468,11 +475,15 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 				}
 			}
 		}
+		
+		ImageIcon caraPerder = new ImageIcon("img/deadsmiley.png");
+		lblCarita.setIcon(caraPerder);
+		actualizarTablero(getPanel_4_1());
 	}
 	
 	
 	private void ganarPartida() {
-		
+		timer.stop();
 		for (int i = 0; i < tablero.length; i++) {
 			
 			for (int j = 0; j < tablero[0].length; j++) {
@@ -484,24 +495,19 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 				if(Tablero.getTablero().tableroEsBomba(i, j)) {
 					
 					if (estado == 2) {
-						imagen = new ImageIcon("img/greymine.png");
+						imagen = new ImageIcon("img/flagged.png");
 						java.awt.Image conversion = imagen.getImage();
 						java.awt.Image tamano = conversion.getScaledInstance(tamanoX, tamanoY, 0);
 						ImageIcon fin = new ImageIcon(tamano);
 						tablero[i][j].setIcon(fin);
 						actualizarTablero(getPanel_4_1());
 					}
-					
-				}else if (estado == 1) {
-					imagen = new ImageIcon("img/nomine.png");
-					java.awt.Image conversion = imagen.getImage();
-					java.awt.Image tamano = conversion.getScaledInstance(tamanoX, tamanoY, 0);
-					ImageIcon fin = new ImageIcon(tamano);
-					tablero[i][j].setIcon(fin);
-					actualizarTablero(getPanel_4_1());
 				}
 			}
 		}
+		ImageIcon caraPerder = new ImageIcon("img/sunglasses.png");
+		lblCarita.setIcon(caraPerder);
+		actualizarTablero(getPanel_4_1());
 	}
 	
 	/***********************************************************************
