@@ -1,4 +1,3 @@
-m ---> Dios ---> 999999
 m ---> fifty ---> 999998
 m ---> Riano ---> 6969
 m ---> alain ---> 6666
@@ -9,3 +8,4 @@ m ---> asier ---> 99
 m ---> albita ---> 88
 m ---> JonAnder ---> 65
 m ---> murillo ---> 20
+f ---> Nicolas ---> 0

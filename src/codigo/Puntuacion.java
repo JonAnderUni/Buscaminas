@@ -50,60 +50,62 @@ public class Puntuacion {
 	public void guardarFichero(String nivel, String jugador, int puntuacion) {
 
 		String[] array = leerdatosFichero();
-		String[] nuevo = new String[array.length + 1];
-		int i2 = 0;
 		boolean insertado = false;
+		FileWriter fichero = null;
+		PrintWriter pw = null;
+		int cont = 0;
+		try {
+			fichero = new FileWriter("bd/bd.txt");
+			pw = new PrintWriter(fichero);
 
-		for (int i = 0; i < array.length; i++) {
+			for (int i = 0; i < array.length; i++) {
 
-			try {
 				String[] a = array[i].split("\\s+--->\\s+");
 				int o = Integer.parseInt(a[2]);
 
 				if (o < puntuacion && !insertado) {
 
-					nuevo[i2] = nivel + " ---> " + jugador + " ---> " + puntuacion + "";
-					nuevo[i2 + 1] = array[i];
-					i2 = i2 + 2;
+					pw.print(nivel + " ---> " + jugador + " ---> " + puntuacion);
+					pw.println();
 					insertado = true;
+					cont = i;
+					break;
 
 				} else {
-					nuevo[i2] = array[i];
-					i2++;
+					pw.print(a[0] + " ---> " + a[1] + " ---> " + a[2]);
+					pw.println();
 				}
-			} catch (Exception e) {
 
-				nuevo[0] = nivel + " ---> " + jugador + " ---> " + puntuacion + "";
-				insertado = true;
-				break;
 			}
-		}
 
-		if (!insertado)
-			nuevo[nuevo.length - 1] = nivel + " ---> " + jugador + " ---> " + puntuacion + "";
-
-		FileWriter fichero = null;
-		PrintWriter pw = null;
-
-		try {
-			fichero = new FileWriter("bd/bd.txt");
-			pw = new PrintWriter(fichero);
-
-			for (String data : nuevo) {
-				pw.print(data);
+			if (!insertado) {
+				pw.print(nivel + " ---> " + jugador + " ---> " + puntuacion);
 				pw.println();
+			} else {
+				for (int i = cont; cont < array.length; i++) {
+					String[] a = array[i].split("\\s+--->\\s+");
+					pw.print(a[0] + " ---> " + a[1] + " ---> " + a[2]);
+					pw.println();
 
+				}
 			}
-
 		} catch (Exception e) {
-			e.printStackTrace();
+
 		} finally {
 			try {
-				if (null != fichero)
+				if (null != fichero) {
 					fichero.close();
+					pw.close();
+				}
 			} catch (Exception e2) {
 				e2.printStackTrace();
 			}
 		}
+	}
+
+	public static void main(String[] args) {
+
+		Puntuacion.miPuntuacion.guardarFichero("f", "Nicolas", 0);
+		Puntuacion.miPuntuacion.guardarFichero("f", "Nicolas", 30);
 	}
 }
