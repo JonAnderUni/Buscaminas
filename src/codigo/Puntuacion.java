@@ -121,5 +121,6 @@ public class Puntuacion<T> {
 	public static void main(String[] args) {
 
 		Puntuacion.miPuntuacion.guardarFichero("f","Alain" ,99, 10);
+		Puntuacion.miPuntuacion.guardarFichero("f","Alain" ,99, 10);
 	}
 }

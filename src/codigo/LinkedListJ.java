@@ -30,9 +30,9 @@ public class LinkedListJ<T> {
 			Node ant = first;
 			boolean salir = false;
 			
-			String[] linea2 = datos.split("\\+s--->\\+s");
+			String[] linea2 = datos.split("\\s+--->\\s+");
 			while(act != null && !salir) {
-				String[] linea = ((String) act.data).split("\\+s--->\\+s");
+				String[] linea = ((String) act.data).split("\\s+--->\\s+");
 				if(Integer.parseInt(linea[2]) < Integer.parseInt(linea2[2])) {
 					//Añadimos antes
 					Node<String> nuevo = new Node(datos);
@@ -63,5 +63,13 @@ public class LinkedListJ<T> {
 	
 	public Node<T> getFirst() {
 		return first;
+	}
+	
+	public static void main(String[] args) {
+
+		LinkedListJ<String> j = new LinkedListJ<String>();
+		j.anadirNuevo("f ---> Alain ---> "  + 99  + " ---> "+ 10 + "");
+		j.anadirNuevo("f ---> Alain ---> "  + 98  + " ---> "+ 10 + "");
+		j.anadirNuevo("f ---> Alain ---> "  + 97  + " ---> "+ 10 + "");
 	}
 }

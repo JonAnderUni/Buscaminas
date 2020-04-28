@@ -37,9 +37,9 @@ public class Iu_HighScores extends JFrame {
 	private JButton btnNewButton_2;
 	private JButton btnNewButton_3;
 	private JLabel[][] matriz;
-	private LinkedListJ<String> facil;
-	private LinkedListJ<String> medio;
-	private LinkedListJ<String> dificil;
+	private Node<String> facil;
+	private Node<String> medio;
+	private Node<String> dificil;
 
 	/**
 	 * Launch the application.
@@ -72,9 +72,9 @@ public class Iu_HighScores extends JFrame {
 		contentPane.add(getPanel_1(), BorderLayout.SOUTH);
 		matriz = new JLabel[10][3];
 		tablero();
-		facil = Puntuacion.getPuntuacion().getFacil();
-		medio = Puntuacion.getPuntuacion().getMedio();
-		dificil = Puntuacion.getPuntuacion().getDificil();
+		facil = Puntuacion.getPuntuacion().getFacil().getFirst();
+		medio = Puntuacion.getPuntuacion().getMedio().getFirst();
+		dificil = Puntuacion.getPuntuacion().getDificil().getFirst();
 		cargarDatos(facil);
 
 	}
@@ -226,22 +226,18 @@ public class Iu_HighScores extends JFrame {
 		return btnNewButton_3;
 	}
 
-	private void cargarDatos(LinkedListJ<String> lista) {
-
-		Node<String> primero = lista.getFirst();
+	private void cargarDatos(Node<String> primero) {
+;
 		int fila = 0;
-		int cont = 0;
-		
 		limpiarJLabels();
 
-		while (primero != null && cont < 10) {
+		while (primero != null && fila<10) {
 			String[] line = primero.data.split("\\s+--->\\s++");
 			matriz[fila][0].setText(line[1]);
 			matriz[fila][1].setText(line[2]);
 			matriz[fila][2].setText(line[3]);
 			fila++;
 			primero = primero.next;
-			cont ++;
 
 		}
 	}
@@ -249,7 +245,8 @@ public class Iu_HighScores extends JFrame {
 	private void limpiarJLabels() {
 		// TODO Auto-generated method stub
 		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 3; j++) {	
+			for (int j = 0; j < 3; j++) {
+				
 				matriz[i][j].setText("");
 
 			}
