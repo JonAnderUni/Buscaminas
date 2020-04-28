@@ -230,16 +230,18 @@ public class Iu_HighScores extends JFrame {
 
 		Node<String> primero = lista.getFirst();
 		int fila = 0;
+		int cont = 0;
 		
 		limpiarJLabels();
 
-		while (primero != null) {
+		while (primero != null && cont < 10) {
 			String[] line = primero.data.split("\\s+--->\\s++");
 			matriz[fila][0].setText(line[1]);
 			matriz[fila][1].setText(line[2]);
 			matriz[fila][2].setText(line[3]);
 			fila++;
 			primero = primero.next;
+			cont ++;
 
 		}
 	}
@@ -247,8 +249,7 @@ public class Iu_HighScores extends JFrame {
 	private void limpiarJLabels() {
 		// TODO Auto-generated method stub
 		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 3; j++) {
-				
+			for (int j = 0; j < 3; j++) {	
 				matriz[i][j].setText("");
 
 			}
