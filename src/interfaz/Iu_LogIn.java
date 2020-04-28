@@ -118,7 +118,7 @@ public class Iu_LogIn extends JFrame {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Puntuacion.getMiPuntuacion().setVisible(true);
-				(new Iu_HighScore()).setVisible(true);
+				(new Iu_HighScores()).setVisible(true);
 				setVisible(false);
 			}
 		});

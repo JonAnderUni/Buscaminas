@@ -7,16 +7,22 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Scanner;
 
-public class Puntuacion {
+public class Puntuacion<T> {
 
 	private static Puntuacion miPuntuacion = new Puntuacion();
-	private ArrayList<String> datos;
+	LinkedListJ<String>[] datos;
 
 	private Puntuacion() {
-		datos = new ArrayList<String>();
 
+		datos = new LinkedListJ[3];
+		// initializing
+		for (int i = 0; i < 3; i++) {
+			datos[i] = new LinkedListJ<String>();
+		}
+		leerdatosFichero();
 	}
 
 	public static Puntuacion getPuntuacion() {
@@ -25,70 +31,68 @@ public class Puntuacion {
 	}
 
 	// metodo guardar datos en el fichero
-	public String[] leerdatosFichero() {
+	public void leerdatosFichero() {
+
+		/*
+		 * leemos los datos dependiendo de la dificultad separamos cada dificultad en un
+		 * array
+		 */
 
 		try {
 			Scanner input = new Scanner(new File("bd/bd.txt"));
 
 			while (input.hasNextLine()) {
 				String line = input.nextLine();
-				datos.add(line);
+				String[] donde = line.split("\\s+--->\\s+");
+
+				if (donde[0].toLowerCase().equalsIgnoreCase("f"))
+					datos[0].anadirNuevo(line);
+				else if (donde[0].toLowerCase().equalsIgnoreCase("d"))
+					datos[2].anadirNuevo(line);
+				else
+					datos[0].anadirNuevo(line);
+
 			}
 			input.close();
 		} catch (FileNotFoundException ex) {
 			ex.printStackTrace();
 		}
 
-		// Podemos ordenar el array por puntuacion
-
-		String[] array = datos.toArray(new String[datos.size()]);
-		return array;
-
 	}
 
 	// metodo para leer los datos del fichero
-	public void guardarFichero(String jugador, String nivel, int tiempo, int puntuacion) {
+	public void guardarFichero(String nivel, String jugador, int puntuacion, int tiempo) {
 
-		String[] array = leerdatosFichero();
-		boolean insertado = false;
+		leerdatosFichero();
+		int n;
+
+		if (nivel.toLowerCase().equals("f"))
+			n = 0;
+		else if (nivel.toLowerCase().equals("d"))
+			n = 2;
+		else
+			n = 1;
+
+		datos[n].anadirNuevo(nivel+  " ---> " + jugador +  " ---> " + puntuacion +  " ---> " + tiempo);
 		FileWriter fichero = null;
 		PrintWriter pw = null;
-		int cont = 0;
+		
+		
 		try {
 			fichero = new FileWriter("bd/bd.txt");
 			pw = new PrintWriter(fichero);
 
-			for (int i = 0; i < array.length; i++) {
-
-				String[] a = array[i].split("\\s+--->\\s+");
-				int o = Integer.parseInt(a[2]);
-
-				if (o < puntuacion && !insertado) {
-
-					pw.print(jugador + " ---> " + nivel + " ---> " + tiempo + " ---> " + puntuacion);
+			for (int i = 0; i < datos.length; i++) {
+				
+				Node<String> first = datos[i].getFirst();
+				
+				while(first != null) {
+					pw.print(first.data);
 					pw.println();
-					insertado = true;
-					cont = i;
-					break;
-
-				} else {
-					pw.print(a[0] + " ---> " + a[1] + " ---> " + a[2] + " ---> " + a[3]);
-					pw.println();
-				}
-
-			}
-
-			if (!insertado) {
-				pw.print(jugador + " ---> " + nivel + " ---> " + tiempo + " ---> " + puntuacion);
-				pw.println();
-			} else {
-				for (int i = cont; cont < array.length; i++) {
-					String[] a = array[i].split("\\s+--->\\s+");
-					pw.print(a[0] + " ---> " + a[1] + " ---> " + a[2] + " ---> " + a[3]);
-					pw.println();
-
+					first = first.next;
 				}
 			}
+			
 		} catch (Exception e) {
 
 		} finally {
@@ -103,8 +107,19 @@ public class Puntuacion {
 		}
 	}
 
+
+	public LinkedListJ<String> getFacil(){
+		return datos[0];
+	}
+	public LinkedListJ<String> getMedio(){
+		return datos[1];
+	}
+	public LinkedListJ<String> getDificil(){
+		return datos[2];
+	}
+	
 	public static void main(String[] args) {
 
-		Puntuacion.miPuntuacion.guardarFichero("Alain", "m", 120, 2280);
+		Puntuacion.miPuntuacion.guardarFichero("f","Alain" ,99, 10);
 	}
 }
