@@ -18,6 +18,9 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import codigo.Node;
+import java.awt.Font;
+import javax.swing.border.LineBorder;
+import javax.swing.border.EtchedBorder;
 
 public class Iu_HighScores extends JFrame {
 
@@ -76,6 +79,7 @@ public class Iu_HighScores extends JFrame {
 		medio = Puntuacion.getPuntuacion().getMedio().getFirst();
 		dificil = Puntuacion.getPuntuacion().getDificil().getFirst();
 		cargarDatos(facil);
+		setLocationRelativeTo(null);
 
 	}
 
@@ -98,6 +102,7 @@ public class Iu_HighScores extends JFrame {
 			panel.add(getLblNombre());
 			panel.add(getLblPuntuacin());
 			panel.add(getLblTiempo());
+			panel.setSize(200,200);
 		}
 		return panel;
 	}
@@ -117,8 +122,9 @@ public class Iu_HighScores extends JFrame {
 	private JPanel getPanel_2() {
 		if (panel_2 == null) {
 			panel_2 = new JPanel();
+			panel_2.setBorder(new EtchedBorder(EtchedBorder.RAISED, null, null));
 			panel_2.setLayout(new GridLayout(0, 3, 0, 0));
-			LinkedListJ<String> listaF = Puntuacion.getPuntuacion().getFacil();
+			facil = Puntuacion.getPuntuacion().getFacil().getFirst();
 		}
 		return panel_2;
 	}
@@ -126,6 +132,7 @@ public class Iu_HighScores extends JFrame {
 	private JLabel getLblNombre() {
 		if (lblNombre == null) {
 			lblNombre = new JLabel("Nombre");
+			lblNombre.setFont(new Font("Tahoma", Font.BOLD, 13));
 			lblNombre.setHorizontalAlignment(SwingConstants.CENTER);
 		}
 		return lblNombre;
@@ -134,6 +141,7 @@ public class Iu_HighScores extends JFrame {
 	private JLabel getLblPuntuacin() {
 		if (lblPuntuacin == null) {
 			lblPuntuacin = new JLabel("Puntuaci\u00F3n");
+			lblPuntuacin.setFont(new Font("Tahoma", Font.BOLD, 13));
 			lblPuntuacin.setHorizontalAlignment(SwingConstants.CENTER);
 		}
 		return lblPuntuacin;
@@ -142,6 +150,7 @@ public class Iu_HighScores extends JFrame {
 	private JLabel getLblTiempo() {
 		if (lblTiempo == null) {
 			lblTiempo = new JLabel("Tiempo");
+			lblTiempo.setFont(new Font("Tahoma", Font.BOLD, 13));
 			lblTiempo.setHorizontalAlignment(SwingConstants.CENTER);
 		}
 		return lblTiempo;
@@ -182,6 +191,7 @@ public class Iu_HighScores extends JFrame {
 	private JButton getBtnNewButton() {
 		if (btnNewButton == null) {
 			btnNewButton = new JButton("F\u00E1cil");
+			btnNewButton.setBackground(Color.LIGHT_GRAY);
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					cargarDatos(facil);
@@ -194,6 +204,7 @@ public class Iu_HighScores extends JFrame {
 	private JButton getBtnNewButton_1() {
 		if (btnNewButton_1 == null) {
 			btnNewButton_1 = new JButton("Medio");
+			btnNewButton_1.setBackground(Color.LIGHT_GRAY);
 			btnNewButton_1.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					cargarDatos(medio);
@@ -205,6 +216,7 @@ public class Iu_HighScores extends JFrame {
 
 	private JButton getBtnNewButton_2() {
 		if (btnNewButton_2 == null) {
+			btnNewButton_2.setBackground(Color.LIGHT_GRAY);
 			btnNewButton_2 = new JButton("Dif\u00EDcil");
 			btnNewButton_2.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -217,9 +229,12 @@ public class Iu_HighScores extends JFrame {
 
 	private JButton getBtnNewButton_3() {
 		if (btnNewButton_3 == null) {
-			btnNewButton_3 = new JButton("Volver");
+			btnNewButton_3 = new JButton("Salir");
+			btnNewButton_3.setBackground(Color.LIGHT_GRAY);
 			btnNewButton_3.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					dispose();
+					Iu_LogIn.getMiLogin().setVisible(true);
 				}
 			});
 		}
