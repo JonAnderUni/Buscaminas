@@ -63,7 +63,6 @@ public class Puntuacion<T> {
 	// metodo para leer los datos del fichero
 	public void guardarFichero(String nivel, String jugador, int puntuacion, int tiempo) {
 
-		leerdatosFichero();
 		int n;
 
 		if (nivel.toLowerCase().equals("f"))
