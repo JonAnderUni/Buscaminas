@@ -205,7 +205,7 @@ public class Iu_HighScores extends JFrame {
 
 	private JButton getBtnNewButton_2() {
 		if (btnNewButton_2 == null) {
-			btnNewButton_2 = new JButton("Did\u00EDcil");
+			btnNewButton_2 = new JButton("Dif\u00EDcil");
 			btnNewButton_2.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					cargarDatos(dificil);
