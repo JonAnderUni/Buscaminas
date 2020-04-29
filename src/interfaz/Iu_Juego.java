@@ -61,6 +61,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	private String dificultad;
 	private boolean primerClick; // Este booleano lo utilizamos para gestionar el primer click, si es true
 									// generamos el tablero.
+	private boolean finJuego;
 	private String usuario;
 	
 	private JLabel lblTiempoC;
@@ -121,6 +122,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		// Metodo para cada vez que se redimensiona la ventana se cambie el tamaÃ±o
 		addComponentListener(this);
 		primerClick = true;
+		finJuego = false;
 
 	}
 
@@ -219,27 +221,29 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 					// Para aplicar el patron estate state
 					@Override
 					public void mouseClicked(MouseEvent arg0) {
+						if (!finJuego) {
+							int j = (int) (jb.getX() / (tablero[0][1]).getX());
+							int j2 = (int) (jb.getY() / (tablero[1][1].getY() - 6));
 
-						int j = (int) (jb.getX() / (tablero[0][1]).getX());
-						int j2 = (int) (jb.getY() / (tablero[1][1].getY() - 6));
-
-						if (primerClick) {
-							//Primera vez que hacemos getClick
-							//generamos el tablero de casillas, haciendo que la posicion que hemos hecho click no sea bomba
-							Tablero.getTablero().generarTablero(tablero.length, tablero[0].length, bombas,
-									interfazJuego, j2, j);
-							casillasVacias = ((tablero.length * tablero[0].length) - bombas);
-							primerClick = false;
-						}
-						if (arg0.getButton() == 1) {
-							Tablero.getTablero().getClickIzq(j2, j);
-							if (timer == null)
-								iniciarTimer();
-						} else if (arg0.getButton() == 3) {
-							if (Tablero.getTablero().getCasillaEstado(j2, j) != 2 || bombas > 0) {
-								Tablero.getTablero().getClickDer(j2, j);
+							if (primerClick) {
+								// Primera vez que hacemos getClick
+								// generamos el tablero de casillas, haciendo que la posicion que hemos hecho
+								// click no sea bomba
+								Tablero.getTablero().generarTablero(tablero.length, tablero[0].length, bombas,
+										interfazJuego, j2, j);
+								casillasVacias = ((tablero.length * tablero[0].length) - bombas);
+								primerClick = false;
+							}
+							if (arg0.getButton() == 1) {
+								Tablero.getTablero().getClickIzq(j2, j);
 								if (timer == null)
 									iniciarTimer();
+							} else if (arg0.getButton() == 3) {
+								if (Tablero.getTablero().getCasillaEstado(j2, j) != 2 || bombas > 0) {
+									Tablero.getTablero().getClickDer(j2, j);
+									if (timer == null)
+										iniciarTimer();
+								}
 							}
 						}
 					}
@@ -359,7 +363,6 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		ImageIcon imagen = new ImageIcon("img/covered.png");
 		;
 		int num = Tablero.getTablero().getNumPos(f, c);
-		System.out.println(estado);
 		if (estado == 2) {
 			if (this.bombas >= 0) {
 				imagen = new ImageIcon("img/covered.png");
@@ -382,7 +385,6 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 				imagen = new ImageIcon("img/" + num + ".png");
 				tablero[f][c].setEnabled(true);
 				this.casillasVacias--;			// restamos uno a las casillas vacias, para comprobar cuando se ha ganado el juego
-				System.out.println("Casillas vacias: " + casillasVacias);
 				if (casillasVacias == 0) {		// si es 0, has ganado la partida
 					ganarPartida();
 				}
@@ -485,6 +487,9 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		ImageIcon caraPerder = new ImageIcon("img/deadsmiley.png");
 		lblCarita.setIcon(caraPerder);
 		actualizarTablero(getPanel_4_1());
+		
+		//Bloqueamos el tablero
+		finJuego = true;
 	}
 	
 	
@@ -532,6 +537,9 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		Integer puntuacion = ((fila * columna) * nivel) / cont;	//Seteamos la puntuación ganadora
 		
 		Puntuacion.getPuntuacion().guardarFichero(dif,usuario, puntuacion,cont);
+		
+		//Bloqueamos el tablero
+		finJuego = true;
 	}
 	
 	/***********************************************************************
@@ -639,6 +647,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 					
 					// creamos una nueva Partida
 					primerClick = true;
+					finJuego = false;
 					crearTablero(fila, columna);
 
 					//Volvemos a activar el primer click
