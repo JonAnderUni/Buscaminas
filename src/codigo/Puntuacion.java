@@ -45,9 +45,9 @@ public class Puntuacion<T> {
 				String line = input.nextLine();
 				String[] donde = line.split("\\s+--->\\s+");
 
-				if (donde[0].toLowerCase().equalsIgnoreCase("f"))
+				if ((donde[0]).toLowerCase().equalsIgnoreCase("facil"))
 					datos[0].anadirNuevo(line);
-				else if (donde[0].toLowerCase().equalsIgnoreCase("d"))
+				else if (donde[0].toLowerCase().equalsIgnoreCase("dificil"))
 					datos[2].anadirNuevo(line);
 				else
 					datos[0].anadirNuevo(line);

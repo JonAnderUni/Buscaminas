@@ -531,7 +531,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		
 		Integer puntuacion = ((fila * columna) * nivel) / cont;	//Seteamos la puntuación ganadora
 		
-		Puntuacion.getPuntuacion().guardarFichero(usuario, dif, cont, puntuacion);
+		Puntuacion.getPuntuacion().guardarFichero(dif,usuario, puntuacion,cont);
 	}
 	
 	/***********************************************************************
