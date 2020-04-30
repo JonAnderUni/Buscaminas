@@ -10,9 +10,13 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -27,6 +31,8 @@ import javax.swing.border.EmptyBorder;
 import codigo.Casilla;
 import codigo.Puntuacion;
 import codigo.Tablero;
+
+
 
 public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 
@@ -451,6 +457,8 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	************************************************************************/
 	private void perderPartida() {
 		timer.stop();
+		Fanfarre();
+		
 		for (int i = 0; i < tablero.length; i++) {
 			
 			for (int j = 0; j < tablero[0].length; j++) {
@@ -496,6 +504,8 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	private void ganarPartida() {
 		
 		timer.stop();
+		
+		Fanfarre();
 		for (int i = 0; i < tablero.length; i++) {
 			
 			for (int j = 0; j < tablero[0].length; j++) {
@@ -607,15 +617,33 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	}
 
 
+	/***********************************************************************
+	*					   			Metodos fanfarria		      			*
+	************************************************************************/
+
+	private void Fanfarre() {
+		AudioInputStream musica;
+		try {
+			musica = AudioSystem.getAudioInputStream(this.getClass().getResource("musica/VictoryFanfare.wav"));
+			//AudioStream audio = new AudioStream(musica);
+			//AudioPlayer.player.start();
+			Clip clip = AudioSystem.getClip();
+			clip.start();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 
 	/***********************************************************************
-	*										Metodos para la partida personalizada							*
+	*			Metodos para la partida personalizada						*
 	************************************************************************/
 	public void crearPartidaPersonalizada(int f, int c, int b, String pUsuario) {
 		
 		this.usuario = pUsuario;
 		bombas = b;
 		if(bombas == 10) dificultad = "f";
+		
 		else if(bombas == 30) dificultad = "m";
 		else if(bombas == 75) dificultad = "d";
 		else dificultad = "p";
