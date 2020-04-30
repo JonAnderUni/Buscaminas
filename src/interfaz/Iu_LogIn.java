@@ -7,6 +7,11 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
+
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -18,6 +23,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.net.URL;
 import java.awt.event.ActionEvent;
 
@@ -28,6 +34,8 @@ public class Iu_LogIn extends JFrame {
 	private static Iu_LogIn miLogin = new Iu_LogIn();
 	private Image imagenFondo;
 	private URL fondo;
+	private Musica musica = null;
+
 
 	/**
 	 * Launch the application.
@@ -44,7 +52,7 @@ public class Iu_LogIn extends JFrame {
 			}
 		});
 	}
-
+	
 	public static Iu_LogIn getMiLogin() {
 		return miLogin;
 	}
@@ -124,7 +132,6 @@ public class Iu_LogIn extends JFrame {
 		});
 		panel_5.add(btnNewButton_1);
 		paint(getGraphics());
-		
 	}
 	
 }

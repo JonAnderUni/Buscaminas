@@ -73,6 +73,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	private JLabel lblTiempoC;
 	private JLabel lblTiempoD;
 	private JLabel lblTiempoU;
+	private Musica musica = null;
 
 	/**
 	 * Launch the application.
@@ -393,6 +394,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 				this.casillasVacias--;			// restamos uno a las casillas vacias, para comprobar cuando se ha ganado el juego
 				if (casillasVacias == 0) {		// si es 0, has ganado la partida
 					ganarPartida();
+					musica.playMusica();
 				}
 			}
 		}
