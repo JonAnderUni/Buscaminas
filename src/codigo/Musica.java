@@ -1,4 +1,4 @@
-package interfaz;
+package codigo;
 
 import javafx.scene.media.AudioClip;
 
@@ -9,6 +9,7 @@ import javafx.scene.media.AudioClip;
  *
  */
 public class Musica{
+	
 	private static AudioClip cancionTablero;
 	
 	private Musica() {

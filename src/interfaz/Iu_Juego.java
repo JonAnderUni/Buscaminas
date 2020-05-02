@@ -29,6 +29,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 import codigo.Casilla;
+import codigo.Musica;
 import codigo.Puntuacion;
 import codigo.Tablero;
 
@@ -73,7 +74,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	private JLabel lblTiempoC;
 	private JLabel lblTiempoD;
 	private JLabel lblTiempoU;
-	private Musica musica = null;
+	private Musica musica;
 
 	/**
 	 * Launch the application.
@@ -130,11 +131,12 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		addComponentListener(this);
 		primerClick = true;
 		finJuego = false;
+		musica = null;
 
 	}
 
 	/***********************************************************************
-	*											Patron Observer 																*
+	*											Patron Observer 	     	*
 	************************************************************************/
 	@Override
 	public void update(Observable o, Object arg) {
@@ -459,7 +461,6 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	************************************************************************/
 	private void perderPartida() {
 		timer.stop();
-		Fanfarre();
 		
 		for (int i = 0; i < tablero.length; i++) {
 			
@@ -507,7 +508,6 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		
 		timer.stop();
 		
-		Fanfarre();
 		for (int i = 0; i < tablero.length; i++) {
 			
 			for (int j = 0; j < tablero[0].length; j++) {
@@ -622,7 +622,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	/***********************************************************************
 	*					   			Metodos fanfarria		      			*
 	************************************************************************/
-
+	/*
 	private void Fanfarre() {
 		AudioInputStream musica;
 		try {
@@ -635,7 +635,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			e.printStackTrace();
 		}
 	}
-	
+	*/
 
 	/***********************************************************************
 	*			Metodos para la partida personalizada						*

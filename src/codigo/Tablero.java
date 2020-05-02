@@ -48,7 +48,7 @@ public class Tablero {
 						|| (casilla.getFila() == primeraF - 1 && casilla.getcolumna() == primeraC - 1)) {
 
 					// Cuando hacemos click la casilla sea vacia
-					// No ponemos en la lista, así no podra ser bomba ni ella, ni las de alrededor
+					// No ponemos en la lista, asi no podra ser bomba ni ella, ni las de alrededor
 
 				} else {
 
