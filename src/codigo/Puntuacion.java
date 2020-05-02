@@ -33,6 +33,8 @@ public class Puntuacion<T> {
 	// metodo guardar datos en el fichero
 	public void leerdatosFichero() {
 
+		
+
 		/*
 		 * leemos los datos dependiendo de la dificultad separamos cada dificultad en un
 		 * array
@@ -65,9 +67,9 @@ public class Puntuacion<T> {
 
 		int n;
 
-		if (nivel.toLowerCase().equals("f"))
+		if (nivel.toLowerCase().equals("facil"))
 			n = 0;
-		else if (nivel.toLowerCase().equals("d"))
+		else if (nivel.toLowerCase().equals("dificil"))
 			n = 2;
 		else
 			n = 1;
@@ -119,7 +121,16 @@ public class Puntuacion<T> {
 	
 	public static void main(String[] args) {
 
-		Puntuacion.miPuntuacion.guardarFichero("f","Alain" ,99, 10);
-		Puntuacion.miPuntuacion.guardarFichero("f","Alain" ,99, 10);
+		Puntuacion.miPuntuacion.guardarFichero("Facil","Alain" ,1300, 10);
+		Puntuacion.miPuntuacion.guardarFichero("Facil","Alain" ,100, 10);
+
+		Puntuacion.miPuntuacion.guardarFichero("medio","Alain" ,99, 10);
+		Puntuacion.miPuntuacion.guardarFichero("medio","Alain" ,100, 10);
+		Puntuacion.miPuntuacion.guardarFichero("medio","Alain" ,1300, 10);
+		
+		
+		Puntuacion.miPuntuacion.guardarFichero("dificil","Alain" ,100, 10);
+		Puntuacion.miPuntuacion.guardarFichero("dificil","Alain" ,1300, 10);
+		Puntuacion.miPuntuacion.guardarFichero("dificil","Alain" ,99, 10);
 	}
 }
