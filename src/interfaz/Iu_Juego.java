@@ -238,10 +238,11 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 											interfazJuego, j2, j);
 									casillasVacias = ((tablero.length * tablero[0].length) - bombas);
 									primerClick = false;
+									if (timer == null)
+										iniciarTimer();
 								}
 								Tablero.getTablero().getClickIzq(j2, j);
-								if (timer == null)
-									iniciarTimer();
+								
 							} else if (arg0.getButton() == 3) {
 								if (primerClick) {
 									//No hacemos nada el primer click tiene que ser izq
