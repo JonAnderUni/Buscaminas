@@ -27,6 +27,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.net.URL;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
 
 public class Iu_LogIn extends JFrame {
 
@@ -72,6 +73,10 @@ public class Iu_LogIn extends JFrame {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
+		this.setTitle("Registrar");
+		ImageIcon imagen = new ImageIcon("img/mine.png");
+		this.setIconImage(imagen.getImage());
+		
 	    
 	  
 		setResizable(false);
@@ -110,6 +115,7 @@ public class Iu_LogIn extends JFrame {
 		panel_4.add(panel_7);
 
 		JButton btnNewButton = new JButton("Aceptar");
+		btnNewButton.setBackground(Color.LIGHT_GRAY);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Iu_Personalizar.getMiPartidaPersonalizada().setVisible(true);
@@ -124,6 +130,7 @@ public class Iu_LogIn extends JFrame {
 		panel_4.add(panel_5);
 
 		JButton btnNewButton_1 = new JButton("Ver Highscores");
+		btnNewButton_1.setBackground(Color.LIGHT_GRAY);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Puntuacion.getMiPuntuacion().setVisible(true);

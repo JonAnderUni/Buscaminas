@@ -14,6 +14,7 @@ import codigo.Puntuacion;
 import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -80,6 +81,9 @@ public class Iu_HighScores extends JFrame {
 		dificil = Puntuacion.getPuntuacion().getDificil().getFirst();
 		cargarDatos(facil);
 		setLocationRelativeTo(null);
+		this.setTitle("HighScore");
+		ImageIcon imagen = new ImageIcon("img/mine.png");
+		this.setIconImage(imagen.getImage());
 
 	}
 

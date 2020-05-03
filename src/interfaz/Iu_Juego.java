@@ -25,6 +25,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JRootPane;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
@@ -32,8 +33,6 @@ import codigo.Casilla;
 import codigo.Musica;
 import codigo.Puntuacion;
 import codigo.Tablero;
-
-
 
 public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 
@@ -53,6 +52,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	private JMenuItem dificil;
 	private JMenuItem personal;
 	private JMenuItem volverAEmpezar;
+	private JMenuItem exit;
 	private JLabel btnNewButton;
 	private JLabel btnNewButton_1;
 	private JLabel btnNewButton_2;
@@ -70,7 +70,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 									// generamos el tablero.
 	private boolean finJuego;
 	private String usuario;
-	
+
 	private JLabel lblTiempoC;
 	private JLabel lblTiempoD;
 	private JLabel lblTiempoU;
@@ -97,7 +97,7 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	 */
 	public Iu_Juego() {
 
-		//Constructora del Iu_Juego
+		// Constructora del Iu_Juego
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 12 * 29, (12 * 29));
@@ -112,19 +112,19 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		contentPane.add(getPanel_12(), BorderLayout.EAST);
 
 		// Para centrar frame en la mitad de la pantalla
-		setLocation(750, 200);
+		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		// Partida
 		this.setTitle("Buscaminas");
-		ImageIcon imagen = new ImageIcon("img/mine.png");
+		ImageIcon imagen = new ImageIcon("img/greymine.png");
 		this.setIconImage(imagen.getImage());
 
-		//Para el tama√±o de las casillas en la interfaz
+		// Para el tama√±o de las casillas en la interfaz
 		tamanoX = 30;
 		tamanoY = 30;
 
-		//Para el menu
+		// Para el menu
 		setJMenuBar(getMenuBar_1()); // Menu
 
 		// Metodo para cada vez que se redimensiona la ventana se cambie el tama√±o
@@ -132,12 +132,11 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		primerClick = true;
 		finJuego = false;
 		musica = null;
-
 	}
 
 	/***********************************************************************
-	*											Patron Observer 	     	*
-	************************************************************************/
+	 * Patron Observer *
+	 ************************************************************************/
 	@Override
 	public void update(Observable o, Object arg) {
 
@@ -157,14 +156,13 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		}
 	}
 
-
 	/***********************************************************************
-	*											Creacion de tablero			*
-	************************************************************************/
+	 * Creacion de tablero *
+	 ************************************************************************/
 
 	private void crearTablero(int filas, int columnas) {
 
-		//Borramos el tablero creado;
+		// Borramos el tablero creado;
 		Tablero.getTablero().eliminarTablero();
 
 		// Damos tamano al panel_4 donde van a estar los botones
@@ -195,28 +193,25 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 
 		contadorTimer();
 
-		//guardamos los datos por si tenemos que reiniciar
+		// guardamos los datos por si tenemos que reiniciar
 		fila = filas;
 		columna = columnas;
 
-
-		if (dificultad.equals("f")){
+		if (dificultad.equals("f")) {
 			this.bombas = 10;
-		}
-		else if(this.dificultad.equals("m")){
+		} else if (this.dificultad.equals("m")) {
 			this.bombas = 30;
-		}
-		else if(this.dificultad.equals("d")){
+		} else if (this.dificultad.equals("d")) {
 			this.bombas = 75;
-		}
-		else {
+		} else {
 			this.bombas = (fila * columna) / 5;
 		}
 
 		getPanel_4_1().removeAll();
 		tablero = new JButton[fila][columna];
 
-		//Para poder pasar como parametro la interfaz cuando hacemos click (patron Observer)
+		// Para poder pasar como parametro la interfaz cuando hacemos click (patron
+		// Observer)
 		Iu_Juego interfazJuego = this;
 
 		for (int f = 0; f < fila; f++) {
@@ -234,24 +229,28 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 							int j = (int) (jb.getX() / (tablero[0][1]).getX());
 							int j2 = (int) (jb.getY() / (tablero[1][1].getY() - 6));
 
-							if (primerClick) {
-								// Primera vez que hacemos getClick
-								// generamos el tablero de casillas, haciendo que la posicion que hemos hecho
-								// click no sea bomba
-								Tablero.getTablero().generarTablero(tablero.length, tablero[0].length, bombas,
-										interfazJuego, j2, j);
-								casillasVacias = ((tablero.length * tablero[0].length) - bombas);
-								primerClick = false;
-							}
 							if (arg0.getButton() == 1) {
+								if (primerClick) {
+									// Primera vez que hacemos getClick
+									// generamos el tablero de casillas, haciendo que la posicion que hemos hecho
+									// click no sea bomba
+									Tablero.getTablero().generarTablero(tablero.length, tablero[0].length, bombas,
+											interfazJuego, j2, j);
+									casillasVacias = ((tablero.length * tablero[0].length) - bombas);
+									primerClick = false;
+								}
 								Tablero.getTablero().getClickIzq(j2, j);
 								if (timer == null)
 									iniciarTimer();
 							} else if (arg0.getButton() == 3) {
-								if (Tablero.getTablero().getCasillaEstado(j2, j) != 2 || bombas > 0) {
-									Tablero.getTablero().getClickDer(j2, j);
-									if (timer == null)
-										iniciarTimer();
+								if (primerClick) {
+									//No hacemos nada el primer click tiene que ser izq
+								} else {
+									if (Tablero.getTablero().getCasillaEstado(j2, j) != 2 || bombas > 0) {
+										Tablero.getTablero().getClickDer(j2, j);
+										if (timer == null)
+											iniciarTimer();
+									}
 								}
 							}
 						}
@@ -262,23 +261,22 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			} // for
 		} // for
 
-		//Metodo para redimensionar la interfaz
+		// Metodo para redimensionar la interfaz
 		ordenar();
 	}
 
-
-
 	/***********************************************************************
-	*				Para redimensionar la interfaz
-	************************************************************************/
-		@Override
-		public void componentResized(ComponentEvent arg0) {
+	 * Para redimensionar la interfaz
+	 ************************************************************************/
+	@Override
+	public void componentResized(ComponentEvent arg0) {
 
-			ordenar();
-			redimensionarContadorBombas();
-			redimensionarContadorTimer();
+		ordenar();
+		redimensionarContadorBombas();
+		redimensionarContadorTimer();
 
-		}
+	}
+
 	// Metodo para ajustar los botones a la ventana
 	private void ordenar() {
 
@@ -303,20 +301,17 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 
 		} catch (Exception e) {
 			// Si no podemos pintar no pasa nada
-			//El tablero no estara generado todavia
+			// El tablero no estara generado todavia
 		}
 
 	}
 
-
-
 	/***********************************************************************
-	*										Metodos para pintar el tablero
-	************************************************************************/
-
+	 * Metodos para pintar el tablero
+	 ************************************************************************/
 
 	private void pintarTablero(int tX, int tY) {
-		//Metodo para pintar todo el tablero
+		// Metodo para pintar todo el tablero
 
 		ImageIcon imagen = null;
 
@@ -341,11 +336,10 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 						imagen = new ImageIcon("img/covered.png");
 					}
 
-
 				} catch (Exception e) {
 
-					//Todavia no se ha generado el Tablero
-					//Lo pintamos todo como covered
+					// Todavia no se ha generado el Tablero
+					// Lo pintamos todo como covered
 					imagen = new ImageIcon("img/covered.png");
 
 				}
@@ -358,7 +352,6 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			}
 		}
 	}
-
 
 	private void pintarPosicion(int f, int c) {
 
@@ -393,8 +386,9 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			} else {
 				imagen = new ImageIcon("img/" + num + ".png");
 				tablero[f][c].setEnabled(true);
-				this.casillasVacias--;			// restamos uno a las casillas vacias, para comprobar cuando se ha ganado el juego
-				if (casillasVacias == 0) {		// si es 0, has ganado la partida
+				this.casillasVacias--; // restamos uno a las casillas vacias, para comprobar cuando se ha ganado el
+										// juego
+				if (casillasVacias == 0) { // si es 0, has ganado la partida
 					ganarPartida();
 					musica.playMusica();
 				}
@@ -408,10 +402,9 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		actualizarTablero(getPanel_4_1());
 	}
 
-
 	/***********************************************************************
-	*								Metodos Para el contador de bombas		*
-	************************************************************************/
+	 * Metodos Para el contador de bombas *
+	 ************************************************************************/
 	// Para poner el numero de bombas que hay en la interfaz
 	private void contadorBombas() {
 
@@ -455,25 +448,25 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		getBtnNewButton_2().setBounds(inicio + 10, 1, 20, panel_9.getHeight());
 
 	}
-	
+
 	/***********************************************************************
-	*							Finalizar el Juego							*
-	************************************************************************/
+	 * Finalizar el Juego *
+	 ************************************************************************/
 	private void perderPartida() {
 		timer.stop();
-		
+
 		for (int i = 0; i < tablero.length; i++) {
-			
+
 			for (int j = 0; j < tablero[0].length; j++) {
-				
-				//Recorremos todo el tablero
+
+				// Recorremos todo el tablero
 				Integer estado;
 				ImageIcon imagen;
 				estado = Tablero.getTablero().getCasillaEstado(i, j);
-				
-				//Comprobamos las casillas que son bomba y no estan marcadas con bandera
-				if(Tablero.getTablero().tableroEsBomba(i, j)) {
-					
+
+				// Comprobamos las casillas que son bomba y no estan marcadas con bandera
+				if (Tablero.getTablero().tableroEsBomba(i, j)) {
+
 					if (estado == 2) {
 						imagen = new ImageIcon("img/greymine.png");
 						java.awt.Image conversion = imagen.getImage();
@@ -482,9 +475,9 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 						tablero[i][j].setIcon(fin);
 						actualizarTablero(getPanel_4_1());
 					}
-				
-				//Comprobamos las casillas que no son bomba y estan marcadas con bandera
-				}else if (estado == 1) {
+
+					// Comprobamos las casillas que no son bomba y estan marcadas con bandera
+				} else if (estado == 1) {
 					imagen = new ImageIcon("img/nomine.png");
 					java.awt.Image conversion = imagen.getImage();
 					java.awt.Image tamano = conversion.getScaledInstance(tamanoX, tamanoY, 0);
@@ -494,31 +487,31 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 				}
 			}
 		}
-		//Cambiamos el icono de la Carita
+		// Cambiamos el icono de la Carita
 		ImageIcon caraPerder = new ImageIcon("img/deadsmiley.png");
 		lblCarita.setIcon(caraPerder);
 		actualizarTablero(getPanel_4_1());
-		
-		//Bloqueamos el tablero
+
+		// Bloqueamos el tablero
 		finJuego = true;
 	}
-	
-	
+
 	private void ganarPartida() {
-		
+
 		timer.stop();
-		
+
 		for (int i = 0; i < tablero.length; i++) {
-			
+
 			for (int j = 0; j < tablero[0].length; j++) {
-				
-				//Recorremos todo el tablero para comprobar, que casillas no estan marcadas con bandera, y son minas, para marcarlas
+
+				// Recorremos todo el tablero para comprobar, que casillas no estan marcadas con
+				// bandera, y son minas, para marcarlas
 				Integer estado;
 				ImageIcon imagen;
 				estado = Tablero.getTablero().getCasillaEstado(i, j);
-				
-				if(Tablero.getTablero().tableroEsBomba(i, j)) {
-					
+
+				if (Tablero.getTablero().tableroEsBomba(i, j)) {
+
 					if (estado == 2) {
 						imagen = new ImageIcon("img/flagged.png");
 						java.awt.Image conversion = imagen.getImage();
@@ -530,33 +523,42 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 				}
 			}
 		}
-		//Cambiamos el icono de la Carita
+		// Cambiamos el icono de la Carita
 		ImageIcon caraPerder = new ImageIcon("img/sunglasses.png");
 		lblCarita.setIcon(caraPerder);
 		actualizarTablero(getPanel_4_1());
-		
-		//Calculamos la puntuacion del ganador, y la introducimos en la BD
-		String usu = usuario;	//Seteamos el usuario ganador
-		
-		Integer nivel = 0;		//Seteamos el nivel y dificultad
+
+		// Calculamos la puntuacion del ganador, y la introducimos en la BD
+		String usu = usuario; // Seteamos el usuario ganador
+
+		Integer nivel = 0; // Seteamos el nivel y dificultad
 		String dif = "n";
-		if (dificultad.equals("f")) {nivel = 1; dif = "Facil";}
-		else if (dificultad.equals("m")) {nivel = 2; dif = "Medio";}
-		else if (dificultad.equals("d")) {nivel = 3; dif = "Dificil";}
-		else if (dificultad.equals("p")) {nivel = 4; dif = "Personalizado";}
+		if (dificultad.equals("f")) {
+			nivel = 1;
+			dif = "Facil";
+		} else if (dificultad.equals("m")) {
+			nivel = 2;
+			dif = "Medio";
+		} else if (dificultad.equals("d")) {
+			nivel = 3;
+			dif = "Dificil";
+		} else if (dificultad.equals("p")) {
+			nivel = 4;
+			dif = "Personalizado";
+		}
 		nivel = nivel * 100;
-		
-		Integer puntuacion = ((fila * columna) * nivel) / cont;	//Seteamos la puntuaciÛn ganadora
-		
-		Puntuacion.getPuntuacion().guardarFichero(dif,usuario, puntuacion,cont);
-		
-		//Bloqueamos el tablero
+
+		Integer puntuacion = ((fila * columna) * nivel) / cont; // Seteamos la puntuaciÛn ganadora
+
+		Puntuacion.getPuntuacion().guardarFichero(dif, usuario, puntuacion, cont);
+
+		// Bloqueamos el tablero
 		finJuego = true;
 	}
-	
+
 	/***********************************************************************
-	*										Metodos para el timer			*
-	************************************************************************/
+	 * Metodos para el timer *
+	 ************************************************************************/
 
 	private Timer iniciarTimer() {
 		// Inicia el contador del timer
@@ -618,39 +620,36 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 
 	}
 
-
 	/***********************************************************************
-	*					   			Metodos fanfarria		      			*
-	************************************************************************/
+	 * Metodos fanfarria *
+	 ************************************************************************/
 	/*
-	private void Fanfarre() {
-		AudioInputStream musica;
-		try {
-			musica = AudioSystem.getAudioInputStream(this.getClass().getResource("musica/VictoryFanfare.wav"));
-			//AudioStream audio = new AudioStream(musica);
-			//AudioPlayer.player.start();
-			Clip clip = AudioSystem.getClip();
-			clip.start();
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
-	*/
+	 * private void fanfarre() { AudioInputStream musica; try { musica =
+	 * AudioSystem.getAudioInputStream(this.getClass().getResource(
+	 * "musica/VictoryFanfare.wav")); //AudioStream audio = new AudioStream(musica);
+	 * //AudioPlayer.player.start(); Clip clip = AudioSystem.getClip();
+	 * clip.start(); }catch(Exception e) { e.printStackTrace(); } }
+	 */
 
 	/***********************************************************************
-	*			Metodos para la partida personalizada						*
-	************************************************************************/
+	 * Metodos para la partida personalizada *
+	 ************************************************************************/
 	public void crearPartidaPersonalizada(int f, int c, int b, String pUsuario) {
-		
+
 		this.usuario = pUsuario;
 		bombas = b;
-		if(bombas == 10) dificultad = "f";
-		
-		else if(bombas == 30) dificultad = "m";
-		else if(bombas == 75) dificultad = "d";
-		else dificultad = "p";
+		if (bombas == 10)
+			dificultad = "f";
+
+		else if (bombas == 30)
+			dificultad = "m";
+		else if (bombas == 75)
+			dificultad = "d";
+		else
+			dificultad = "p";
 		crearTablero(f, c);
 
+		ordenar();
 		Iu_Personalizar.getMiPartidaPersonalizada().setVisible(false);
 		// Hemos decidido que guarde la informacion, por lo que no hay que hacer dispose
 		setVisible(true);
@@ -658,8 +657,8 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 	}
 
 	/***********************************************************************
-	*						Para reiniciar la partida, mismos parametros							*
-	************************************************************************/
+	 * Para reiniciar la partida, mismos parametros *
+	 ************************************************************************/
 
 	private JButton getLblCarita() {
 		if (lblCarita == null) {
@@ -669,19 +668,18 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			lblCarita.setIcon(icon);
 			lblCarita.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					//Resetea la cara
+					// Resetea la cara
 					lblCarita.setBackground(Color.LIGHT_GRAY);
 					ImageIcon icon = new ImageIcon("img/smiley.png");
 					lblCarita.setIcon(icon);
-					
-					
+
 					// creamos una nueva Partida
 					primerClick = true;
 					finJuego = false;
 					crearTablero(fila, columna);
 
-					//Volvemos a activar el primer click
-					
+					// Volvemos a activar el primer click
+
 					ordenar();
 					contadorBombas();
 
@@ -697,11 +695,9 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 		return lblCarita;
 	}
 
-
-
 	/***********************************************************************
-	*										labels, JButton, jTxext .....											*
-	************************************************************************/
+	 * labels, JButton, jTxext ..... *
+	 ************************************************************************/
 
 	@Override
 	public void componentHidden(ComponentEvent arg0) {
@@ -734,6 +730,8 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			juego.add(getDificil());
 			juego.add(getPersonalizada());
 			juego.add(getVolver());
+
+			ayuda.add(getExit());
 			menuBar.add(juego);
 			menuBar.add(ayuda);
 		}
@@ -815,6 +813,20 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			});
 		}
 		return volverAEmpezar;
+	}
+
+	private JMenuItem getExit() {
+		if (exit == null) {
+			exit = new JMenuItem();
+			exit.setText("Salir");
+			exit.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					dispose();
+					Iu_LogIn.getMiLogin().setVisible(true);
+				}
+			});
+		}
+		return exit;
 	}
 
 	private JPanel getPanel_4_1() {

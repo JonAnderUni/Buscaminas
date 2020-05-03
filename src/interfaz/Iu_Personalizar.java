@@ -11,12 +11,14 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JRadioButton;
 import java.awt.FlowLayout;
+import java.awt.Color;
 
 public class Iu_Personalizar extends JFrame {
 
@@ -45,7 +47,7 @@ public class Iu_Personalizar extends JFrame {
 	private JTextField textColumnas;
 
 	private String usuario;
-	
+
 	/**
 	 * Launch the application.
 	 */
@@ -83,9 +85,15 @@ public class Iu_Personalizar extends JFrame {
 		bg.add(rdbtnx_1);
 		bg.add(rdbtnx_2);
 		this.setTitle("Ajustes de Partida");
-		
-		 setLocation(700, 350);
-		 setResizable(false);
+
+		setLocationRelativeTo(null);
+		setResizable(false);
+
+		rdbtnx.setSelected(true); // Ponemos q el facil este seleccionado por defecto
+
+		this.setTitle("Ajustes Partida Personalizada");
+		ImageIcon imagen = new ImageIcon("img/mine.png");
+		this.setIconImage(imagen.getImage());
 
 	}
 
@@ -145,7 +153,7 @@ public class Iu_Personalizar extends JFrame {
 	private JPanel getPanel_6() {
 		if (panel_6 == null) {
 			panel_6 = new JPanel();
-			panel_6.setLayout(new GridLayout(0, 4, 0, 0));
+			panel_6.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 5));
 			panel_6.add(getLblFilas());
 			panel_6.add(getTextFilas());
 			panel_6.add(getLblColumnas());
@@ -266,14 +274,16 @@ public class Iu_Personalizar extends JFrame {
 	}
 
 //la interfaz Iu_Personalizada solo se comunica con la interfaz Iu_partida para decir de cuanto crear el tablero de botones
-	/*Tamaño minimo del ablero 4X4
+	/*
+	 * Tamaño minimo del ablero 4X4
 	 * 
 	 * 
-	 * */
+	 */
 
 	private JButton getBtnOk() {
 		if (btnOk == null) {
 			btnOk = new JButton("Ok");
+			btnOk.setBackground(Color.LIGHT_GRAY);
 			btnOk.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					String filas;
@@ -281,24 +291,30 @@ public class Iu_Personalizar extends JFrame {
 					String bombas;
 
 					if (rdbtnPersonalizar.isSelected()) {
-						
-						Integer f,c,b,n;
+
+						Integer f, c, b, n;
 						f = Integer.parseInt(getTextFilas().getText());
 						c = Integer.parseInt(getTextColumnas().getText());
-						
-						//Filas
-						if (f < 7) { f = 7; }
-						else if (f > 30)  { f = 30; }
-						//Columnas
-						if (c < 8) { c = 8; }
-						else if (c > 30)  { c = 30; }
-						//Bombas
-						b = (f * c)  / 5;
-							
-						filas = String.valueOf(f);	
-						columnas = String.valueOf(c);	
-						bombas = String.valueOf(b);	
-						
+
+						// Filas
+						if (f < 7) {
+							f = 7;
+						} else if (f > 30) {
+							f = 30;
+						}
+						// Columnas
+						if (c < 8) {
+							c = 8;
+						} else if (c > 30) {
+							c = 30;
+						}
+						// Bombas
+						b = (f * c) / 5;
+
+						filas = String.valueOf(f);
+						columnas = String.valueOf(c);
+						bombas = String.valueOf(b);
+
 					} else if (rdbtnx.isSelected()) {
 						filas = 7 + "";
 						columnas = 10 + "";
@@ -316,21 +332,22 @@ public class Iu_Personalizar extends JFrame {
 					}
 
 					try {
-						
+
 						int f = Integer.parseInt(filas);
 						int c = Integer.parseInt(columnas);
 						int b = Integer.parseInt(bombas);
 						String usu = usuario;
-						if(f>0 && c>0 && (b<f*c && b>0)){
+						if (f > 0 && c > 0 && (b < f * c && b > 0)) {
 							(new Iu_Juego()).crearPartidaPersonalizada(f, c, b, usu);
-							
+
 							setVisible(false);
-						}else {
-							JOptionPane.showMessageDialog(null, "Valores erroneos, por favor comprueba los valores de nuevo", "Error",
+						} else {
+							JOptionPane.showMessageDialog(null,
+									"Valores erroneos, por favor comprueba los valores de nuevo", "Error",
 									JOptionPane.ERROR_MESSAGE);
 							restablecerValoresDefabrica();
 						}
-						
+
 					} catch (NumberFormatException excepcion) {
 						// System.out.println("Por favor introduce numeros");
 						JOptionPane.showMessageDialog(null, "Por favor introduce n�meros", "Error",
@@ -357,11 +374,12 @@ public class Iu_Personalizar extends JFrame {
 		}
 		getLblInformacion().setVisible(true);
 	}
-	
+
 	private void restablecerValoresDefabrica() {
 		getTextFilas().setText(null);
 		getTextColumnas().setText(null);
 	}
+
 	private JTextField getTextFilas() {
 		if (textFilas == null) {
 			textFilas = new JTextField();
@@ -369,6 +387,7 @@ public class Iu_Personalizar extends JFrame {
 		}
 		return textFilas;
 	}
+
 	private JTextField getTextColumnas() {
 		if (textColumnas == null) {
 			textColumnas = new JTextField();
@@ -376,8 +395,8 @@ public class Iu_Personalizar extends JFrame {
 		}
 		return textColumnas;
 	}
-	
-	public void setUsuario (String pUsuario){
+
+	public void setUsuario(String pUsuario) {
 		usuario = pUsuario;
 	}
 }

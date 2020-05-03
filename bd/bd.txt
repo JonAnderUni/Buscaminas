@@ -1,9 +1,14 @@
+Facil ---> null ---> 2333 ---> 3
 Facil ---> Alain ---> 1300 ---> 10
-Facil ---> Alain ---> 100 ---> 10
-Facil ---> Alain ---> 1 ---> 10
 medio ---> Alain ---> 1300 ---> 10
+Facil ---> null ---> 500 ---> 14
+Facil ---> rex ---> 175 ---> 40
+Facil ---> null ---> 170 ---> 41
+Facil ---> null ---> 118 ---> 59
+Facil ---> Alain ---> 100 ---> 10
 medio ---> Alain ---> 100 ---> 10
 medio ---> Alain ---> 99 ---> 10
+Facil ---> Alain ---> 1 ---> 10
 dificil ---> Alain ---> 1300 ---> 10
 dificil ---> Alain ---> 100 ---> 10
 dificil ---> Alain ---> 99 ---> 10
