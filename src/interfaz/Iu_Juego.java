@@ -146,13 +146,12 @@ public class Iu_Juego extends JFrame implements Observer, ComponentListener {
 			int y = casilla.getcolumna();
 			pintarPosicion(x, y);
 
-			if (((Casilla) o).getEstado() == 0) {
-				Boolean fin = Tablero.getTablero().destaparCasillas(x, y);
-				if (fin) {
-					perderPartida();
-					timer.stop();
-				}
+			Boolean fin = Tablero.getTablero().destaparCasillas(x, y);
+			if (fin) {
+				perderPartida();
+				timer.stop();
 			}
+			
 		}
 	}
 
